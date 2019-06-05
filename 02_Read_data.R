@@ -1,4 +1,7 @@
 
+# "Strandsnegl intersex 1997.xls"                # File of type 1
+# "Strandsnegl intersex 2005 til 2018_lis.xls"
+
 ## Libraries ----
 library(dplyr)
 library(purrr)
