@@ -1,0 +1,89 @@
+---
+title: "Test plots intersex"
+author: "DHJ"
+date: "20 6 2019"
+output: html_document
+---
+
+```{r setup}
+library(ggplot2)
+library(dplyr)
+```
+
+## Strandsnegl
+```{r data}
+data_strandsnegl <- readRDS("Data/Strandsnegl_intersex_2005_2018.RData")
+```
+
+### One station, all years
+```{r}
+station <- "6"
+data_strandsnegl %>%
+  filter(!is.na(ISI)) %>%
+  filter(Station %in% station) %>%
+  ggplot(aes(ISI)) + 
+  geom_histogram(binwidth = 1) +
+  facet_wrap(~Year) +
+  labs(title = paste("Common periwinkle, station", station))
+  
+```
+
+### One year, all stations
+```{r}
+year <- 2007
+data_strandsnegl %>%
+  filter(!is.na(ISI)) %>%
+  filter(Year %in% year) %>%
+  ggplot(aes(ISI)) + 
+  geom_histogram(binwidth = 1) +
+  facet_wrap(~Station) +
+  labs(title = paste("Common periwinkle,", year))
+```
+
+### Make summary data
+```{r}
+# All data, percentages
+data_summ_perc <- data_strandsnegl %>%
+  filter(!is.na(ISI)) %>%
+  group_by(Station, Year) %>%
+  mutate(N = n()) %>%
+  group_by(Station, Year, ISI) %>%
+  summarize(Percent = n()/first(N)*100)
+# Test
+# data_summ_perc %>%  ilter(Station %in% "6" & Year == 2010) %>% 
+#   ggplot(aes(ISI, Percent)) + geom_col() + coord_flip()
+
+# All data, means
+data_summ_mean <- data_strandsnegl %>%
+  filter(!is.na(ISI)) %>%
+  group_by(Station, Year) %>%
+  summarize(ISI_mean = mean(ISI), ISI_min = min(ISI), ISI_max = max(ISI))
+```
+
+### Plot percentages
+```{r, fig.width=9.5}
+ggplot(data_summ_perc, aes(ISI, Percent)) +
+  geom_col() + 
+  coord_flip() +
+  facet_grid(Station~Year) +
+  theme(axis.text.x = element_text(hjust = 0, angle = -55),
+        axis.title.x = element_text(margin = margin(t = 5)),
+        axis.title.y = element_text(margin = margin(r = 20), angle = 0, vjust = 0.5, size = 16)) +
+  labs(y = "Percent of population", title = "Common periwinkle")
+```
+
+### Plot means
+```{r}
+ggplot(data_summ_mean, aes(Year, ISI_mean)) +
+  geom_line() + geom_point() + 
+  facet_wrap(~Station) +
+  theme(axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 20), angle = 0, vjust = 0.5, size = 16)) +
+  labs(y = "mean\nISI", title = "Common periwinkle")
+
+```
+
+```{r}
+
+```
+
