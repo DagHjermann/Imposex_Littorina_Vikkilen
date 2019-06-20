@@ -2,17 +2,18 @@
 # "Strandsnegl intersex 1997.xls"                # File of type 1
 # "Strandsnegl intersex 2005 til 2018_lis.xls"
 
-## Libraries ----
+## 0a. Libraries ----
 library(dplyr)
 library(purrr)
 library(ggplot2)
 library(readxl)
+library(janitor)    # compare_df_cols
 
 source("02_Read_data_functions.R")
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-## Where the data is ----
+## 0b. Where the data is ----
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -30,7 +31,13 @@ dir(folder_data[1])
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-## Type 1 file ----
+## 1. Strandsnegl (common periwinkle) ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## . a 1997 data ----
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -41,8 +48,7 @@ sheets
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# Read data  ----
-# Was: 'Read data using function read_intersex_type1' but the file has changed since then...
+# Read data
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -50,7 +56,8 @@ data_1997 <-read_excel(fn_full, sheet = sheets[1])
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-## Type 2 file ----
+## . b 2005-2018 ----
+# Type 2 file
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -62,7 +69,7 @@ sheets
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# Read data using function ----
+# . b1 Read data using function ----
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -100,12 +107,69 @@ xtabs(~Year + Station, data_onefile)
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# Save strandsnegl data ----
+# . b2 Save strandsnegl data ----
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
 saveRDS(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.RData")
 openxlsx::write.xlsx(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.xlsx")
 
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## 2. Kongsnegl, common whelk (Buccinum undatum) ----
+# Type 2 file
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+folderno <- 2                          # Kongssnegl folder
+dir(folder_data[folderno])
+fn <- dir(folder_data[folderno])[1]    # File no. 1 (there is just one file)
+fn_full <- paste0(folder_data[folderno], "/", fn)
+sheets <- readxl::excel_sheets(fn_full)
+sheets <- sheets[!sheets %in% "Sheet2"]  # empty sheet removed from list
+sheets
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## . a Read using function ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+# Test
+# res <- read_intersex_type1(fn_full, 1, headerline = 6)
+# res$data
+
+# debugonce(read_intersex_type2)
+data_list_onefile <- sheets %>% purrr::map(~read_intersex_type1(fn_full, ., headerline = 6))
+names(data_list_onefile) <- sheets
+
+# Check 
+transpose(data_list_onefile)$data %>% compare_df_cols(return = "mismatch")  # should be zero
+# OR check this:
+# transpose(data_list_onefile)$data %>% compare_df_cols()
+
+# Combine data
+data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
+
+
+#
+# Checks
+#
+
+head(data_onefile)
+xtabs(~Year + Station, data_onefile)
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# . b Save common whelk data ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+saveRDS(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.xlsx")
+
+# Purpursnegl - dog whelk (Nucella lapillus)
+# Nettsnegl - netted dog whelk (Nassarius reticulatus)
 
 
