@@ -18,6 +18,7 @@ source("02_Read_data_functions.R")
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
 folder_data_upper <- "K:/Avdeling/Mar/Msc/Artikkel MSC Littorina/Data/Intersex og imposex"
+folder_data_upper <- "Input_data"
 # folder_data_upper <- "Input_data"
 dir(folder_data_upper)
 dir(folder_data_upper)
@@ -141,6 +142,62 @@ sheets
 # res$data
 
 # debugonce(read_intersex_type2)
+data_list_onefile <- ets %>% purrr::map(~read_intersex_type1(fn_full, ., headerline = 6))
+names(data_list_onefile) <- sheets
+
+# Check 
+transpose(data_list_onefile)$data %>% compare_df_cols(return = "mismatch")  # should be zero
+# OR check this:
+# transpose(data_list_onefile)$data %>% compare_df_cols()
+
+# Combine data
+data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
+
+
+#
+# Checks
+#
+
+head(data_onefile)
+xtabs(~Year + Station, data_onefile)
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# . b Save data ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+saveRDS(data_onefile, file = "Data/Kongsnegl_intersex_2013_2014.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/Kongsnegl_intersex_2013_2014.xlsx")
+
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## 3. Nettsnegl, netted dog whelk (Nassarius reticulatus) ----
+# AKA Buccinum reticulatum (Linnaeus) and Hinia reticulata
+# Type 2 file
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+folderno <- 3                          # Kongssnegl folder
+dir(folder_data[folderno])
+fn <- dir(folder_data[folderno])[1]    # File no. 1 (there is just one file)
+fn_full <- paste0(folder_data[folderno], "/", fn)
+sheets <- readxl::excel_sheets(fn_full)
+sheets <- sheets[!sheets %in% "Sheet2"]  # empty sheet removed from list
+sheets
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## . a Read using function ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+# Test
+# res <- read_intersex_type1(fn_full, 1, headerline = 6)
+# res$data
+
+# debugonce(read_intersex_type2)
 data_list_onefile <- sheets %>% purrr::map(~read_intersex_type1(fn_full, ., headerline = 6))
 names(data_list_onefile) <- sheets
 
@@ -162,14 +219,79 @@ xtabs(~Year + Station, data_onefile)
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# . b Save common whelk data ----
+# . b Save data ----
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-saveRDS(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.RData")
-openxlsx::write.xlsx(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.xlsx")
+saveRDS(data_onefile, file = "Data/Nettsnegl_intersex_2007_2014.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/Nettsnegl_intersex_2007_2014.xlsx")
 
-# Purpursnegl - dog whelk (Nucella lapillus)
-# Nettsnegl - netted dog whelk (Nassarius reticulatus)
 
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## 4. Purpursnegl - dog whelk (Nucella lapillus) ----
+# Type 2 file
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+folderno <- 4                          # folder
+dir(folder_data[folderno])
+fn <- dir(folder_data[folderno])[1]    # File no. 1 (there is just one file)
+fn_full <- paste0(folder_data[folderno], "/", fn)
+sheets <- readxl::excel_sheets(fn_full)
+sheets <- sheets[!sheets %in% "Sheet2"]  # empty sheet removed from list
+sheets
+# "19G"                "VIKKILEN2005_HÅØYA" "2011_nucla" 
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+## . a Read using function ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+# Test
+# res <- read_intersex_type1(fn_full, 1, headerline = 6)
+# res$data
+
+# debugonce(read_intersex_type2)
+data_list_onefile <- sheets %>% 
+  purrr::map(~read_intersex_type1(fn_full, ., headerline = 6, 
+                                  stations_from_sheetnames = FALSE))  # sheetnames is not on the form station_year 
+names(data_list_onefile) <- sheets
+
+# Check metadata
+transpose(data_list_onefile)$metadata
+
+# Manual stations/years
+stations <- c("19G Harstad-Trondenes", "St. 1 Rivingen-Grimstad", "St. 1 Håøya")
+years <- c(2006, 2005, 2011)
+for (i in 1:3){ 
+  data_list_onefile[[i]]$data$Station <- stations[i]
+  data_list_onefile[[i]]$data$Year <- years[i]
+}
+
+# Check 
+transpose(data_list_onefile)$data %>% compare_df_cols(return = "mismatch")  # should be zero
+# OR check this:
+# transpose(data_list_onefile)$data %>% compare_df_cols()
+
+# Combine data
+data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
+
+
+#
+# Checks
+#
+
+head(data_onefile)
+xtabs(~Year + Station, data_onefile)
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# . b Save data ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+saveRDS(data_onefile, file = "Data/Purpursnegl_intersex_2007_2014.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/Purpursnegl_intersex_2007_2014.xlsx")
 
