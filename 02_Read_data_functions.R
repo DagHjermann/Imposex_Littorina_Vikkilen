@@ -48,9 +48,19 @@ read_intersex_type1 <- function(filename, sheetname, headerline){
 
 read_intersex_type2 <- function(filename, sheetname, headerline){
   
+  # The next line ('columntypes') was constructed from the output of 
+  # example_of_dataframe %>% map_chr(class) %>% dput()
+  # in this case, specifically:
+  # data_list_onefile[[1]]$data %>% map_chr(class) %>% dput()
+  columntypes <- c(Nr = "numeric", Shellheight = "numeric", 
+    Sex = "text", F = "numeric", M = "numeric", Mature = "text", 
+    ISI = "numeric", PRL = "numeric", Trematodes = "numeric", N_penisglands = "numeric", 
+    Comments = "text")
+  
   # Initial read of all data
   range <- sprintf("A%i:K150", headerline)
-  dat_init <- read_excel(fn_full, sheet = i, range = range, guess_max = 15)
+  #dat_init <- read_excel(fn_full, sheet = sheetname, range = range, guess_max = 15)
+  dat_init <- read_excel(fn_full, sheet = sheetname, range = range, col_types = columntypes)
   
   # Keep original col names
   colnames_original <- colnames(dat_init)
@@ -62,8 +72,13 @@ read_intersex_type2 <- function(filename, sheetname, headerline){
   sel <- substr(dat_init$Sex, 1, 1) %in% c("F","M") | dat_init$F == 1 | dat_init$M == 1
   pick_rows <- sel & !is.na(sel)
   
+  # Extract station name and year from the sheet name
+  sheetname_split <- strsplit(sheetname, split = "_")[[1]]
+  station <- sheetname_split[1]
+  year <- as.numeric(sheetname_split[2]) + 2000
+  
   # Data
-  data <- data.frame(Sheet = sheetname, dat_init[pick_rows,], stringsAsFactors = FALSE)
+  data <- data.frame(Sheet = sheetname, Station = station, Year = year, dat_init[pick_rows,], stringsAsFactors = FALSE)
   
   list(data = as_tibble(data), colnames = colnames_original)
   
