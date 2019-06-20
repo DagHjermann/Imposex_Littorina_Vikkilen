@@ -1,8 +1,13 @@
 
-read_intersex_type1 <- function(filename, sheetname, headerline){
+read_intersex_type1 <- function(filename, sheetname, headerline,
+                                stations_from_sheetnames = TRUE){
   
   cat("Reading", filename, "\n")
   cat("Sheet", sheetname, "\n")
+  
+  metadata <- read_excel(filename, sheet = sheetname, col_names = FALSE, range = "A1:A3") %>%
+    as.data.frame()
+  colnames(metadata)[1] <- "Data"
   
   # The next line ('columntypes') was constructed from the output of 
   # example_of_dataframe %>% map_chr(class) %>% dput()
@@ -45,16 +50,22 @@ read_intersex_type1 <- function(filename, sheetname, headerline){
   cat("Part 2:", dat_init[cut[2] + 0:1,] %>% pull(Kommentar), "\n")
 
   # Extract station name and year from the sheet name
-  sheetname_split <- strsplit(sheetname, split = "_")[[1]]
-  station <- sheetname_split[1]
-  year <- as.numeric(sheetname_split[2]) + 2000
-  
+  if (stations_from_sheetnames){
+    sheetname_split <- strsplit(sheetname, split = "_")[[1]]
+    station <- sheetname_split[1]
+    year <- as.numeric(sheetname_split[2]) + 2000
+  } else {
+    station <- NA
+    year <- NA
+  }
+    
+    
   data <- bind_rows(
     data.frame(Sheet = sheetname, Station = station, Year = year, Sex = "M", dat_part1, stringsAsFactors = FALSE),   # NOTE: we assume that part 1 is always the males and part 2 is the females
     data.frame(Sheet = sheetname, Station = station, Year = year, Sex = "F", dat_part2, stringsAsFactors = FALSE)
   ) 
   
-  list(data = as_tibble(data), colnames = colnames_original)
+  list(data = as_tibble(data), colnames = colnames_original, metadata = metadata)
   
   }
 
