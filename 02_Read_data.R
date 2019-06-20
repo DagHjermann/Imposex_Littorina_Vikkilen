@@ -17,10 +17,13 @@ source("02_Read_data_functions.R")
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
 folder_data_upper <- "K:/Avdeling/Mar/Msc/Artikkel MSC Littorina/Data/Intersex og imposex"
+# folder_data_upper <- "Input_data"
+dir(folder_data_upper)
 dir(folder_data_upper)
 
 folder_data <- paste0(folder_data_upper, "/", 
-                      c("Strandsnegl-Littorina", "Kongsnegl-Buccinum", "Nettsnegl-Nassarius-Hinia", "Purpursnegl - Nucella")
+                      c("Strandsnegl-Littorina/Skjema som er punchet eller brukt", 
+                        "Kongsnegl-Buccinum", "Nettsnegl-Nassarius-Hinia", "Purpursnegl - Nucella")
 )
 
 dir(folder_data[1])
@@ -31,33 +34,19 @@ dir(folder_data[1])
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-fn <- "Strandsnegl intersex 1997.xls"        # File of type 1
+fn <- "Diverse strandsnegl intersex 1997.xls"        # File of type 1
 fn_full <- paste0(folder_data[1], "/", fn)
 sheets <- readxl::excel_sheets(fn_full)
 sheets
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# Read data using function ----
+# Read data  ----
+# Was: 'Read data using function read_intersex_type1' but the file has changed since then...
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-data_list_onefile <- sheets %>% purrr::map(~read_intersex_type1(fn_full, ., headerline = 6))
-names(data_list_onefile) <- sheets
-# Check if part 1 always is HANNER and part 2 always is HUNNER
-
-# check column names - must be alike
-transpose(data_list_onefile)$colnames
-
-# check column names - more stringent - all should be 0
-check <- transpose(data_list_onefile)$colnames %>% bind_rows()
-for (i in 1:ncol(check)){
-  cat(i, sum(check[,i] != check[,1]), "\n")
-}
-
-# Combine data
-data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
-
+data_1997 <-read_excel(fn_full, sheet = sheets[1])
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
@@ -66,6 +55,7 @@ data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
 fn <- "Strandsnegl intersex 2005 til 2018_lis.xls" # type 2
+fn <- "Strandsnegl intersex 2005 til 2018.xls" # type 2
 fn_full <- paste0(folder_data[1], "/", fn)
 sheets <- readxl::excel_sheets(fn_full)
 sheets
@@ -76,20 +66,46 @@ sheets
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
+# debugonce(read_intersex_type2)
 data_list_onefile <- sheets %>% purrr::map(~read_intersex_type2(fn_full, ., headerline = 3))
 names(data_list_onefile) <- sheets
 
+# Hard check 1
 # check column names - must be alike
-transpose(data_list_onefile)$colnames
+# transpose(data_list_onefile)$colnames
 
-# check column names - more stringent - all should be 0
-check <- transpose(data_list_onefile)$colnames %>% bind_rows()
-for (i in 1:ncol(check)){
-  cat(i, sum(check[,i] != check[,1]), "\n")
-}
+# Check 2, easier but incomplete
+# Checks column names - more stringent - all should be 0
+# check <- transpose(data_list_onefile)$colnames %>% bind_rows()
+# for (i in 1:ncol(check)){
+#   cat(i, sum(check[,i] != check[,1]), "\n")
+# }
+
+# Best check 
+library(janitor)
+transpose(data_list_onefile)$data %>% compare_df_cols(return = "mismatch")  # should be zero
+# OR check this:
+# transpose(data_list_onefile)$data %>% compare_df_cols()
 
 # Combine data
 data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
+
+
+#
+# Checks
+#
+
+head(data_onefile)
+xtabs(~Year + Station, data_onefile)
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# Save strandsnegl data ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+saveRDS(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.xlsx")
 
 
 
