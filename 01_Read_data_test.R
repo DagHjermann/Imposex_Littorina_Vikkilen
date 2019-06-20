@@ -32,6 +32,16 @@ fn_full <- paste0(folder_data[1], "/", fn)
 sheets <- readxl::excel_sheets(fn_full)
 sheets
 
+#fn <- "Kongsnegl intersex 2013 og 2014.xls"
+#fn_full <- paste0(folder_data[2], "/", fn)
+folderno <- 2                          # Kongssnegl folder
+dir(folder_data[folderno])
+fn <- dir(folder_data[folderno])[1]    # File no. 1 (just one file)
+fn_full <- paste0(folder_data[folderno], "/", fn)
+sheets <- readxl::excel_sheets(fn_full)
+sheets <- sheets[!sheets %in% "Sheet2"]  # empty sheet removed from list
+sheets
+
 # Sheet
 i <- 1
 
@@ -85,6 +95,7 @@ dat_init[cut[2],] %>% pull(kommentar)
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
+# debugonce(read_intersex_type1)
 res <- read_intersex_type1(fn_full, 1, headerline = 6)
 res$data
 
