@@ -27,11 +27,6 @@ folder_data <- paste0(folder_data_upper, "/",
 
 dir(folder_data[1])
 
-fn <- "Strandsnegl intersex 1997.xls"
-fn_full <- paste0(folder_data[1], "/", fn)
-sheets <- readxl::excel_sheets(fn_full)
-sheets
-
 #fn <- "Kongsnegl intersex 2013 og 2014.xls"
 #fn_full <- paste0(folder_data[2], "/", fn)
 folderno <- 2                          # Kongssnegl folder
@@ -97,6 +92,8 @@ dat_init[cut[2],] %>% pull(kommentar)
 
 # debugonce(read_intersex_type1)
 res <- read_intersex_type1(fn_full, 1, headerline = 6)
+res$data
+res <- read_intersex_type1(fn_full, 2, headerline = 6)
 res$data
 
 # debugonce(read_intersex_type1)
