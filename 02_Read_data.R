@@ -10,7 +10,7 @@
 #
 # Strandsnegl_intersex_2005_2018.RData  # common periwinkle (Littorina littorea)
 # Kongsnegl_intersex_2013_2014.RData    # common whelk (Buccinum undatum) 
-# Nettsnegl_intersex_2007_2014.RData    # netted dog whelk (Nassarius reticulatus)
+# Nettsnegl_intersex_2007_2014.RData    # netted dog whelk (Nassarius reticulatus = Hinia reticulata)
 # Purpursnegl_intersex_2007_2014.RData  # dog whelk (Nucella lapillus)
 #
 # and corresponding excel files

@@ -27,7 +27,7 @@ set_credentials()
 df_projects <- get_projects()   # we call it 'df_projects' (the default name used by 'get_stations_from_project')
 
 df_projects %>%
-  filter(PROJECT_ID %in% c(15009, 16009))  # Zero. I think these are project nukbers, not project_ID 
+  filter(PROJECT_ID %in% c(15009, 16009))  # Zero. I think these are project numbers, not project_ID 
 
 df_projects %>%
   filter(PROJECT_ID %in% c(15404))
@@ -37,7 +37,7 @@ df_proj <- df_projects %>% filter(grepl("Vikkilen", PROJECT_NAME) | grepl("Vikti
 df_proj$PROJECT_ID     # 118, 9246, 12386
 df_proj$PROJECT_NAME   # "Vikkilen", "Viktilt 2022", "Overvåking av Vikkilen i 2018"
 
-# Get a list of the stations in the CEMP_Biota project
+# Get a list of the stations associated with those 3 projects
 df_stations <- df_proj$PROJECT_NAME %>% map_df(~get_stations_from_project(., exact = TRUE))
 nrow(df_stations)  # 28
 
@@ -48,7 +48,7 @@ df_stations_extra <- get_nivabase_selection("*",
                                          "PROJECTS_STATIONS", 
                                          "STATION_NAME", c("Vikkilen", "Nymo", "Kjellviga", "Bie"),
                                          values_are_text = TRUE)
-# No new stations
+# Same stations as above - no new stations
 xtabs(~PROJECT_ID, df_stations)
 xtabs(~PROJECT_ID, df_stations_extra)
 
@@ -56,39 +56,53 @@ xtabs(~PROJECT_ID, df_stations_extra)
 # 3a. Search by latitude/longitude ----
 # Coordinates from kart.finn.no (put markers, then click markers, then click GPS-koordinater)
 #
+# Area is shown in part 3b
+#
 # get_nivabase_data("select OWNER,TABLE_NAME from ALL_TAB_COLUMNS where column_name = 'SAMPLE_POINT_ID'")
 # get_nivabase_data("select * from ALL_TAB_COLUMNS where OWNER = 'NIVA_GEOMETRY' and table_name = 'SAMPLE_POINTS'")  
+#
+
+# Sample points in box 1, covering southern part of the area
 df_sample_points1 <- get_nivabase_data("select SAMPLE_POINT_ID, LONGITUDE, LATITUDE 
                                       from NIVA_GEOMETRY.SAMPLE_POINTS where 
                                       LATITUDE > 58.33489 and LATITUDE < 58.36696 and 
                                       LONGITUDE > 8.59503 and LONGITUDE < 8.63022")   
 nrow(df_sample_points1)  # 119
+
+# Sample points in box 2, covering northern part of the area
 df_sample_points2 <- get_nivabase_data("select SAMPLE_POINT_ID, LONGITUDE, LATITUDE
                                        from NIVA_GEOMETRY.SAMPLE_POINTS where 
                                        LATITUDE > 58.29441 and LATITUDE < 58.33489 and 
                                        LONGITUDE > 8.57392 and LONGITUDE < 8.60155")   
 nrow(df_sample_points2)  # 98
 
+# Combine sample points
 df_sample_points <- bind_rows(df_sample_points1, df_sample_points2)
 
+# Get stations
 df_sample_points_stations <- get_nivabase_selection(
   "STATION_ID, GEOM_REF_ID", 
   "STATIONS", 
   "GEOM_REF_ID", 
   unique(df_sample_points$SAMPLE_POINT_ID))
+nrow(df_sample_points_stations)  # 67
 
+# Get PROJECTS_STATIONS
 df_sample_points_projstations <- get_nivabase_selection(
   "PROJECT_ID, STATION_ID, STATION_CODE, STATION_NAME", 
   "PROJECTS_STATIONS", 
   "STATION_ID", 
   unique(df_sample_points_stations$STATION_ID))
 
+# Get projects
 df_sample_points_projects <- get_nivabase_selection(
   "PROJECT_ID, PROJECT_NAME", 
   "PROJECTS", 
   "PROJECT_ID", 
   unique(df_sample_points_projstations$PROJECT_ID))
+nrow(df_sample_points_projects)  # 18
 
+# Add extra columns to 'df_sample_points'
 df_sample_points <- df_sample_points %>%
   left_join(df_sample_points_stations, by = c("SAMPLE_POINT_ID" = "GEOM_REF_ID")) %>%
   left_join(df_sample_points_projstations) %>%            # add PROJECT_ID
@@ -109,7 +123,7 @@ df_sample_points %>%
   addRectangles(8.57392, 58.33489, 8.60155, 58.29441, fillOpacity = 0.15) %>%
   addMarkers(lng = ~LONGITUDE, lat = ~LATITUDE, label = ~labeltext)
 
-# Map 2 - marksers with station names are coloured
+# Map 2 - markers with station names are coloured
 getColor <- function()                                          # Function 1
   ifelse(is.na(df_sample_points$labeltext), "green", "blue") # "hard-coded" for data set
 
@@ -131,7 +145,9 @@ df_sample_points %>%
 # get_nivabase_data("select * from NIVADATABASE.STATION_ATTRIBUTE_DEFINITIONS")
 
 #
-# 4. BIOTA ----
+# 4. Chemicals in BIOTA ----
+#
+# Find only data from 2016 + 2018 
 #
 # 
 # a. Get all specimens collected at these stations (20 seconds or so)
@@ -152,6 +168,7 @@ sum(df_specimens2$SPECIMEN_ID %in% df_specimens1$SPECIMEN_ID) # 0, so all are ne
 
 # c. Combine data from a + b
 df_specimens <- bind_rows(df_specimens1, df_specimens2)  # 74
+nrow(df_specimens)  # 135
 
 # Get method definition table (for the chemical methods)
 df_methods <- get_nivabase_data("select METHOD_ID, NAME, UNIT, BASIS_ID from NIVADATABASE.METHOD_DEFINITIONS")
@@ -161,14 +178,16 @@ df_biota <- get_biota_chemistry(
   years = 1990:2018, 
   specimendata = df_specimens, 
   stationdata = df_stations,
-  methoddata = df_methods, 
   report_samples = TRUE)
+
+nrow(df_biota) # 31009
 
 # Add latitude, longitude
 df_biota <- df_biota %>% 
-  left_join(df_sample_points, by = c("STATION_ID" = "SAMPLE_POINT_ID"))
+  left_join(df_sample_points %>% select(SAMPLE_POINT_ID, LONGITUDE, LATITUDE), 
+            by = c("STATION_ID" = "SAMPLE_POINT_ID"))
 
-nrow(df_biota) # 5350
+nrow(df_biota) # 31009
 
 tab <- xtabs(~NAME + year(SAMPLE_DATE), df_biota)  
 sel1 <- grepl("tin", rownames(tab), ignore.case = TRUE)
@@ -196,11 +215,31 @@ tab[sel,]
 # Trisykloheksyltinn (TCHT)       0   16
 # Trisykloheksyltinn (TCHT)-Sn    0   16
 
-  
+df_biota %>% 
+  filter(NAME %in% c("Tributyltinn", "Tributyltinn (TBT)")) %>%
+  count(LATIN_NAME, STATION_CODE, STATION_NAME, year(SAMPLE_DATE), NAME)
+
+#    LATIN_NAME         STATION_CODE STATION_NAME                 `year(SAMPLE_DATE)` NAME                   n
+#    <chr>              <chr>        <chr>                                      <dbl> <chr>              <int>
+#  1 NA                 BL3          Biodden                                     2018 Tributyltinn (TBT)     2
+#  2 NA                 BL4          Kjellviga                                   2018 Tributyltinn (TBT)     2
+#  3 NA                 BL5          Bie                                         2018 Tributyltinn (TBT)     2
+#  4 NA                 BL6          Nymo                                        2018 Tributyltinn (TBT)     2
+#  5 NA                 Lit1         Håøya - strandsnegl                         2018 Tributyltinn (TBT)     2
+#  6 NA                 Lit4         Hasseldalen strandsnegl                     2018 Tributyltinn (TBT)     2
+#  7 NA                 Lit6         AS Nymo strandsnegl                         2018 Tributyltinn (TBT)     2
+#  8 NA                 Lit7         Vikkilen innerst strandsnegl                2018 Tributyltinn (TBT)     2
+#  9 Cancer pagurus     Vikk_krabbe  Vikkilen krabbe                             2016 Tributyltinn           1
+# 10 Gadus morhua       Vikk_torsk   Vikkilen Torsk                              2016 Tributyltinn           2
+# 11 Littorina littorea Lit1         Håøya - strandsnegl                         2016 Tributyltinn           2
+# 12 Littorina littorea Lit4         Hasseldalen strandsnegl                     2016 Tributyltinn           2
+# 13 Littorina littorea Lit6         AS Nymo strandsnegl                         2016 Tributyltinn           2
+# 14 Littorina littorea Lit7         Vikkilen innerst strandsnegl                2016 Tributyltinn           2  
+
 
 
 #
-# 5. SEDIMENT ----
+# 5. Chemical data in SEDIMENT ----
 #
 
 #
