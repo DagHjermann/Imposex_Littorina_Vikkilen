@@ -1,6 +1,20 @@
 
-# "Strandsnegl intersex 1997.xls"                # File of type 1
-# "Strandsnegl intersex 2005 til 2018_lis.xls"
+#
+# Reading excel files of intersex, 4 species (see file names below)
+# The data of each species is in one folder and one file, ut with several sheets
+# The sheet names has station and year info (e.g. "ST6_05" = Station 6, 2005) with the exception of purpursnegl
+# 
+# The excel format used is one of two types, type 1 (kongsnegl, nettsnegl, purpursnegl) or type 2 (strandsnegl)
+# 
+# Files made (folder 'data'):
+#
+# Strandsnegl_intersex_2005_2018.RData  # common periwinkle (Littorina littorea)
+# Kongsnegl_intersex_2013_2014.RData    # common whelk (Buccinum undatum) 
+# Nettsnegl_intersex_2007_2014.RData    # netted dog whelk (Nassarius reticulatus)
+# Purpursnegl_intersex_2007_2014.RData  # dog whelk (Nucella lapillus)
+#
+# and corresponding excel files
+#
 
 ## 0a. Libraries ----
 library(dplyr)
@@ -17,10 +31,9 @@ source("02_Read_data_functions.R")
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-folder_data_upper <- "K:/Avdeling/Mar/Msc/Artikkel MSC Littorina/Data/Intersex og imposex"
-folder_data_upper <- "Input_data"
+folder_data_upper <- "K:/Avdeling/Mar/Msc/Artikkel MSC Littorina/Data/Intersex og imposex"  # original
+folder_data_upper <- "Input_data"                                                           # above folder, copied
 # folder_data_upper <- "Input_data"
-dir(folder_data_upper)
 dir(folder_data_upper)
 
 folder_data <- paste0(folder_data_upper, "/", 
@@ -119,7 +132,7 @@ openxlsx::write.xlsx(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.x
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
 ## 2. Kongsnegl, common whelk (Buccinum undatum) ----
-# Type 2 file
+# Type 1 file
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -175,7 +188,7 @@ openxlsx::write.xlsx(data_onefile, file = "Data/Kongsnegl_intersex_2013_2014.xls
 #
 ## 3. Nettsnegl, netted dog whelk (Nassarius reticulatus) ----
 # AKA Buccinum reticulatum (Linnaeus) and Hinia reticulata
-# Type 2 file
+# Type 1 file
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
@@ -230,7 +243,7 @@ openxlsx::write.xlsx(data_onefile, file = "Data/Nettsnegl_intersex_2007_2014.xls
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
 ## 4. Purpursnegl - dog whelk (Nucella lapillus) ----
-# Type 2 file
+# Type 1 file
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 

@@ -49,7 +49,7 @@ read_intersex_type1 <- function(filename, sheetname, headerline,
   cat("Part 1:", dat_init[cut[1] + 0:1,] %>% pull(Kommentar), ";  ")
   cat("Part 2:", dat_init[cut[2] + 0:1,] %>% pull(Kommentar), "\n")
 
-  # Extract station name and year from the sheet name
+  # Extract station name and year from the sheet name (e.g. "ST6_05" = Station 6, 2005), unless stations_from_sheetnames = FALSE (purpursnegl)
   if (stations_from_sheetnames){
     sheetname_split <- strsplit(sheetname, split = "_")[[1]]
     station <- sheetname_split[1]
@@ -100,7 +100,7 @@ read_intersex_type2 <- function(filename, sheetname, headerline){
   sel <- substr(dat_init$Sex, 1, 1) %in% c("F","M") | dat_init$F == 1 | dat_init$M == 1
   pick_rows <- sel & !is.na(sel)
   
-  # Extract station name and year from the sheet name
+  # Extract station name and year from the sheet name (e.g. "ST6_05" = Station 6, 2005)
   sheetname_split <- strsplit(sheetname, split = "_")[[1]]
   station <- sheetname_split[1]
   year <- as.numeric(sheetname_split[2]) + 2000
