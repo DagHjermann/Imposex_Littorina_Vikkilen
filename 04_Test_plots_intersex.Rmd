@@ -5,16 +5,28 @@ date: "20 6 2019"
 output: html_document
 ---
 
+# Test plots of snail intersex  
+  
+Files and species:  
+    - Strandsnegl_intersex_2005_2018.RData  - common periwinkle (Littorina littorea)  
+    - Kongsnegl_intersex_2013_2014.RData    - common whelk (Buccinum undatum)   
+    - Nettsnegl_intersex_2007_2014.RData    - netted dog whelk (Nassarius reticulatus)  
+    - Purpursnegl_intersex_2007_2014.RData  - dog whelk (Nucella lapillus)  
+
 ```{r setup}
 library(ggplot2)
 library(dplyr)
 ```
 
-## Strandsnegl
+## 1. Data
 ```{r data}
 data_strandsnegl <- readRDS("Data/Strandsnegl_intersex_2005_2018.RData")
+data_kongsnegl <- readRDS("Data/Kongsnegl_intersex_2013_2014.RData")
+data_nettsnegl <- readRDS("Data/Nettsnegl_intersex_2007_2014.RData")
+data_purpursnegl <- readRDS("Data/Purpursnegl_intersex_2007_2014.RData")
 ```
 
+## 2. Plots of common periwinkle (strandsnegl)
 ### One station, all years
 ```{r}
 station <- "6"
@@ -83,7 +95,74 @@ ggplot(data_summ_mean, aes(Year, ISI_mean)) +
 
 ```
 
+common whelk (Buccinum undatum)   
+    - Nettsnegl_intersex_2007_2014.RData    - netted dog whelk (Nassarius reticulatus)  
+    - Purpursnegl_intersex_2007_2014.RData  - dog whelk (Nucella lapillus) 
+    
+## 3. Plots of nettsnegl, kongsnegl, purpursnegl
+### Make summary data
 ```{r}
+data_3sp <- bind_rows(
+  data_kongsnegl %>% mutate(Species = "Common whelk", Species2 = "Bucc und"), 
+  data_nettsnegl %>% mutate(Species = "Netted dogwhelk", Species2 = "Nass lap"), 
+  data_purpursnegl %>% mutate(Species = "Dogwhelk", Species2 = "Nuce lap")
+)
+
+# All data, percentages
+data_summ_perc <- data_3sp %>%
+  filter(!is.na(stage)) %>%
+  group_by(Species2, Station, Year) %>%
+  mutate(N = n()) %>%
+  group_by(Species2, Station, Year, stage) %>%
+  summarize(Percent = n()/first(N)*100)
+# Test
+# data_summ_perc %>%  ilter(Station %in% "6" & Year == 2010) %>% 
+#   ggplot(aes(ISI, Percent)) + geom_col() + coord_flip()
+
+# All data, means
+data_summ_mean <- data_3sp %>%
+  filter(!is.na(stage)) %>%
+  group_by(Species2, Station, Year) %>%
+  summarize(ISI_mean = mean(stage), ISI_min = min(stage), ISI_max = max(stage))
 
 ```
+
+
+### Plot percentages
+```{r, fig.width=9.5, fig.height=10}
+data_summ_perc %>%
+  ungroup() %>%
+  filter(!(Species2 == "Nuce lap" & Station != "St. 1 Håøya")) %>%
+  mutate(Station = ifelse(Species2 == "Nuce lap", "1", Station)) %>%
+  mutate(Station = paste("Station", Station)) %>%
+  mutate(Species_station = paste0(Station, "\n", Species2)) %>%
+ggplot(aes(stage, Percent)) +
+  geom_col() + 
+  coord_flip() +
+  facet_grid(Species_station~Year) +
+  theme(axis.text.x = element_text(hjust = 0, angle = -55),
+        axis.title.x = element_text(margin = margin(t = 5)),
+        axis.title.y = element_text(margin = margin(r = 20), angle = 0, vjust = 0.5, size = 16)) +
+  labs(y = "Percent of population", x = "Intersex/\nimposex\nstage", 
+       title = "Common periwinkle, netted dogwhelk and dogwhelk")
+```
+
+
+### Plot means
+```{r, fig.width=9.5, fig.height=8}
+data_summ_mean %>%
+  ungroup() %>%
+  filter(!(Species2 == "Nuce lap" & Station != "St. 1 Håøya")) %>%
+  mutate(Station = ifelse(Species2 == "Nuce lap", "1", Station)) %>%
+  mutate(Station = paste("Station", Station)) %>%
+  mutate(Species_station = paste0(Station, "\n", Species2)) %>%
+ggplot(aes(Year, ISI_mean)) +
+  geom_line() + geom_point() + 
+  facet_wrap(~Species_station) +
+  theme(axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 20), angle = 0, vjust = 0.5, size = 16)) +
+  labs(y = "Mean\nIntersex/\nimposex\nstage", title = "Common periwinkle, netted dogwhelk and dogwhelk")
+
+```
+
 
