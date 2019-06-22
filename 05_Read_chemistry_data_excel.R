@@ -3,7 +3,9 @@
 library(dplyr)
 library(purrr)
 library(ggplot2)
-library(readxl)
+library(stringr)    # str_extract
+library(readxl)     # read_excel
+library(lubridate)  # year, dmy_hms
 library(janitor)    # compare_df_cols
 
 source("02_Read_data_functions.R")
@@ -27,7 +29,9 @@ files
 #
 
 #
-# File 1: 2005-2011
+# File 1: 2005-2011 (snails) ----
+#
+# Already in format easy to use
 #
 fn <- "TBT i snegler 2005 til 2011.xlsx"
 fn_full <- paste0(folder_data, "/", fn)
@@ -41,12 +45,15 @@ names(df1)[1:5] <- c("EUNOMO", "Sample", "Station", "Year", "Species")
 df1 <- df1 %>%
   mutate(Species = ifelse(Species == "Hinia", "Nassarius", Species))
 
+# Test plot
 ggplot(df1, aes(Year, `Tributyltinn (TBT) (µg/kg)`, color = Species)) +
   geom_line() + geom_point() +
   facet_wrap(~Station)
 
 #
-# File 2: 2013
+# File 2: 2013 (snails + sediment) ----
+#
+# Eurofins file
 #
 fn <- "TBT i snegler og sediment 2013.xlsx"
 fn_full <- paste0(folder_data, "/", fn)
@@ -79,8 +86,12 @@ df2$Species[sel] <- "Sediment"
 
 df2 %>% select(Merking, Station, Species)
 
+df2 %>% pull(`TBT-B EF`)
+
 #
-# File 3 - 2014 
+# File 3 - 2014 (snails) ----
+#
+# Eurofins file
 #
 
 fn <- "TBT i snegler 2014.xlsx"
@@ -106,41 +117,195 @@ df3$Station[sel] <- sub(" +Kongsnegl", "", df3$Merking[sel])
 df3$Species[sel] <- "Buccinum"
 
 sel <- grepl("LITLI", df3$Merking)
-df3$Station[sel] <- sub(" +LITLI", "", df3$Merking[sel], fixed = TRUE)
+df3$Station[sel] <- sub(" +LITLI", "", df3$Merking[sel])
 df3$Species[sel] <- "Littorina"
+
+# Remove "St"
+df3$Station <- sub("St", "", df3$Station, ignore.case = TRUE)
 
 # Check
 df3 %>% select(Merking, Station, Species)
 
 #
-# File 4 - 2016 og 2018
+# File 4 - 2016 og 2018 (snails + blue mussel) ----
 #
 
 
 fn <- "TBT i blåskjell og strandsnegl 2016 og 2018 fra Aquamonitor.xlsx"
 fn_full <- paste0(folder_data, "/", fn)
 df4_headers <- read_excel(fn_full, sheet = "BiotaChemistry", range = "A1:BG2") 
-df4 <- read_excel(fn_full, sheet = "BiotaChemistry", range = "B2:BG28") %>%
-  filter(TaxonName %in% "Storstrandsnegl")
-# i <- which(names(df4_headers) == "TBT")
-# df4[,i-1]
+
+df4 <- read_excel(fn_full, sheet = "BiotaChemistry", range = "B2:BG28")
+
 names(df4)[12:58] <- names(df4_headers)[13:59]  # Note different indices
-# df4$TBT
 
-df4$Station <- stringr::str_extract( df4$StationCode, "[:digit:]+")
-df4$Species <- "Littorina"
-df4$Year <- year(dmy_hms(df4$SampleDate))
+df4 <- df4 %>%
+  mutate(
+    Station = stringr::str_extract(StationCode, "[:digit:]+"),
+    Species = case_when(TaxonName %in% "Blåskjell" ~ "Mytilus",
+                        TaxonName %in% "Storstrandsnegl" ~ "Littorina"),
+    Year = year(dmy_hms(df4$SampleDate))
+  )
+
+df4 %>% 
+  count(StationCode, Station, Species)
+
+df4$TBT
+
+#
+# Combine file 1-4 , checking----
+#
+
+# Variable names (check)
+colnames(df1)
+colnames(df2)
+colnames(df3)
+colnames(df4)
+
+# "Tributyltinn (TBT) (µg/kg)"
+# "TBT-B EF"
+# "TBT-B EF"
+# "TBT"
+
+# Classes (check)
+# 2 and 3 are character (text variables)
+df1 %>% 
+  rename(TBT = `Tributyltinn (TBT) (µg/kg)`) %>% 
+  pull(TBT) %>% class()
+df2 %>% 
+  rename(TBT = `TBT-B EF`) %>% 
+  pull(TBT) %>% class()
+df3 %>% 
+  rename(TBT = `TBT-B EF`) %>% 
+  pull(TBT) %>% class()
+df4 %>% 
+  pull(TBT) %>% class()
+
+# For those with character values (test)
+df2 %>% 
+  rename(X = `TBT-B EF`) %>% 
+  mutate(TBT = str_extract(X, "[0-9,.]+") %>% as.numeric(),
+         TBT_flag = ifelse(str_detect(X, "<"), "<", NA)) %>%
+  select(X, TBT, TBT_flag)
+
+#
+# Combine file 1-4 , actual ----
+#
+dat <- bind_rows(
+  df1 %>% 
+    rename(TBT = `Tributyltinn (TBT) (µg/kg)`) %>%
+    mutate(TBT_flag = as.character(NA)) %>%
+    select(Station, Year, Species, TBT, TBT_flag),  
+  df2 %>% 
+    rename(X = `TBT-B EF`) %>% 
+    mutate(TBT = str_extract(X, "[0-9,.]+") %>% as.numeric(),
+           TBT_flag = ifelse(str_detect(X, "<"), "<", NA)) %>%
+    select(Station, Year, Species, TBT, TBT_flag),  
+  df3 %>% 
+    rename(X = `TBT-B EF`) %>% 
+    mutate(TBT = str_extract(X, "[0-9,.]+") %>% as.numeric(),
+           TBT_flag = ifelse(str_detect(X, "<"), "<", NA)) %>%
+    select(Station, Year, Species, TBT, TBT_flag),  
+  df4 %>% 
+    mutate(TBT_flag = as.character(NA)) %>%
+    select(Station, Year, Species, TBT, TBT_flag)
+)
+
+xtabs(~Year + Station + Species, dat)
+# Test plot
+ggplot(dat, aes(Year, TBT, color = Species)) +
+  geom_line() + geom_point() +
+  facet_wrap(~paste(Species, Station))
+
+#
+# Save data ----
+#
+# We call the files "snegl' even though there is some blue mussel and sediment inside too
+#
+#
+saveRDS(dat, file = "Data/Snegl_tbt_2005_2018.RData")
+openxlsx::write.xlsx(dat, file = "Data/Snegl_tbt_2005_2018.xlsx")
 
 
 #
+# File 5 - 2004-2005 (blue mussel + sediment) ----
 #
+# Sheet 1
+# Eurofins file
 #
+fn <- "TBT i blåskjell i 2005 og sediment i 2004 og 2005.xlsx"
+fn_full <- paste0(folder_data, "/", fn)
+df_headers <- read_excel(fn_full, sheet = 1, range = "A3:BB4") 
+df <- read_excel(fn_full, sheet = 1, range = "A2:BB48", col_types = "text") %>%
+  as.data.frame()
+names(df)[5:11] <- names(df_headers)[5:11]
+
+# df  # Check that TBT looks ok
+
+# Set year, station, species
+df5a <- df %>%
+  filter(!is.na(Prøvenr)) %>%
+  mutate(Year = substr(Prøvenr, 1, 4),           # we pick year from prøvenummer, not sample date
+         Station = sub("St. +", "", Merket),     # Remove "St." and "St" 
+         Station = sub("St +", "", Station),
+         Species = "Sediment",
+         X = sub(",", ".", `TBT-Sm`, fixed = TRUE),
+         X = sub("s", "", X, fixed = TRUE),
+         TBT = as.numeric(X))
+# df5a %>% select(Tatt, Merket, Year, Station, Species, TBT)
+df5a %>% count(Merket, Year, Station, Species)
+
+#
+# Sheet 2
+#
+sheet <- "Blåskjell"
+df_headers <- read_excel(fn_full, sheet = sheet, range = "A2:K3") 
+df <- read_excel(fn_full, sheet = sheet, range = "A1:K11", col_types = "text") %>%
+  as.data.frame()
+df <- df[-(1:2),]
+names(df)[1:2] <- names(df_headers)[1:2]
+
+df5a <- df %>%
+  mutate(Year = substr(Tatt, 1, 4),           # we pick year from prøvenummer, not sample date
+         Station = str_extract(Merket, "[0-9]+"),     # Remove "St." and "St" 
+         Species = "Mytilus",
+         X = sub(",", ".", `TBT-B`, fixed = TRUE),
+         X = sub("s", "", X, fixed = TRUE),
+         TBT = as.numeric(X))
+
+head(df5a)
+
+
+#
+# File 5 - 2004-2005 (blue mussel + sediment) ----
+#
+# Sheet 1
+# Eurofins file
+#
+fn <- "TBT i blåskjell i 2005 og sediment i 2004 og 2005.xlsx"
+fn_full <- paste0(folder_data, "/", fn)
+df_headers <- read_excel(fn_full, sheet = 1, range = "A3:BB4") 
+df <- read_excel(fn_full, sheet = 1, range = "A2:BB48", col_types = "text") %>%
+  as.data.frame()
+names(df)[5:11] <- names(df_headers)[5:11]
+
+# df  # Check that TBT looks ok
+
+# Set year, station, species
+df5a <- df %>%
+  filter(!is.na(Prøvenr)) %>%
+  mutate(Year = substr(Prøvenr, 1, 4),           # we pick year from prøvenummer, not sample date
+         Station = sub("St. +", "", Merket),     # Remove "St." and "St" 
+         Station = sub("St +", "", Station),
+         Species = "Sediment",
+         X = sub(",", ".", `TBT-Sm`, fixed = TRUE),
+         X = sub("s", "", X, fixed = TRUE),
+         TBT = as.numeric(X))
+# df5a %>% select(Tatt, Merket, Year, Station, Species, TBT)
+df5a %>% count(Merket, Year, Station, Species)
+
+
 # GOTTEN THIS FAR ----
-#
-#
-#
-
-
 
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
