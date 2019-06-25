@@ -111,22 +111,125 @@ transpose(data_list_onefile)$data %>% compare_df_cols(return = "mismatch")  # sh
 # Combine data
 data_onefile <- transpose(data_list_onefile)$data %>% bind_rows()
 
+# Column name "F" also means False - let us change it
+data_onefile <- data_onefile %>%
+  rename(Male = `M`, Female = `F`) %>%
+  mutate(Sex = tolower(Sex))
 
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# Checks
+# . b2 Fix columns Sex, Female, Male ----
 #
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+# Check no 1
+data_onefile %>%
+  count(Sex, Female, Male) %>%
+  arrange(desc(n))
+
+#  Male is NA, seems to be male
+sel <- with(data_onefile, is.na(Male) & !(Female %in% 1)  & !(Sex %in% "f"))
+data_onefile$Male[sel] <- 1
+data_onefile$Female[sel] <- 0
+data_onefile$Sex[sel] <- "m"
+
+#  Male is NA, seems to be female
+sel <- with(data_onefile, is.na(Male) & !(Female %in% 0)  & !(Sex %in% "m"))
+data_onefile$Male[sel] <- 0
+data_onefile$Female[sel] <- 1
+data_onefile$Sex[sel] <- "f"
+
+#  Female is NA, seems to be male
+sel <- with(data_onefile, is.na(Female) & !(Male %in% 0)  & !(Sex %in% "f"))
+data_onefile$Male[sel] <- 1
+data_onefile$Female[sel] <- 0
+data_onefile$Sex[sel] <- "m"
+
+#  Female is NA, seems to be female
+sel <- with(data_onefile, is.na(Female) & !(Male %in% 1)  & !(Sex %in% "m"))
+data_onefile$Male[sel] <- 0
+data_onefile$Female[sel] <- 1
+data_onefile$Sex[sel] <- "f"
+
+# Check no 2
+data_onefile %>%
+  count(Sex, Female, Male) %>%
+  arrange(desc(n))
+
+# Sex and Female disagrees
+sel1 <- with(data_onefile, Sex %in% "m" & Female %in% 1)
+# Probably female
+sel2 <- sel1 & with(data_onefile, is.na(N_penisglands) & !is.na(ISI))
+data_onefile$Male[sel2] <- 0
+data_onefile$Female[sel2] <- 1
+data_onefile$Sex[sel2] <- "f"
+
+# Probably male
+sel2 <- sel1 & with(data_onefile, !is.na(N_penisglands) & is.na(ISI))
+data_onefile$Male[sel2] <- 1
+data_onefile$Female[sel2] <- 0
+data_onefile$Sex[sel2] <- "m"
+
+# Sex and Male disagrees
+sel1 <- with(data_onefile, Sex %in% "f" & Male %in% 1)
+# Probably female
+sel2 <- sel1 & with(data_onefile, is.na(N_penisglands) & !is.na(ISI))
+data_onefile$Male[sel2] <- 0
+data_onefile$Female[sel2] <- 1
+data_onefile$Sex[sel2] <- "f"
+
+# Probably male
+sel2 <- sel1 & with(data_onefile, !is.na(N_penisglands) & is.na(ISI))
+data_onefile$Male[sel2] <- 1
+data_onefile$Female[sel2] <- 0
+data_onefile$Sex[sel2] <- "m"
+
+# Check no 3
+data_onefile %>%
+  count(Sex, Female, Male) %>%
+  arrange(desc(n))
+
+# For the last 2 - no info except shell height 
+sel <- with(data_onefile, is.na(Sex) & Male %in% 1)
+sum(sel)  # 2
+data_onefile[sel,]
+
+# Delete the last 2
+data_onefile <- data_onefile %>%
+  filter(!(is.na(Sex) & Male %in% 1))
+
+# Check no 4
+data_onefile %>%
+  count(Sex, Female, Male) %>%
+  arrange(desc(n))
+# Sex   Female  Male     n
+#   1 f          1     0   982
+#   2 m          0     1   916
+
+
+# Check that Sex columns are consistent
+data_onefile %>%
+  count(Sex, Female, Male, is.na(N_penisglands), is.na(ISI))
+
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# . b3 Checking ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
 head(data_onefile)
 xtabs(~Year + Station, data_onefile)
 
+
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# . b2 Save strandsnegl data ----
+# . b4 Save  data ----
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-saveRDS(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.RData")
-openxlsx::write.xlsx(data_onefile, file = "Data/Strandsnegl_intersex_2005_2018.xlsx")
+saveRDS(data_onefile, file = "Data/02_Strandsnegl_intersex_2005_2018.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/02_Strandsnegl_intersex_2005_2018.xlsx")
 
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
@@ -155,7 +258,7 @@ sheets
 # res$data
 
 # debugonce(read_intersex_type2)
-data_list_onefile <- ets %>% purrr::map(~read_intersex_type1(fn_full, ., headerline = 6))
+data_list_onefile <- sheets %>% purrr::map(~read_intersex_type1(fn_full, ., headerline = 6))
 names(data_list_onefile) <- sheets
 
 # Check 
@@ -180,8 +283,8 @@ xtabs(~Year + Station, data_onefile)
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-saveRDS(data_onefile, file = "Data/Kongsnegl_intersex_2013_2014.RData")
-openxlsx::write.xlsx(data_onefile, file = "Data/Kongsnegl_intersex_2013_2014.xlsx")
+saveRDS(data_onefile, file = "Data/02_Kongsnegl_intersex_2013_2014.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/02_Kongsnegl_intersex_2013_2014.xlsx")
 
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
@@ -236,8 +339,8 @@ xtabs(~Year + Station, data_onefile)
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-saveRDS(data_onefile, file = "Data/Nettsnegl_intersex_2007_2014.RData")
-openxlsx::write.xlsx(data_onefile, file = "Data/Nettsnegl_intersex_2007_2014.xlsx")
+saveRDS(data_onefile, file = "Data/02_Nettsnegl_intersex_2007_2014.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/02_Nettsnegl_intersex_2007_2014.xlsx")
 
 
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
@@ -305,6 +408,6 @@ xtabs(~Year + Station, data_onefile)
 #
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 
-saveRDS(data_onefile, file = "Data/Purpursnegl_intersex_2007_2014.RData")
-openxlsx::write.xlsx(data_onefile, file = "Data/Purpursnegl_intersex_2007_2014.xlsx")
+saveRDS(data_onefile, file = "Data/02_Purpursnegl_intersex_2007_2014.RData")
+openxlsx::write.xlsx(data_onefile, file = "Data/02_Purpursnegl_intersex_2007_2014.xlsx")
 
