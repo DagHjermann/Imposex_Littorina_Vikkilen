@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+*.RData
+Input_data/*
+Notater*.*
+Shortcuts/*
