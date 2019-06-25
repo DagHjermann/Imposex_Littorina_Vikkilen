@@ -1,0 +1,533 @@
+---
+title: "Vikkilen, various tables and plots"
+author: "DHJ"
+date: "24 6 2019"
+output: html_document
+---
+
+For all
+- percentage sterile females (%S) = (number of sterile females/total number of females)*100
+    - stage 2-4 females are sterile
+- mean Female Penis Length (FPL)
+- mean Male Penis Length (MPL)
+For N. lapillus,
+- Relative Penis Size Index (RPSI) = (FPL)3/(MPL)3*100 
+- imposex index (VDSI) = (sum of the values of imposex stages (ranged 0 to 5) in all females/the number of females collected)
+For B. undatum
+- Penis Classification Index (PCI) after Strand and Jacobsen (2002)
+
+## 0. Libraries
+```{r}
+library(dplyr)
+library(purrr)    # transpose
+library(ggplot2)
+library(tidyr)
+```
+
+## 0b. Settings
+```{r}
+save_plots <- TRUE
+```
+
+
+## 1. Data
+```{r}
+dat_intersex_litt <- readRDS(file = "Data/02_Strandsnegl_intersex_2005_2018.RData") %>%
+  mutate(Station = case_when(Station %in% "St6" ~ "6",
+                             TRUE ~ Station),
+         Sex = case_when(tolower(Sex) %in% "f" ~ "f",
+                         tolower(Sex) %in% "m" ~ "m",
+                         TRUE ~ "x")
+         )
+
+dat_tbt <- readRDS(file = "Data/05_TBT.RData")
+
+# Summarise TBT
+dat_tbt_mean <- dat_tbt %>% 
+  group_by(Species, Station, Year) %>%
+  summarise(TBT_mean = mean(TBT, na.rm = TRUE), TBT_flag = mean(TBT_flag %in% "<"))
+  
+
+```
+
+## 2. TBT - tables of species
+```{r}
+xtabs(~Species, dat_tbt_mean)
+xtabs(~Species + Year, dat_tbt_mean)
+
+```
+
+## 3. Littorina
+### a. Chemical data
+```{r}
+# xtabs(~Station + df_name, dat_tbt %>% filter(Species %in% "Littorina"))
+xtabs(~Station + Year, dat_tbt %>% filter(Species %in% "Littorina"))
+
+tab_tbt <- dat_tbt_mean %>%
+  filter(Species %in% "Littorina") %>%
+  group_by(Station, Year) %>%
+  spread(Year, TBT_mean)
+
+if (save_plots){
+  wb <- openxlsx::createWorkbook("DHJ")
+  openxlsx::addWorksheet(wb, "Littorina TBT")
+  openxlsx::writeData(wb, sheet = 1, tab_tbt)
+  openxlsx::saveWorkbook(wb, "Figures/06_Littorina_tables.xlsx", overwrite = TRUE)
+}
+tab_tbt
+```
+
+### b. Intersex data
+```{r}
+dat_intersex_litt %>%
+  count(Sex, Female, Male)
+
+dat_intersex_litt %>%
+  count(Station, Year, Sex) %>%
+  spread(Sex, n)
+
+```
+
+### c. Mean data per staion/year, and add TBT  
+dat_intersex_litt_summ 
+
+- percentage sterile females (%S) = (number of sterile females/total number of females)*100  
+    - stage 2-4 females are sterile  
+- mean Female Penis Length (FPL)  
+- mean Male Penis Length (MPL)  
+- For N. lapillus,  
+    - Relative Penis Size Index (RPSI) = (FPL)3/(MPL)3*100   
+- imposex index (VDSI) = (sum of the values of imposex stages (ranged 0 to 5) in all females/the number of females collected)  
+
+
+```{r}
+dat_intersex_litt_summ <- dat_intersex_litt %>%
+  ungroup() %>%
+  group_by(Station, Year, Sex) %>%
+  summarize(ISI_mean = mean(ISI, na.rm = FALSE),
+            N_ISI = sum(!is.na(ISI)),
+            Sterile_perc = mean((ISI >= 2)*100, na.rm = TRUE),
+            PRL_mean = mean(PRL, na.rm = TRUE))
+
+nrow(dat_intersex_litt_summ)
+dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
+  left_join(dat_tbt_mean %>% 
+              filter(Species %in% "Littorina") %>%
+              select(Station, Year, TBT_mean, TBT_flag))
+nrow(dat_intersex_litt_summ)
+```
+
+### d. Overview tablkes of mean values
+```{r}
+tab_ISI <- dat_intersex_litt_summ %>%
+  filter(Sex %in% "f") %>%
+  mutate(ISI_mean = round(ISI_mean, 2)) %>%
+  select(Station, Year, ISI_mean) %>%
+  spread(Year, ISI_mean)
+tab_ISI
+
+tab_PRL <- dat_intersex_litt_summ %>%
+  filter(Sex %in% "f") %>%
+  mutate(PRL_mean = round(PRL_mean, 2)) %>%
+  select(Station, Year, PRL_mean) %>%
+  filter(!is.na(PRL_mean)) %>%
+  spread(Year, PRL_mean)
+tab_PRL
+
+tab_sterile <- dat_intersex_litt_summ %>%
+  filter(Sex %in% "f") %>%
+  mutate(Sterile_perc = round(Sterile_perc, 1)) %>%
+  select(Station, Year, Sterile_perc) %>%
+  filter(!is.na(Sterile_perc)) %>%
+  spread(Year, Sterile_perc)
+tab_sterile
+
+dat_intersex_litt_summ %>%
+  mutate(PRL_mean = round(PRL_mean, 2)) %>%
+  select(Station, Year, Sex, PRL_mean) %>%
+  spread(Sex, PRL_mean)
+
+if (save_plots){
+  openxlsx::addWorksheet(wb, "Littorina ISI")
+  openxlsx::writeData(wb, sheet = "Littorina ISI", tab_ISI)
+  openxlsx::addWorksheet(wb, "Littorina sterile")
+  openxlsx::writeData(wb, sheet = "Littorina sterile", tab_ISI)
+  openxlsx::addWorksheet(wb, "Littorina PRL")
+  openxlsx::writeData(wb, sheet = "Littorina PRL", tab_PRL)
+  openxlsx::saveWorkbook(wb, "Figures/06_Littorina_tables.xlsx", overwrite = TRUE)
+}
+tab_tbt
+```
+
+## 4. Littorina correlation figures
+
+### ISI vs TBT
+
+```{r, fig.height = 5, fig.width=6}
+gg <- ggplot(dat_intersex_litt_summ, aes(TBT_mean, ISI_mean)) +
+  geom_point(aes(color = Station), size = rel(2)) +
+  geom_smooth(method = "lm")
+if (save_plots)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT.png", gg)
+gg
+```
+
+### PRL_mean vs. TBT
+
+```{r, fig.height = 5, fig.width=6}
+gg <- ggplot(dat_intersex_litt_summ, aes(PRL_mean, TBT_mean)) +
+  geom_point(aes(color = Station), size = rel(2)) +
+  geom_smooth(method = "lm")
+if (save_plots)
+  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT.png", gg)
+gg
+
+```
+
+
+### PRL_mean vs. ISI
+
+```{r, fig.height = 5, fig.width=6}
+gg <- ggplot(dat_intersex_litt_summ, aes(PRL_mean, ISI_mean)) +
+  geom_point(aes(color = Station), size = rel(2)) +
+  geom_smooth(method = "lm")
+if (save_plots)
+  ggsave("Figures/06_Correlations_Litt_PRL_vs_ISI.png", gg)
+gg
+
+```
+
+
+## 5. Littorina time series plots
+
+### Mean TBT
+
+```{r}
+ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+```
+
+###  Mean ISI
+```{r}
+ggplot(dat_intersex_litt_summ, aes(Year, ISI_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+
+```
+
+### Mean PRL
+```{r}
+ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+
+```
+
+
+### Mean PRL
+```{r}
+ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+
+```
+
+## 6. Littorina plots using logistic function
+```{r}
+source("06_Tables_graphs_functions.R")
+```
+
+
+### Example for TBT 
+```{r}
+st <- "7"
+df <- dat_intersex_litt_summ %>% filter(Station %in% st & !is.na(TBT_mean))
+df_pred <- pred_logistic(df$Year, df$TBT_mean, x_range = c(2005, 2018))
+
+plot(TBT_mean ~ Year, data = df, type = "n", xlab = "", ylab = "") 
+with(df_pred$fit, polygon.lines(x, Pred_lo, Pred_hi, border = FALSE)) 
+with(df_pred$fit, lines(x, Pred)) 
+with(df, points(Year, TBT_mean, pch = 19)) 
+
+```
+
+
+### Example for ISI 
+```{r}
+st <- "7"
+df <- dat_intersex_litt_summ %>% filter(Station %in% st & !is.na(ISI_mean))
+df_pred <- pred_logistic(df$Year, df$ISI_mean, x_range = c(2005, 2018), a = 0.05)
+
+plot(ISI_mean ~ Year, data = df, type = "n", xlab = "", ylab = "") 
+with(df_pred$fit, polygon.lines(x, Pred_lo, Pred_hi, border = FALSE)) 
+with(df_pred$fit, lines(x, Pred)) 
+with(df, points(Year, ISI_mean, pch = 19)) 
+
+```
+
+### ISI, ggplot variant
+```{r}
+pvalue <- summary(df_pred$model)$coef["x","Pr(>|t|)"]
+ggplot() + 
+  geom_ribbon(data = df_pred$fit, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred$fit, aes(x, y = Pred)) +
+  annotate("text", x = 2016, y = 1.3, label = paste("P =", round(pvalue, 4)))
+```
+
+### Plot two stations
+```{r}
+predlist <- list(
+  pred_logistic_from_stationname("6", "ISI_mean"),
+  pred_logistic_from_stationname("7", "ISI_mean")
+)
+
+# Combine
+df_pred <- bind_rows(predlist[[1]]$fit, predlist[[2]]$fit)
+df_pvalue <- bind_rows(predlist[[1]]$pvalue, predlist[[2]]$pvalue)
+df <- dat_intersex_litt_summ %>% filter(Station %in% c("6","7") & !is.na(ISI_mean))
+
+# Plot
+ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, ISI_mean)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station))
+
+```
+
+### Plot ISI at all stations
+```{r}
+sts <- unique(dat_intersex_litt_summ$Station)
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
+names(df_pred_list) <- sts
+# df_pred_list[["5b"]]
+
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
+df <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
+
+# Plot
+ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, ISI_mean)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station))
+
+```
+
+### Plot ISI at all stations, 5b linear
+```{r}
+# Run all stations (as above)
+sts <- unique(dat_intersex_litt_summ$Station)
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
+names(df_pred_list) <- sts
+
+# Run 5b using linear regression
+df_pred_list[["5b"]] <- pred_linear_from_stationname("5b", "ISI_mean")
+
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
+df <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, ISI_mean)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station)) +
+  labs(title = "ISI", x = "Year", y = "Mean ISI")
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Litt_ISI.png", gg)
+gg
+
+```
+
+### Plot percent sterile at all stations
+```{r}
+# Run all stations (as above)
+sts <- unique(dat_intersex_litt_summ$Station)
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "Sterile_perc")
+names(df_pred_list) <- sts
+
+# Run 5b using linear regression
+df_pred_list[["5b"]] <- pred_linear_from_stationname("5b", "Sterile_perc")
+df_pred_list[["7"]] <- pred_linear_from_stationname("7", "Sterile_perc")
+
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
+df <- dat_intersex_litt_summ %>% filter(!is.na(Sterile_perc))
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, Sterile_perc)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station)) +
+  labs(title = "Percent of sterile females", x = "Year", y = "Percent sterile")
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Litt_sterile.png", gg)
+gg
+
+```
+
+
+### Plot PRL at all stations
+```{r}
+# We make regressions for only two stations
+sts <- c("6", "7")
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "PRL_mean")
+names(df_pred_list) <- sts
+# df_pred_list[["5b"]]
+
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
+df <- dat_intersex_litt_summ %>% filter(!is.na(PRL_mean))
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, PRL_mean)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station)) +
+  labs(title = "PRL", x = "Year", y = "Mean PRL")
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Litt_PRL.png", gg)
+gg
+```
+
+### Plot TBT at all stations
+```{r}
+# Run all stations (as above)
+sts <- dat_intersex_litt_summ %>%
+  ungroup() %>%
+  filter(!is.na(TBT_mean)) %>%
+  count(Station) %>%
+  filter(n >= 3) %>%
+  pull(Station)
+
+# debugonce(pred_logistic_from_stationname)
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean")
+names(df_pred_list) <- sts
+
+# Run 5b using linear regression
+# df_pred_list[["5b"]] <- pred_linear_from_stationname("5b", "ISI_mean")
+
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
+df <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, TBT_mean)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station)) +
+  labs(title = "TBT", x = "Year", y = "Mean TBT concentration")
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Litt_TBT.png", gg)
+gg
+
+```
+
+
+
+
+## 7. TBT - all species
+
+### Plot biota TBT at all stations (linear)
+```{r, fig.height = 5, fig.width=6}
+# Run all stations (as above)
+gg <- dat_tbt_mean %>%
+  filter(!Species %in% "Sediment") %>%
+  filter(!is.na(TBT_mean)) %>%
+  group_by(Species, Station) %>%
+  mutate(N_years = length(unique(Year))) %>%
+  ggplot(aes(Year, TBT_mean)) +
+    geom_point(aes(color = Species)) + 
+    geom_smooth(method = "lm") +
+    facet_wrap(vars(Station))
+
+if (save_plots){
+  ggsave("Figures/06_Timeseries_allsp_TBT_1.png", gg)
+  ggsave("Figures/06_Timeseries_allsp_TBT_1_log.png", gg + scale_y_log10())
+}
+
+gg
+gg + scale_y_log10()
+
+```
+
+
+```{r}
+df <- dat_tbt_mean %>%
+  filter(!Species %in% "Sediment") %>%
+  filter(!is.na(TBT_mean))
+sts <- unique(df$Station)
+sts <- c("1", "4", "5", "5b", "6", "7")
+pred_list <- sts %>% lapply(
+  function(st) {
+    df_station <- df %>% filter(Station %in% st)
+    result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
+    result$fit$Station <- st
+    result$pvalue$Station <- st
+    result
+  })
+names(pred_list) <- sts
+  
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(pred_list)$fit)
+df_pvalue <- bind_rows(transpose(pred_list)$pvalue)
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, TBT_mean, color = Species)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station)) +
+  labs(title = "TBT", x = "Year", y = "Mean TBT concentration")
+if (save_plots){
+  ggsave("Figures/06_Timeseries_allsp_TBT_2.png", gg)
+  ggsave("Figures/06_Timeseries_allsp_TBT_2_log.png", gg + scale_y_log10())
+}
+gg
+gg + scale_y_log10()
+```
+
+### Plot sediment TBT at all stations
+```{r, fig.height = 5, fig.width=7.5}
+# Run all stations (as above)
+gg <- dat_tbt_mean %>%
+  filter(Species %in% "Sediment") %>%
+  filter(Station %in% c("1", "2", "3", "4", "5", "6")) %>%
+  filter(!is.na(TBT_mean)) %>%
+  group_by(Species, Station) %>%
+  mutate(N_years = length(unique(Year))) %>%
+  ggplot(aes(Year, TBT_mean)) +
+    geom_point(aes(color = Species)) + 
+    geom_smooth(method = "lm", se = FALSE) +
+    facet_wrap(vars(Station))
+
+gg
+gg + scale_y_log10()
+
+if (save_plots)
+  ggsave("Figures/06_Timeseries_TBT_sediment_log.png", gg + scale_y_log10())
+gg
+
+```
+
+
+
