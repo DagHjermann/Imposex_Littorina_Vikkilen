@@ -103,6 +103,18 @@ round_pvalue <- function(pvalue){
 }
 
 #
+# st_names
+#
+
+st_names <- data.frame(
+  Station = c("1", "4", "5", "5b", "6", "7"),
+  Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
+                   "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen"),
+  stringsAsFactors = FALSE
+)
+st_names$Station_name = factor(st_names$Station_name, levels = st_names$Station_name)
+
+#
 # Function for getting predicted values for a given station 'st' 
 #   and a given variable 'variable'
 # Calls 'pred_logistic' 
@@ -110,15 +122,17 @@ round_pvalue <- function(pvalue){
 pred_logistic_from_stationname <- function(st, variable, data = dat_intersex_litt_summ){
   df <- data %>% as.data.frame()
   df <- df[df$Station %in% st & !is.na(df[[variable]]),]
+  # Add Station names
   # pred = list of dataframe ('fit') and model ('model')
   pred <- pred_logistic(df$Year, df[[variable]], x_range = c(2005, 2018), a = 0.05)
-  # Add Station to the data frame
-  pred$fit <- pred$fit %>% mutate(Station = st)
+  # Add Station + Station name also to the data frame
+  pred$fit <- pred$fit %>% mutate(Station = st) %>% left_join(st_names, by = "Station")
   # Also make a dataframe with P-value text
   pvalue <- summary(pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue()
   pvalue <- data.frame(Station = st, 
                        Text = ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue)), 
                        stringsAsFactors = FALSE)
+  pvalue <- pvalue %>% left_join(st_names, by = "Station")
   list(fit = pred$fit, pvalue = pvalue)
 }
 
@@ -149,15 +163,18 @@ pred_linear_from_stationname <- function(st, variable, data = dat_intersex_litt_
   df_pred$Pred <- fit$fit
   df_pred$Pred_lo <- fit$fit - 2*fit$se.fit
   df_pred$Pred_hi <- fit$fit + 2*fit$se.fit
-  df_pred$Station <- st
+  df_pred <- df_pred %>% mutate(Station = st) %>% left_join(st_names, by = "Station")
   # Also make a dataframe with P-value text
   pvalue <- summary(mod)$coef["df$Year","Pr(>|t|)"] %>% round_pvalue()
   pvalue <- data.frame(Station = st, 
                        Text = ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue)), 
                        stringsAsFactors = FALSE)
   
+  pvalue <- pvalue %>% left_join(st_names, by = "Station")
   list(fit = df_pred, pvalue = pvalue)
 }
+
+
 # Test
 # debugonce(pred_linear_from_stationname)
 # pred_linear_from_stationname("6", "ISI_mean")
@@ -176,10 +193,37 @@ pred_linear_from_data <- function(data, variable){
   df_pred$Pred_hi <- fit$fit + 2*fit$se.fit
   df_pred$Station <- st
   # Also make a dataframe with P-value text
-  pvalue <- summary(mod)$coef["df$Year","Pr(>|t|)"] %>% round_pvalue()
   pvalue <- data.frame(Station = st, 
                        Text = ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue)), 
                        stringsAsFactors = FALSE)
   
   list(fit = df_pred, pvalue = pvalue)
 }
+
+
+#
+# As 'pred_logistic_from_stationname' above, but makes 'flat' regression
+# I.e. just the average
+#
+pred_flat_from_stationname <- function(st, variable, data = dat_intersex_litt_summ){
+  df <- data %>% as.data.frame()
+  df <- df[df$Station %in% st & !is.na(df[[variable]]),]
+  mod <- lm(df[[variable]] ~ 1)
+  # Create data frame with fits
+  df_pred <- data.frame(x = df$Year)
+  fit <- predict.lm(mod, newdata = df_pred, se = TRUE)
+  df_pred$Pred <- fit$fit
+  df_pred$Pred_lo <- fit$fit - 2*fit$se.fit
+  df_pred$Pred_hi <- fit$fit + 2*fit$se.fit
+  df_pred <- df_pred %>% mutate(Station = st) %>% left_join(st_names, by = "Station")
+  pvalue <- data.frame(Station = st, 
+                       Text = "P = n.a.", 
+                       stringsAsFactors = FALSE)
+  
+  pvalue <- pvalue %>% left_join(st_names, by = "Station")
+  list(fit = df_pred, pvalue = pvalue)
+}
+
+# Test
+# debugonce(pred_linear_from_stationname)
+# pred_linear_from_stationname("6", "ISI_mean")
