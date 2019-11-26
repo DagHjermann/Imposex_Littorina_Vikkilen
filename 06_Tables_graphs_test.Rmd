@@ -16,6 +16,22 @@ For N. lapillus,
 For B. undatum
 - Penis Classification Index (PCI) after Strand and Jacobsen (2002)
 
+
+From Merete 20.11.2019
+Du er absolutt ikke tungnem, Dag. Det er heller jeg som ikke har fullstendig oversikt når jeg ikke har jobbet med det på en stund. Jeg har kikket nærmere på dette, og vi bør beholde PRL (prostatalengde), men heller kalle det FPrL (average female prostate length= sum of prostate lengths (mm) of all sampled/number of females) i figurene 3 b og c. Vi bytter TBT fra y-aksen til x-aksen i figur 3 c (det fungerte godt i imposex-artikkelen vår).
+
+Hannen til strandsneglen kan kaste penis, derfor tror jeg ikke at det blir brukt RPLI (Relative Penis Length Index). Men det ser ut til å være en peniskjertelindeks (PKI) som Lise har regnet ut. PKI = Σ ant. peniskjertler hos alle innsamlede hanner/antall hanner. Vi kan vente litt med dette og evt. heller ta det med i artikkelen. Jeg kommer ikke til å ta det med i abstractet til SETAC
+
+Hvis du har tid, er det signifikante trender for både TBT og ISI (der hvor det er nok data for utregning)?
+Er det god korrelasjon (Kendall?) mellom TBT og ISI, TBT og FPrL og ISI og FPrL?
+
+Så spennende å være på møte med TBT-ekspert. Jeg skal tenke på om jeg har noen spørsmål. Her går det i justering av MILKYS-rapport.
+
+Takk for god hjelp, Dag! 😊
+
+
+
+
 ## 0. Libraries
 ```{r}
 library(dplyr)
@@ -27,6 +43,7 @@ library(tidyr)
 ## 0b. Settings
 ```{r}
 save_plots <- TRUE
+save_plots <- FALSE
 ```
 
 
@@ -117,7 +134,7 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 nrow(dat_intersex_litt_summ)
 ```
 
-### d. Overview tablkes of mean values
+### d. Overview tables of mean values
 ```{r}
 tab_ISI <- dat_intersex_litt_summ %>%
   filter(Sex %in% "f") %>%
@@ -165,22 +182,47 @@ tab_tbt
 
 ```{r, fig.height = 5, fig.width=6}
 gg <- ggplot(dat_intersex_litt_summ, aes(TBT_mean, ISI_mean)) +
+  geom_smooth(method = "lm") +
+  labs(x = "mean TBT (μg/kg w.w.)", y = "mean ISI")
+
+gg1 <- gg +
   geom_point(aes(color = Station), size = rel(2)) +
-  geom_smooth(method = "lm")
-if (save_plots)
-  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT.png", gg)
-gg
+  scale_color_brewer(palette = "Dark2")
+
+gg2 <- gg +
+  geom_point(aes(shape = Station), size = rel(2))
+
+if (save_plots){
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_col.png", gg1, width = 5, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, width = 5, height = 5, dpi = 500)
+}
+gg1
+gg2
+
+
 ```
 
 ### PRL_mean vs. TBT
 
 ```{r, fig.height = 5, fig.width=6}
-gg <- ggplot(dat_intersex_litt_summ, aes(PRL_mean, TBT_mean)) +
+gg <- ggplot(dat_intersex_litt_summ, aes(TBT_mean, PRL_mean)) +
+  geom_smooth(method = "lm") +
+  labs(x = "mean TBT (μg/kg w.w.)", y = "FPrL")
+
+gg1 <- gg + scale_color_brewer(palette = "Dark2") +
   geom_point(aes(color = Station), size = rel(2)) +
-  geom_smooth(method = "lm")
-if (save_plots)
-  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT.png", gg)
-gg
+  scale_color_brewer(palette = "Dark2")
+
+gg2 <- gg + scale_color_brewer(palette = "Dark2") +
+  geom_point(aes(shape = Station), size = rel(2))
+
+if (save_plots){
+  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_col.png", gg1, width = 5, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, width = 5, height = 5, dpi = 500)
+}
+gg1
+gg2
+
 
 ```
 
@@ -189,18 +231,38 @@ gg
 
 ```{r, fig.height = 5, fig.width=6}
 gg <- ggplot(dat_intersex_litt_summ, aes(PRL_mean, ISI_mean)) +
+  geom_smooth(method = "lm") +
+  labs(x = "mean FPrL", y = "mean ISE")
+
+gg1 <- gg + scale_color_brewer(palette = "Dark2") +
   geom_point(aes(color = Station), size = rel(2)) +
-  geom_smooth(method = "lm")
-if (save_plots)
-  ggsave("Figures/06_Correlations_Litt_PRL_vs_ISI.png", gg)
-gg
+  scale_color_brewer(palette = "Dark2")
+
+gg2 <- gg + scale_color_brewer(palette = "Dark2") +
+  geom_point(aes(shape = Station), size = rel(2))
+
+if (save_plots){
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_PRL_col.png", gg1, width = 5, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_PRL_bw.png", gg2, width = 5, height = 5, dpi = 500)
+}
+gg1
+gg2
+
+
+```
+
+### Correlations
+```{r}
+with(dat_intersex_litt_summ, cor.test(TBT_mean, ISI_mean, method = "kendall"))
+with(dat_intersex_litt_summ, cor.test(TBT_mean, PRL_mean, method = "kendall"))
+with(dat_intersex_litt_summ, cor.test(PRL_mean, ISI_mean, method = "kendall"))
 
 ```
 
 
 ## 5. Littorina time series plots
 
-### Mean TBT
+  ### Mean TBT
 
 ```{r}
 ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
@@ -408,7 +470,7 @@ gg
 ### Plot TBT at all stations
 ```{r}
 # Run all stations (as above)
-sts <- dat_intersex_litt_summ %>%
+sts_tbt <- dat_intersex_litt_summ %>%
   ungroup() %>%
   filter(!is.na(TBT_mean)) %>%
   count(Station) %>%
@@ -416,23 +478,23 @@ sts <- dat_intersex_litt_summ %>%
   pull(Station)
 
 # debugonce(pred_logistic_from_stationname)
-df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean")
-names(df_pred_list) <- sts
+df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean")
+names(df_pred_list) <- sts_tbt
 
 # Run 5b using linear regression
 # df_pred_list[["5b"]] <- pred_linear_from_stationname("5b", "ISI_mean")
 
 # Collect data for plotting 
-df_pred <- bind_rows(transpose(df_pred_list)$fit)
-df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
-df <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
+df_pred_tbt <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue_tbt <- bind_rows(transpose(df_pred_list)$pvalue)
+df_points_tbt <- dat_intersex_litt_summ %>% filter(!is.na(TBT_mean))
 
 # Plot
 gg <- ggplot() + 
-  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
-  geom_path(data = df_pred, aes(x, y = Pred)) +
-  geom_point(data = df, aes(Year, TBT_mean)) +
-  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  geom_ribbon(data = df_pred_tbt, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred_tbt, aes(x, y = Pred)) +
+  geom_point(data = df_points_tbt, aes(Year, TBT_mean)) +
+  geom_text(data = df_pvalue_tbt, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
   facet_wrap(vars(Station)) +
   labs(title = "TBT", x = "Year", y = "Mean TBT concentration")
 if (save_plots)
@@ -441,6 +503,171 @@ gg
 
 ```
 
+### Combined figures, ISI + TBT
+
+#### Data
+```{r}
+st_names <- data.frame(
+  Station = c("1", "4", "5", "5b", "6", "7"),
+  Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
+              "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen")
+)
+
+dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
+  left_join(st_names)
+
+dat_intersex_litt_summ$Station
+
+
+```
+
+```{r}
+#
+# ISI
+#
+
+sts <- unique(dat_intersex_litt_summ$Station)
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
+names(df_pred_list) <- sts
+
+# pvalue > 0.05, so we use a flat line instead for these:
+for (st in c("1","4","5b"))
+  df_pred_list[[st]] <- pred_flat_from_stationname(st, "ISI_mean")
+
+# Collect data for plotting 
+df_pred_isi <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue_isi <- bind_rows(transpose(df_pred_list)$pvalue)
+df_points_isi <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
+
+#
+# TBT (sts_tbt defined in previous chunk)
+#
+# debugonce(pred_logistic_from_stationname)
+df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean")
+names(df_pred_list) <- sts_tbt
+
+# pvalue > 0.05, so we use a flat line instead for these:
+for (st in c("5","5b","6"))
+  df_pred_list[[st]] <- pred_flat_from_stationname(st, "TBT_mean")
+
+# Collect data for plotting 
+df_pred_tbt <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue_tbt <- bind_rows(transpose(df_pred_list)$pvalue)
+df_points_tbt <- dat_intersex_litt_summ %>% filter(!is.na(TBT_mean))
+
+# Test plots for each separately
+if (FALSE) {
+  ggplot() + 
+    # geom_ribbon(data = df_pred_isi, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+    geom_path(data = df_pred_isi, aes(x, y = Pred)) +
+    geom_point(data = df_points_isi, aes(Year, ISI_mean)) +
+    # geom_text(data = df_pvalue_isi, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+    facet_wrap(vars(Station)) +
+    labs(title = "ISI", x = "Year", y = "Mean ISI")
+  
+  ggplot() + 
+    geom_path(data = df_pred_tbt, aes(x, y = Pred)) +
+    geom_point(data = df_points_tbt, aes(Year, TBT_mean)) +
+    facet_wrap(vars(Station)) +
+    labs(title = "TBT", x = "Year", y = "Mean TBT concentration")
+  
+}
+
+```
+
+#### Plotting ISI + TBT combination
+Method from https://stackoverflow.com/a/53703152/1734247 
+```{r}
+ylim.prim <- c(0, 3.5)     # ISI
+ylim.sec <- c(0, 510)    # TBT
+cols <- RColorBrewer::brewer.pal(8, "Dark2")
+
+b <- diff(ylim.prim)/diff(ylim.sec)
+a <- b*(ylim.prim[1] - ylim.sec[1])
+
+df_km <- data.frame(
+  Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
+                   "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen"),
+  Km = c("6 km", "2 km", "0.6 km", "0.55 km", "0.5 km", "0 km"),
+  stringsAsFactors = FALSE
+)
+
+
+gg <- ggplot() + 
+  geom_path(data = df_pred_isi, aes(x, y = Pred), color = cols[1]) +
+  geom_point(data = df_points_isi, aes(Year, ISI_mean), color = cols[1]) +
+  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols[2]) +
+  geom_point(data = df_points_isi, aes(Year, a + b*TBT_mean), color = cols[2]) +
+  geom_text(data = df_km, aes(x = 2016, y = Inf, label = Km), vjust = 1.2) +
+  scale_y_continuous("Mean ISI", sec.axis = sec_axis(~ (. - a)/b, name = "Mean TBT")) +
+  facet_wrap(vars(Station_name)) +
+  labs(title = "ISI and TBT", x = "Year") + 
+  theme_bw() +
+    theme(
+        axis.line.y.left = element_line(color = cols[1]), 
+        axis.ticks.y.left = element_line(color = cols[1]),
+        axis.text.y.left = element_text(color = cols[1]), 
+        axis.title.y.left = element_text(color = cols[1]),
+        axis.line.y.right = element_line(color = cols[2]), 
+        axis.ticks.y.right = element_line(color = cols[2]),
+        axis.text.y.right = element_text(color = cols[2]), 
+        axis.title.y.right = element_text(color = cols[2])
+        )
+
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Comb_ISI_TBT.png", gg, 
+         width = 7, height = 5, dpi = 500)
+
+gg
+
+
+
+```
+
+#### B/W
+
+```{r}
+
+
+
+cols2 <- c("black", "black")
+
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred_isi, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_isi, aes(x, y = Pred), color = cols2[1]) +
+  geom_point(data = df_points_isi, aes(Year, ISI_mean), color = cols2[1]) +
+  geom_ribbon(data = df_pred_tbt, aes(x, ymin = a + b*Pred_lo, ymax = a + b*Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols2[2],
+            linetype = 2) +
+  geom_point(data = df_points_isi, aes(Year, a + b*TBT_mean), color = cols2[2],
+             shape = 17) +
+  geom_vline(xintercept = c(2008, 2016), color = "red2", linetype = 2) +
+  geom_text(data = df_km, aes(x = 2016, y = Inf, label = Km), vjust = 1.2) +
+  scale_y_continuous("Mean ISI", sec.axis = sec_axis(~ (. - a)/b, name = "Mean TBT")) +
+  facet_wrap(vars(Station_name)) +
+  labs(title = "ISI and TBT", x = "Year") + 
+  theme_bw() +
+    theme(
+        axis.line.y.left = element_line(color = cols2[1]), 
+        axis.ticks.y.left = element_line(color = cols2[1]),
+        axis.text.y.left = element_text(color = cols2[1]), 
+        axis.title.y.left = element_text(color = cols2[1]),
+        axis.line.y.right = element_line(color = cols2[2]), 
+        axis.ticks.y.right = element_line(color = cols2[2]),
+        axis.text.y.right = element_text(color = cols2[2]), 
+        axis.title.y.right = element_text(color = cols2[2])
+        )
+
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw.png", gg, 
+         width = 7, height = 5, dpi = 500)
+
+gg
+
+# ?points
+```
 
 
 
