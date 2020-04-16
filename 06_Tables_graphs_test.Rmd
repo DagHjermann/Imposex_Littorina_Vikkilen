@@ -8,7 +8,7 @@ output:
     toc_float: true  
 ---
 
-#### For all
+## General
 - percentage sterile females (%S) = (number of sterile females/total number of females)*100
     - stage 2-4 females are sterile
 - mean Female Penis Length (FPL)
@@ -57,7 +57,7 @@ library(tidyr)
 ## 0b. Settings
 ```{r}
 save_plots <- TRUE
-save_plots <- FALSE
+#sve_plots <- FALSE
 ```
 
 
@@ -170,7 +170,9 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
   left_join(dat_tbt_mean %>% 
               ungroup() %>%
               filter(Species %in% "Littorina") %>%
-              select(Station, Year, TBT_mean, TBT_flag), by = c("Station", "Year")
+              mutate(Sex = "f") %>%    # to avoid that data are duplicated 
+              select(Station, Year, Sex, TBT_mean, TBT_flag), 
+            by = c("Station", "Year", "Sex")
             )
 
 nrow(dat_intersex_litt_summ)
@@ -424,34 +426,6 @@ ggplot() +
 
 ```
 
-### Plot ISI at all stations, 5b linear
-```{r}
-# Run all stations (as above)
-sts <- unique(dat_intersex_litt_summ$Station)
-df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
-names(df_pred_list) <- sts
-
-# Run 5b using linear regression
-df_pred_list[["5b"]] <- pred_linear_from_stationname("5", "ISI_mean")
-
-# Collect data for plotting 
-df_pred <- bind_rows(transpose(df_pred_list)$fit)
-df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
-df <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
-
-# Plot
-gg <- ggplot() + 
-  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
-  geom_path(data = df_pred, aes(x, y = Pred)) +
-  geom_point(data = df, aes(Year, ISI_mean)) +
-  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
-  facet_wrap(vars(Station)) +
-  labs(title = "ISI", x = "Year", y = "Mean ISI")
-if (save_plots)
-  ggsave("Figures/06_Timeseries_Litt_ISI.png", gg)
-gg
-
-```
 
 ### Plot percent sterile at all stations
 ```{r}
@@ -460,9 +434,11 @@ sts <- unique(dat_intersex_litt_summ$Station)
 df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "Sterile_perc")
 names(df_pred_list) <- sts
 
-# Run 5b using linear regression
-df_pred_list[["5b"]] <- pred_linear_from_stationname("5", "Sterile_perc")
-df_pred_list[["7"]] <- pred_linear_from_stationname("7", "Sterile_perc")
+# Check p-values
+transpose(df_pred_list)$pvalue %>% bind_rows()
+
+# Run 4 using linear regression
+df_pred_list[["4"]] <- pred_linear_from_stationname("4", "Sterile_perc")
 
 # Collect data for plotting 
 df_pred <- bind_rows(transpose(df_pred_list)$fit)
@@ -728,7 +704,8 @@ gg <- ggplot() +
              shape = 17) +
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
   geom_text(data = df_km, aes(x = 2016, y = Inf, label = Km), vjust = 1.2) +
-  scale_y_continuous("Mean ISI", sec.axis = sec_axis(~ (. - a)/b, name = "Mean TBT")) +
+  scale_y_continuous("Mean ISI (circles)", 
+                     sec.axis = sec_axis(~ (. - a)/b, name = "Mean TBT (triangles)")) +
   facet_wrap(vars(Station_name)) +
   labs(title = "ISI and TBT", x = "Year") + 
   theme_bw() +
@@ -780,6 +757,7 @@ gg + scale_y_log10()
 ```
 
 
+### Plot biota TBT at all stations (logistic)
 ```{r}
 df <- dat_tbt_mean %>%
   filter(!Species %in% "Sediment") %>%
