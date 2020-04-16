@@ -157,6 +157,22 @@ df4 <- df4 %>%
     Merket = paste(StationCode, StationName)
   )
 
+# All samples are duplicated
+df4 %>% 
+  count(StationCode, Station, Species, Year, SampleId)
+# df4 %>% 
+#   arrange(StationCode, Station, Species, Year, SampleId) %>%
+#   View()
+
+# Pick first observation for each sample
+df4 <- df4 %>% 
+  select(-ProjectName) %>%
+  group_by(StationCode, Station, Species, Year, SampleId) %>%
+  summarise_all(first)
+
+# df4 %>% View()
+
+
 df4 %>% 
   count(StationCode, Station, Species)
 
@@ -215,9 +231,7 @@ df5b <- df %>%
 df5b
 
 df5b %>%
-  count(Station)
-df5b %>%
-  count(Station)
+  count(Species, Station)
 
 #
 # File 6 - 2008 (blue mussel + sediment) ----
