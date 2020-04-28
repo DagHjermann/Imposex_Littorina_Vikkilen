@@ -109,8 +109,10 @@ df_sample_points <- df_sample_points %>%
   left_join(df_sample_points_projects) %>%                # add PROJECT_NAME
   mutate(labeltext = ifelse(                              # add label text for plot
     !is.na(STATION_NAME),
-    paste0(STATION_NAME, " (", PROJECT_NAME, ")"),
+    paste0(STATION_NAME, " (StasjonsID = ", STATION_ID, "),  prosjekt: ", PROJECT_NAME),
     NA))
+
+openxlsx::write.xlsx(df_sample_points, "Data/03_Stasjoner_Vikkilen.xlsx")
 
 #
 # 3b. Show sample points and on map ----
@@ -134,9 +136,15 @@ icons <- awesomeIcons(       # Function 2 is a "meta-function"
   markerColor = getColor()   # Refer to function 1 here
 )
 
-df_sample_points %>%
+leaf <- df_sample_points %>%
   leaflet() %>% addTiles() %>% 
   addAwesomeMarkers(lng = ~LONGITUDE, lat = ~LATITUDE, icon = icons, label = ~labeltext)
+leaf
+
+# Save
+htmlwidgets::saveWidget(leaf, file = "Temp.html")
+file.copy(from = "Temp.html", to = "Data/03_Stasjoner_Vikkilen.html")
+file.remove("Temp.html")
 
 # sOME MORE LOOKING 
 # get_nivabase_data("select OWNER,TABLE_NAME from ALL_TAB_COLUMNS where column_name = 'GEOM_REF_ID'")
