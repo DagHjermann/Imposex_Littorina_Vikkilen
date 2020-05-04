@@ -57,7 +57,7 @@ library(tidyr)
 ## 0b. Settings
 ```{r}
 save_plots <- TRUE
-#sve_plots <- FALSE
+save_plots <- FALSE
 ```
 
 
@@ -297,13 +297,42 @@ gg2
 ```
 
 ### Correlations
-```{r}
+```{r, fig.height = 5, fig.width=6}
 with(dat_intersex_litt_summ, cor.test(TBT_mean, ISI_mean, method = "kendall"))
 with(dat_intersex_litt_summ, cor.test(TBT_mean, PRL_mean, method = "kendall"))
 with(dat_intersex_litt_summ, cor.test(PRL_mean, ISI_mean, method = "kendall"))
 
 ```
 
+### TBT vs time, all stations   
+```{r, fig.height = 5, fig.width=6}
+# TBT_mean vs. Time, for all stations combined - actually significan 
+with(dat_intersex_litt_summ, cor.test(TBT_mean, Year, method = "kendall"))
+
+# ANCOVA TBT_mean vs. time, adjusted for station 
+mod <- lm(log(TBT_mean) ~ Year + Station, data = dat_intersex_litt_summ)
+summary(mod)
+visreg::visreg(mod)
+
+# As above, excluding the reference station
+mod <- lm(log(TBT_mean) ~ Year + Station, data = dat_intersex_litt_summ %>% filter(Station != 1))
+summary(mod)
+visreg::visreg(mod)
+
+# As above, excluding years before 2010
+mod <- lm(log(TBT_mean) ~ Year + Station, data = dat_intersex_litt_summ %>% filter(Year >= 2010))
+summary(mod)
+visreg::visreg(mod)
+
+# Plot 
+gg <- ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
+  geom_smooth(method = "lm") + 
+  scale_color_brewer(palette = "Dark2") +
+  geom_point(aes(shape = Station), size = rel(2))
+gg
+
+# ?visreg::visreg
+```
 
 ## 5. Littorina time series plots
 
