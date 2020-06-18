@@ -44,7 +44,19 @@ Jeg lurer på om du kan justere figuren nedenfor. Følgende må gjøres:
 3. Vi tar bort den stiplede røde linjen for 2016. Den markerer sedimenttiltak, men nedgangen skjer før tiltaket i 2016. Nedgangen skyldes heller forbudet i 2008, og redusert aktivitet på verftet frem til fjerning av tørrdokka i 2012.  
 4. Vi vil gjerne at avstanden måles fra Shipyard, slik at denne er 0 km. Vi har et TBT-resultat til for Skjeviga, og når den slås sammen med Båtstø så får vi inn stiplet svart linje.  
 
+#### Modification 3  
+From: Merete Schøyen <merete.schoyen@niva.no> 
+Sent: fredag 12. juni 2020 16:35
 
+Jeg jobber (i sommervarmen) med intersex-artikkelen for Vikkilen, og lurer på om du kan justere korrelasjonsfigurene nedenfor ved å slå sammen stasjonene 5 og 5 b, slik du gjorde for ISI-TBT i SETAC-presentasjonen? Da skal stasjonene hete: Reference station, Outer Vikkilen, Skjeviga, Shipyard og Inner Vikkilen. Kendall korrelasjonene vil kanskje endre seg da.
+`06_Correlations_Litt_ISI_vs_PRL_col.png`
+(Part 4 'PRL_mean vs. ISI')
+`06_Correlations_Litt_PRL_vs_TBT_col.png`
+(Part 4 'PRL_mean vs. TBT')
+
+Har du også mulighet for å slå sammen 5 og 5 b for all biota samlet? Jeg tror at vi lar stasjonene 2 og 3 med kun blåskjell utgå. Samme stasjonsnavn her: Reference station (5.5 km), Outer Vikkilen (1.5 km), Skjeviga (0.1 km), Shipyard (0 km) og Inner Vikkilen (0.5 km).
+`06_Timeseries_allsp_TBT_2_log.png`
+(Part 8 'Plot biota TBT at all stations (logistic)')
 
 ## 0. Libraries
 ```{r}
@@ -52,6 +64,7 @@ library(dplyr)
 library(purrr)    # transpose
 library(ggplot2)
 library(tidyr)
+library(forcats)
 ```
 
 ## 0b. Settings
@@ -61,8 +74,60 @@ save_plots <- FALSE
 ```
 
 
+## 0c. Make 5-color palette  
+```{r}
+
+# library("colorspace") 
+# The line below: run it in the Console (bottom window), NOT here (RStudio will hang)
+# pal <-choose_palette()
+
+library(pals)
+
+if (FALSE){
+  labs=c('alphabet','alphabet2', 'glasbey','kelly','polychrome', 
+         'stepped', 'stepped2', 'stepped3', 'tol', 'watlington')
+  op=par(mar=c(0,5,3,1))
+  pal.bands(alphabet(), alphabet2(), glasbey(), kelly(), polychrome(), 
+            stepped(), stepped2(), stepped3(), tol(), watlington(), 
+            labels=labs, show.names=FALSE)
+}
+
+pal.bands(tol(5), glasbey(5), kelly(7)[3:7])
+pal.bands(brewer.blues(4), brewer.reds(4))
+
+station_cols <- c(
+  brewer.blues(4)[c(4,3,2)], 
+  brewer.reds(4)[c(4,2)])
+pal.bands(station_cols)
+
+```
+
+## 0d. Station names
+```{r}
+# OLD (before we combined st. 5 and 5b)
+st_names <- data.frame(
+  Station = c("1", "4", "5", "5b", "6", "7"),
+  Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
+              "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen")
+)
+
+# NEW (after combining st. 5 and 5b)
+st_names <- data.frame(
+  Station = c("1", "4", "5", "6", "7"),
+  Station_name = c("Reference station (5.5 km)", "Outer Vikkilen (2.5 km)", 
+                   "Skjeviga (0.1 km)", 
+                   "Shipyard (0 km)", "Inner Vikkilen (0.5 km)"),
+  stringsAsFactors = FALSE
+  ) %>%
+  mutate(Station_name = fct_inorder(Station_name))  # set as factor, for correct order
+  
+
+```
+
+
 ## 1. Data
 
+### a. dat_tbt_mean - all species
 16 April 2020: 
 - Combine 5 and 5B
 ```{r}
@@ -84,7 +149,8 @@ dat_tbt_mean <- dat_tbt %>%
     Station != "5b" ~ Station
   )) %>% # View()
   group_by(Species, Station, Year) %>%
-  summarise(TBT_mean = mean(TBT, na.rm = TRUE), TBT_flag = mean(TBT_flag %in% "<"))
+  summarise(TBT_mean = mean(TBT, na.rm = TRUE), TBT_flag = mean(TBT_flag %in% "<")) %>%
+  ungroup()
 
 cat("Raw data \n")
 dat_tbt %>% 
@@ -97,6 +163,19 @@ dat_tbt_mean %>%
   filter(Station %in% c("1","4","5","5b","6","7") & Species == "Littorina") %>%
   xtabs(~Year + Station, .)
 
+# str(dat_tbt_mean)
+
+
+```
+
+### b. Add station names  
+```{r}
+
+dat_tbt_mean <- dat_tbt_mean %>%
+  left_join(st_names, by = "Station")
+
+str(dat_tbt_mean)
+
 ```
 
 ## 2. TBT - tables of species
@@ -106,7 +185,7 @@ xtabs(~Species + Year, dat_tbt_mean)
 
 ```
 
-## 3. Littorina
+## 3. Littorina data
 ### a. Chemical data  
 ```{r}
 # xtabs(~Station + df_name, dat_tbt %>% filter(Species %in% "Littorina"))
@@ -137,7 +216,7 @@ dat_intersex_litt %>%
 
 ```
 
-### c. Mean data per staion/year, and add TBT  
+### c1. Mean data per staion/year, and add TBT  
 dat_intersex_litt_summ 
 
 - percentage sterile females (%S) = (number of sterile females/total number of females)*100  
@@ -161,7 +240,8 @@ dat_intersex_litt_summ <- dat_intersex_litt %>%
   summarize(ISI_mean = mean(ISI, na.rm = FALSE),
             N_ISI = sum(!is.na(ISI)),
             Sterile_perc = mean((ISI >= 2)*100, na.rm = TRUE),
-            PRL_mean = mean(PRL, na.rm = TRUE))
+            PRL_mean = mean(PRL, na.rm = TRUE)) %>%
+  ungroup()
 
 nrow(dat_intersex_litt_summ)
 
@@ -178,6 +258,21 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 nrow(dat_intersex_litt_summ)
 
 ```
+
+### c2. Add station names  
+```{r}
+
+
+dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
+  left_join(st_names, by = "Station")
+
+
+# str(dat_intersex_litt_summ)
+# dat_intersex_litt_summ$Station
+
+
+```
+
 
 ### d. Overview tables of mean values
 ```{r}
@@ -225,21 +320,23 @@ tab_tbt
 
 ### ISI vs TBT
 
-```{r, fig.height = 5, fig.width=6}
+```{r, fig.height =4 fig.width=76
 gg <- ggplot(dat_intersex_litt_summ, aes(TBT_mean, ISI_mean)) +
-  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", color = "black") +
   labs(x = "mean TBT (μg/kg w.w.)", y = "mean ISI")
 
 gg1 <- gg +
-  geom_point(aes(color = Station), size = rel(2)) +
-  scale_color_brewer(palette = "Dark2")
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("Station", values = station_cols)
 
 gg2 <- gg +
-  geom_point(aes(shape = Station), size = rel(2))
+  geom_point(aes(shape = Station_name), size = rel(2))
 
 if (save_plots){
-  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_col.png", gg1, width = 5, height = 5, dpi = 500)
-  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, width = 5, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_col.png", gg1, 
+         width = 7, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, 
+         width = 7, height = 5, dpi = 500)
 }
 gg1
 gg2
@@ -249,21 +346,23 @@ gg2
 
 ### PRL_mean vs. TBT
 
-```{r, fig.height = 5, fig.width=6}
+```{r, fig.height =4 fig.width =6
 gg <- ggplot(dat_intersex_litt_summ, aes(TBT_mean, PRL_mean)) +
   geom_smooth(method = "lm") +
   labs(x = "mean TBT (μg/kg w.w.)", y = "FPrL")
 
 gg1 <- gg + scale_color_brewer(palette = "Dark2") +
-  geom_point(aes(color = Station), size = rel(2)) +
-  scale_color_brewer(palette = "Dark2")
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("Station", values = station_cols)
 
 gg2 <- gg + scale_color_brewer(palette = "Dark2") +
-  geom_point(aes(shape = Station), size = rel(2))
+  geom_point(aes(shape = Station_name), size = rel(2))
 
 if (save_plots){
-  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_col.png", gg1, width = 5, height = 5, dpi = 500)
-  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, width = 5, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_col.png", gg1, 
+         width = 7, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, 
+         width = 7, height = 5, dpi = 500)
 }
 gg1
 gg2
@@ -273,22 +372,25 @@ gg2
 
 
 ### PRL_mean vs. ISI
+```{r, fig.height =4 fig.width=76
 
-```{r, fig.height = 5, fig.width=6}
 gg <- ggplot(dat_intersex_litt_summ, aes(PRL_mean, ISI_mean)) +
-  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", color = "black") +
   labs(x = "mean FPrL", y = "mean ISE")
 
 gg1 <- gg + scale_color_brewer(palette = "Dark2") +
-  geom_point(aes(color = Station), size = rel(2)) +
-  scale_color_brewer(palette = "Dark2")
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("Station", values = station_cols)
 
 gg2 <- gg + scale_color_brewer(palette = "Dark2") +
-  geom_point(aes(shape = Station), size = rel(2))
+  geom_point(aes(shape = Station_name), size = rel(2))
 
+# save_plots <- TRUE
 if (save_plots){
-  ggsave("Figures/06_Correlations_Litt_ISI_vs_PRL_col.png", gg1, width = 5, height = 5, dpi = 500)
-  ggsave("Figures/06_Correlations_Litt_ISI_vs_PRL_bw.png", gg2, width = 5, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_PRL_col.png", gg1, 
+         width = 7, height = 5, dpi = 500)
+  ggsave("Figures/06_Correlations_Litt_ISI_vs_PRL_bw.png", gg2, 
+         width = 7, height = 5, dpi = 500)
 }
 gg1
 gg2
@@ -551,39 +653,39 @@ gg
 
 ```
 
-### Combined figures, ISI + TBT
+## 7. Combined figures, ISI + TBT
 
-#### Data
+### Data
 ```{r}
 
-# OLD (before we combined st. 5 and 5b)
-st_names <- data.frame(
-  Station = c("1", "4", "5", "5b", "6", "7"),
-  Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
-              "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen")
-)
-
-# NEW (after combining st. 5 and 5b)
-st_names <- data.frame(
-  Station = c("1", "4", "5", "6", "7"),
-  Station_name = c("Reference station", "Outer Vikkilen", "Skjeviga", 
-                   "Shipyard", "Inner Vikkilen")
-)
-
-dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
-  left_join(st_names, by = "Station")
-
-# In orddr to get correct order in plots
-dat_intersex_litt_summ$Station_name <- factor(dat_intersex_litt_summ$Station_name,
-                                              levels = c("Reference station", "Outer Vikkilen", 
-                                                "Skjeviga", "Shipyard", "Inner Vikkilen"))
-
-# dat_intersex_litt_summ$Station
+# # OLD (before we combined st. 5 and 5b)
+# st_names <- data.frame(
+#   Station = c("1", "4", "5", "5b", "6", "7"),
+#   Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
+#               "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen")
+# )
+# 
+# # NEW (after combining st. 5 and 5b)
+# st_names <- data.frame(
+#   Station = c("1", "4", "5", "6", "7"),
+#   Station_name = c("Reference station", "Outer Vikkilen", "Skjeviga", 
+#                    "Shipyard", "Inner Vikkilen")
+# )
+# 
+# dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
+#   left_join(st_names, by = "Station")
+# 
+# # In orddr to get correct order in plots
+# dat_intersex_litt_summ$Station_name <- factor(dat_intersex_litt_summ$Station_name,
+#                                               levels = c("Reference station", "Outer Vikkilen", 
+#                                                 "Skjeviga", "Shipyard", "Inner Vikkilen"))
+# 
+# # dat_intersex_litt_summ$Station
 
 
 ```
 
-#### Get predicted (fitted) lines   
+### Get predicted (fitted) lines   
 ```{r}
 #
 # ISI
@@ -651,7 +753,8 @@ if (FALSE) {
 
 ```
 
-#### Plotting ISI + TBT combination
+### Plotting ISI + TBT combination   
+THIS IS A MESS NOW  - DUE TO DIFFERENT FACTOR LEVELS
 Method from https://stackoverflow.com/a/53703152/1734247 
 ```{r}
 ylim.prim <- c(0, 3.5)     # ISI
@@ -750,8 +853,8 @@ gg <- ggplot() +
         )
 
 if (save_plots)
-  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw.png", gg, 
-         width = 7, height = 5, dpi = 500)
+#  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw.png", gg, 
+#         width = 7, height = 5, dpi = 500)
 
 gg
 
@@ -760,20 +863,21 @@ gg
 
 
 
-## 7. TBT - all species
+## 8. TBT - all species
 
 ### Plot biota TBT at all stations (linear)
-```{r, fig.height = 5, fig.width=6}
+```{r, fig.height = 5, fig.width=8}
+
 # Run all stations (as above)
 gg <- dat_tbt_mean %>%
-  filter(!Species %in% "Sediment") %>%
+  filter(!Species %in% c("Sediment", "Mytilus")) %>%
   filter(!is.na(TBT_mean)) %>%
-  group_by(Species, Station) %>%
+  group_by(Species, Station_name) %>%
   mutate(N_years = length(unique(Year))) %>%
   ggplot(aes(Year, TBT_mean)) +
     geom_point(aes(color = Species)) + 
     geom_smooth(method = "lm") +
-    facet_wrap(vars(Station))
+    facet_wrap(vars(Station_name))
 
 if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_1.png", gg)
@@ -786,22 +890,29 @@ gg + scale_y_log10()
 ```
 
 
-### Plot biota TBT at all stations (logistic)
-```{r}
+
+
+### Plot biota TBT at all stations (logistic)   
+
+```{r, fig.height = 5, fig.width=8}
+
 df <- dat_tbt_mean %>%
-  filter(!Species %in% "Sediment") %>%
+  filter(!Species %in% c("Sediment", "Mytilus")) %>%
   filter(!is.na(TBT_mean))
-sts <- unique(df$Station)
-sts <- c("1", "4", "5", "6", "7")
+sts <- unique(df$Station_name)
+# sts <- c("1", "4", "5", "6", "7")
 pred_list <- sts %>% lapply(
   function(st) {
-    df_station <- df %>% filter(Station %in% st)
+    df_station <- df %>% filter(Station_name %in% st)
     result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
-    result$fit$Station <- st
-    result$pvalue$Station <- st
+    result$fit$Station_name <- st
+    result$pvalue$Station_name <- st
     result
   })
 names(pred_list) <- sts
+
+str(pred_list, 1)       # List of 5
+str(pred_list[[1]], 1)  # List of 2: $fit  and $pvalue
   
 # Collect data for plotting 
 df_pred <- bind_rows(transpose(pred_list)$fit)
@@ -811,16 +922,23 @@ df_pvalue <- bind_rows(transpose(pred_list)$pvalue)
 gg <- ggplot() + 
   geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
   geom_path(data = df_pred, aes(x, y = Pred)) +
-  geom_point(data = df, aes(Year, TBT_mean, color = Species)) +
+  geom_point(data = df, aes(Year, TBT_mean, fill = Species), size = 2, pch = 21) +
   geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
-  facet_wrap(vars(Station)) +
+  facet_wrap(vars(Station_name)) +
   labs(title = "TBT", x = "Year", y = "Mean TBT concentration")
+
 if (save_plots){
-  ggsave("Figures/06_Timeseries_allsp_TBT_2.png", gg)
-  ggsave("Figures/06_Timeseries_allsp_TBT_2_log.png", gg + scale_y_log10())
+  ggsave("Figures/06_Timeseries_allsp_TBT_2.png", 
+         gg,
+         width = 8, height = 5, dpi = 500)
+  ggsave("Figures/06_Timeseries_allsp_TBT_2_log.png", 
+         gg + scale_y_log10(limits = c(0.3, 900)),
+         width = 8, height = 5, dpi = 500)
 }
+
 gg
-gg + scale_y_log10()
+gg + scale_y_log10(limits = c(0.3, 900))
+
 ```
 
 ### Plot sediment TBT at all stations
