@@ -1,4 +1,38 @@
 
+#
+# Reading TBT data from Excel files
+# 
+# Both strandsnegl (Littorina) and other snails, blue mussel (Mytilus) and sediment
+#
+
+# Variable 'Station' - Littorina and sediment stations (See 'Strandsnegl TBT 2007 til 2016.xlsx')
+# St 7 - innerst
+# St 6 Nymo
+# St 5B Båtstø
+# St 5 Skjeviga
+# St 4 Hasseldalen
+# St 1 Håøya
+
+#
+# Variable 'Station_Myt' - Mytilus stations (made up for now)
+# Used in script 06
+#
+# df_stations_mytilus <- 
+#   tibble::tribble(
+#     ~Station_Myt, ~Station_Myt_name,
+#     "b1", "Rivingen (6.4 km)",
+#     "b2", "Groos (4.0 km)",
+#     "b3", "Grimstadodden (2.4 km)",
+#     "b4", "Biodden (2.1 km)",
+#     "b5", "Kjellviga (1.6 km)" ,
+#     "b6", "Naksbø (1.1 km)",
+#     "b7", "Bie (0.8 km)",
+#     "b8", "Gjømle/Skjevika (0.6 )",
+#     "b9", "Shipyard (0 km)", 
+#     "b10", "Inner Vikkilen (0.5 km)"
+#   )
+
+
 ## 0a. Libraries ----
 library(dplyr)
 library(purrr)
@@ -104,7 +138,6 @@ df3 <- read_excel(fn_full, sheet = 1, range = "A9:O19") %>%
   as.data.frame()
 names(df3)[6:15] <- names(df3_headers)[6:15]
 names(df3)[6] <- "Testno"
-df3 <- rename(df3, Merket = Merking)
 # df3
 
 df3 <- df3 %>%
@@ -176,6 +209,11 @@ df4 <- df4 %>%
 df4 %>% 
   count(StationCode, Station, Species)
 
+
+# Get station data as well (checkied in "Combined file 1-7" section)
+df4_stations <- read_excel(fn_full, sheet = "StationPoint")
+
+
 # df4$TBT
 
 #
@@ -223,7 +261,8 @@ df5b <- df %>%
   mutate(Year = substr(Tatt, 1, 4),           # we pick year from prøvenummer, not sample date
          Station = str_extract(Merket, "[0-9]+"),     # Remove "St." and "St" 
          Station = sub("St +", "", Station),
-         Species = "Mytilus",
+         Station = ifelse(grepl("Vikkilen innerst", Merket), "7", Station),
+         Species = ifelse(grepl("Littorina", Merket), "Littorina", "Mytilus"),
          X = sub(",", ".", `TBT-B`, fixed = TRUE),
          X = sub("<", "", X, fixed = TRUE),
          TBT = as.numeric(X))
@@ -280,7 +319,7 @@ df6a %>% count(Merket, Year, Station, Species)
 df6a %>% count(Year, Station, Prøvedyp)
 
 #
-# . 6b (blue mussel) ----
+# . 6b (blue mussel + sediment) ----
 #
 sheet <- "Blåskjell"
 df_headers <- read_excel(fn_full, sheet = sheet, range = "A2:DN3", col_types = "text")
@@ -292,7 +331,9 @@ df6b <- df %>%
   mutate(Year = substr(Tatt, 1, 4),           # we pick year from prøvenummer, not sample date
          Station = str_extract(Merket, "[0-9]+"),     # Remove "St." and "St" 
          Station = sub("St +", "", Station),
-         Species = "Mytilus",
+         Species = case_when(
+           grepl("cm", Merket) ~ "Sediment",
+           TRUE ~ "Mytilus"),
          X = sub(",", ".", `TBT-B`, fixed = TRUE),
          X = sub("<", "", X, fixed = TRUE),
          TBT = as.numeric(X))
@@ -303,7 +344,7 @@ df6b
 
 
 #
-# File 7 - 2007 (blue mussel) ----
+# File 7 - 2007 (blue mussel + sediment) ----
 #
 # Sheet 1
 # Eurofins file
@@ -313,21 +354,25 @@ fn_full <- paste0(folder_data, "/", fn)
 sheet <- "Sheet1"
 
 
-df_headers <- read_excel(fn_full, sheet = sheet, range = "C6:Y7") 
-df <- read_excel(fn_full, sheet = sheet, range = "C8:Y22", col_types = "text")
+df_headers <- read_excel(fn_full, sheet = sheet, range = "C6:X7")  # the last column are means of TBT
+df <- read_excel(fn_full, sheet = sheet, range = "C8:Y22", col_types = "text") %>%
+  as.data.frame()
 names(df)[-(1:4)] <- names(df_headers)[-(1:4)]
 names(df)[1:2] <- c("Tatt", "Merket")
 head(df)
+names(df)
 
 # df  # Check that TBT looks ok
 
 # Set year, station, species
-df7 <- df %>%
+df7 <- subset(df)  %>%
   filter(!is.na(TESTNO)) %>%
   mutate(Year = substr(Tatt, 1, 4),           # we pick year from prøvenummer, not sample date
          Station = sub("St. +", "", Merket),     # Remove "St." and "St" 
          Station = sub("St +", "", Station),
-         Species = "Mytilus",
+         Species = case_when(
+           grepl("cm", Merket) ~ "Sediment",
+           TRUE ~ "Mytilus"),
          X = sub(",", ".", `TBT-B`, fixed = TRUE),
          X = sub("s", "", X, fixed = TRUE),
          TBT = as.numeric(X))
@@ -338,7 +383,7 @@ df7 <- df7 %>%
   mutate(Station = substr(Station, 1, 1))
 df7 %>% count(Merket, Year, Station, Species)
 
-         
+
 #o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
 # Combine file 1-7 - preparations ----
@@ -357,9 +402,12 @@ names(files) <- datasetnames
 
 # Check column names
 files %>% map(~grep("TBT", names(.), value = TRUE))
+names(df1)
 
 
+#
 # . b Sediment depth - must be in all datasets ----
+#
 
 # Files with Species = Sediment
 check1 <- files %>% map_lgl(~"Sediment" %in% unique(.$Species))
@@ -374,7 +422,9 @@ for (i in which(!check2)){
 }
 
 
+#
 # . c Pick variables and set name of TBT variable to "TBT"----
+#
 
 # Set TBT column
 name_tbt <- c(
@@ -451,6 +501,117 @@ fix_concentrations <- function(df){
 # Fix all files
 files <- files %>% map(fix_concentrations)
 
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# Combine file 1-7 - blue mussel stations ----
+#
+# Add 'Station_Myt', codes 'b1-b10' made up for now (see top of script)
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+#
+# 'Station_Myt' made because station numbers given in files are not consistent: 
+#
+# Outermost stations (Rivingen to Grimstadodden): 2005 only
+# St. 4 Bieodden (2005, 2007, 2008) = BL3 Biodden (2016-2018))
+# St. 5 Vikkilen Naksboe (= Naksbø, 2005) possibly the same as "St 5 Nalesbie" (2007-08)
+# - nothing corresponding in 2016-18
+# St. 6 Gjømle/ Skjevika (2007-08) not too far away from Bie (2018)
+# St. 6 Vikkilen innerst (2005)
+# - nothing corresponding in 2016-18 (or 2007-08)
+
+
+# Tabulate stations  
+files[["df1"]] %>% count(Species, Station, Merket) # 2005-2011
+files[["df2"]] %>% count(Species, Station, Merket) # 2013
+files[["df2"]] %>% count(Species, Station, Merket) # 2014 
+files[["df4"]] %>% filter(grepl("Mytilus", Species)) %>% count(Station, StationCode, StationName) # 2016-2018
+files[["df5b"]] %>% filter(grepl("Mytilus", Species)) %>% ungroup() %>% count(Station, Merket) # 2004-05
+files[["df6b"]] %>% filter(!grepl("glass", Merket)) %>% ungroup() %>% count(Station, Merket) # 2008
+files[["df7"]] %>% filter(!grepl("glass", Merket)) %>% ungroup() %>% count(Station, Merket) # 2007
+# Tried to find 2008 stations (e.g. Nalebie) using '03_Check_chemistry_data.R'. No luck.
+
+# Plot 2016-18 stations:  
+if (FALSE){
+  library(leaflet)
+  leaflet() %>%
+    addTiles() %>%
+    addMarkers(lng = df4_stations$Longitude, lat = df4_stations$Latitude,
+               popup = df4_stations$FullStationName)
+}
+
+
+
+#
+# . Make 'Station_Myt' ----
+#
+# (note that we combine 'Bie/Gjømle/Skjeviga')
+
+df4 %>%
+  count(Species, Station, Merket)
+
+
+x <- "df4"
+files[[x]] <- files[[x]] %>%
+  mutate(
+    Station_Myt = case_when(
+      Species == "Littorina" ~ as.character(NA),
+      grepl("Biodden", Merket) ~ "b4",
+      grepl("Kjellviga", Merket) ~ "b5",
+      grepl("Bie", Merket) ~ "b7",
+      grepl("Nymo", Merket) ~ "b9"),
+    Station = case_when(
+      Species == "Mytilus" ~ as.character(NA),
+      TRUE ~ Station)
+    )
+  )
+files[[x]] %>%
+  count(Merket, Station_Myt)
+
+x <- "df5b"
+files[[x]] <- files[[x]] %>%
+  mutate(
+    Station_Myt = case_when(
+      Species == "Sediment" ~ as.character(NA),
+      grepl("Ytre Rivingen", Merket) ~ "b1",
+      grepl("Groos", Merket) ~ "b2",
+      grepl("Grimstadodden", Merket) ~ "b3",
+      grepl("Bieodden", Merket) ~ "b4",
+      grepl("Naksboe", Merket) ~ "b6",
+      grepl("Vikkilen innerst", Merket) ~ "b10"),
+    Station = case_when(
+      Species == "Mytilus" ~ as.character(NA),
+      TRUE ~ Station)
+  )
+files[[x]] %>%
+  count(Station, Merket, Station_Myt)
+
+for (x in c("df6b","df7")){
+  files[[x]] <- files[[x]] %>%
+    mutate(
+      Station_Myt = case_when(
+        Species == "Sediment" ~ as.character(NA),
+        grepl("Bieodden", Merket) ~ "b4",
+        grepl("Nalesbie", Merket) ~ "b6",
+        grepl("Skjevika", Merket) ~ "b8",
+        grepl("Skjevika", Merket) ~ "b8",
+        TRUE ~ as.character(NA)),
+      Station = case_when(
+        Species == "Mytilus" ~ as.character(NA),
+        TRUE ~ Station)
+    )
+  print(
+    files[[x]] %>% count(Station, Merket, Station_Myt)
+  )
+}
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+#
+# Combine file 1-7 - Fix variable classes ----
+#
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
+
 # Check variable classes
 compare_df_cols(files, return = "mismatch")
 
@@ -462,15 +623,26 @@ change_character_to_numeric <- function(df, varname){
 # test <- files[[5]] %>% change_character_to_numeric("Year")
 files <- files %>% map(change_character_to_numeric, "Year")
 
+
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
 #
-# Combine data ----
+# Combine file 1-7 - Actually combining ----
 #
+#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o#o
+
 
 # Add name of dataset
 files <- datasetnames %>% map(~ mutate(files[[.]], df_name = .))
   
 # Bind together
 dat <- bind_rows(files)
+
+#
+# Check blue mussel
+#
+dat %>%
+  filter(Species == "Mytilus") %>%
+  xtabs(~addNA(Station_Myt) + Year, .)
 
 #
 # Save data ----

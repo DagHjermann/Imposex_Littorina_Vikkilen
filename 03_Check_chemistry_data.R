@@ -37,7 +37,24 @@ df_proj <- df_projects %>% filter(grepl("Vikkilen", PROJECT_NAME) | grepl("Vikti
 df_proj$PROJECT_ID     # 118, 9246, 12386
 df_proj$PROJECT_NAME   # "Vikkilen", "Viktilt 2022", "Overvåking av Vikkilen i 2018"
 
+
+#
+# Trying to find stations 'St 7' and 'St 5 Nalebie' in 2008 data: 
+#
+df_o <- get_nivabase_data("select PROJECTS_O_NUMBERS_ID, PROJECT_ID, O_NUMBER from NIVADATABASE.PROJECTS_O_NUMBERS")  
+df_o %>%
+  filter(O_NUMBER == 27165) # nothing
+df_check <- get_nivabase_selection("*",
+                                   "LABWARE_IMPORT",
+                                   "TEXT_ID",
+                                   "NR-2008-01179", values_are_text = TRUE)
+# again, nothing
+
+get_nivabase_data("select * from NIVADATABASE.LABWARE_IMPORT where rownum < 4")  
+
+#
 # Get a list of the stations associated with those 3 projects
+#
 df_stations <- df_proj$PROJECT_NAME %>% map_df(~get_stations_from_project(., exact = TRUE))
 nrow(df_stations)  # 28
 

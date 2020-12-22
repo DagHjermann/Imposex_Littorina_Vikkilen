@@ -91,10 +91,11 @@ sheets
 data_list_onefile <- sheets %>% purrr::map(~read_intersex_type2(fn_full, ., headerline = 3))
 names(data_list_onefile) <- sheets
 
+data_list_onefile[["4_16"]]
+data_list_onefile[["7_16"]]
 # Hard check 1
 # check column names - must be alike
 # transpose(data_list_onefile)$colnames
-
 # Check 2, easier but incomplete
 # Checks column names - more stringent - all should be 0
 # check <- transpose(data_list_onefile)$colnames %>% bind_rows()
