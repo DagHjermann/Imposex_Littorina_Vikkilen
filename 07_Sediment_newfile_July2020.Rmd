@@ -1,0 +1,717 @@
+---
+title: "07_New_data_July2020"
+author: "DHJ"
+date: "8 7 2020"
+output: html_document
+---
+
+Figures in MS:
+* 6A (map) edited based on map from 3b - "bathymetry with sample positions"
+* 6B (graph) 7 (statistics) - "In same format as rest"  
+
+```{r setup}
+
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+library(leaflet)
+
+```
+
+## 1. Data
+Data 'dat' defined  
+
+
+### Read data from excel    
+```{r data}
+
+dat <- read_excel("Input_data/kartfil sediment.xlsx") %>%
+  mutate(
+    # Convert text to numeric
+    #   e.g. text "<0,602" to numeric 0.0602
+    TBT = 
+      sub(",", ".", `TBT (µg/kg TS)`) %>%
+      sub("<", "", .) %>%
+      as.numeric(),
+    # Make "Flag" variable (presence of "<")
+    Flag = case_when(
+      grepl("<", `TBT (µg/kg TS)`) ~ "<",
+      TRUE ~ as.character(NA))
+  )
+colnames(dat)[2] <- "Year"
+colnames(dat)[3] <- "Date"
+colnames(dat)[7] <- "Long"
+colnames(dat)[8] <- "Lat"
+
+# dat
+
+xtabs(~addNA(Year), dat)
+
+# Keep rows with year given  
+dat <- dat %>%
+  filter(!is.na(Year))
+
+# Add row number
+dat <- dat %>%
+  mutate(i = 1:nrow(dat))
+
+head(dat)
+
+```
+### Add column for colors per year    
+Used in plot later
+```{r}
+
+years <- dat$Year %>% unique()
+
+# Just a few possible colors can be used in leaflet.
+#   See ?awesomeIcons for color list; I copy/pasted these colors from this help page  
+# Make list the same length as 'years':  
+cols <- c("red", "darkred", "lightred", "orange", "beige", "green", "darkgreen", "lightgreen", "blue")
+lookup_colors <- data.frame(Year = years, Color = cols)
+# dat$Color <- NULL
+dat <- dat %>% 
+  left_join(lookup_colors)
+
+```
+
+### Overlapping data deom script 05?  
+```{r}
+
+dat_script05 <- readRDS(file = "Data/05_TBT.RData")
+
+full_join(
+  dat %>%
+    distinct(Long, Lat, Year) %>%
+    count(Year, name = "dat"),
+  dat_script05 %>%
+    filter(Species %in% "Sediment") %>%
+    distinct(Station, Year) %>%
+    count(Year, name = "dat_script05"), 
+  by = "Year"
+) %>%
+  arrange(Year)
+
+
+```
+
+Check - seems to be ok
+```{r}
+get_stations <- function(year){
+  cat(year, ":\n")
+  dat %>%
+    filter(Year == year) %>%
+    distinct(stasjon) %>%
+    pull(stasjon)  %>% paste(collapse = "; ") %>% cat("dat:", .)
+  cat("\n")
+  dat_script05 %>%
+    filter(Species %in% "Sediment" & Year == year) %>%
+    distinct(Station) %>%
+    pull(Station) %>% paste(collapse = "; ") %>%cat("dat_script05:", .)
+  cat("\n")
+  
+}
+
+get_stations(2005)
+cat("\n")
+get_stations(2008)
+
+
+```
+
+## 2. Check area division in areas 
+Lines for area division dividing inner part of the bay  
+
+### Define dividing lines + wharf    
+This chunk was run repeatedly, checking maps in section 3 and 4       
+```{r}
+
+# Northernmost horizontal line
+lat2 <- 58.3602
+df_line2 <- data.frame(
+  Long = c(8.610, 8.625),
+  Lat = rep(lat2,2)
+)
+
+# Middle horizontal line
+lat3 <- 58.3555
+df_line3 <- data.frame(
+  Long = c(8.605, 8.622),
+  Lat = rep(lat3, 2)
+)
+
+# Southernmost horizontal line
+lat4 <- 58.33
+df_line4 <- data.frame(
+  Long = c(8.58, 8.622),
+  Lat = rep(lat4, 2)
+)
+
+# Line dividing West/east parts  
+df_line1 <- data.frame(
+  Long = c(8.61228, 8.6152),
+  Lat = c(lat3, 58.3630)
+)
+
+wharf_data <- matrix(c(
+58.3568997,
+8.6113226,
+58.3581243,
+8.61033,
+58.3625255,
+8.6118885,
+58.3626917,
+8.6104532,
+58.3584945,
+8.6089259,
+58.3584243,
+8.6096638,
+58.3567816,
+8.6099165), ncol = 2, byrow = TRUE)
+
+coord_wharf <- cbind(X = wharf_data[,2], Y = wharf_data[,1], L1 = 1, L2 = 1)
+coord_wharf
+colnames(coord_wharf)[1:2] <- c("Y", "X")
+# str(coord_wharf)
+
+
+```
+
+## 3a. Leaflet maps  
+
+
+### Markers with colors for each year  
+```{r}
+# RColorBrewer::display.brewer.all()
+leaf <- dat %>%
+  leaflet() %>% 
+  addTiles()
+
+leaf %>%
+  addPolylines(lng = df_line1$Long, df_line1$Lat) %>%
+  addPolylines(lng = df_line2$Long, df_line2$Lat) %>%
+  addPolylines(lng = df_line3$Long, df_line3$Lat) %>%
+  addPolylines(lng = df_line4$Long, df_line4$Lat) %>%
+  addLabelOnlyMarkers(lng = map_center[1], lat = map_center[2], label = "A",
+                      labelOptions = labelOptions(
+                        noHide = T, direction = 'top', textOnly = T,
+                        textsize = "18px", 
+                        style = list(
+                          "color" = "blue",
+                          "font-family" = "sans-serif",
+                          "font-style" = "normal"
+                          )
+                      )
+  )
+# https://stackoverflow.com/questions/31745525/leaflet-with-r-add-text-labels
+# https://rstudio.github.io/leaflet/popups.html
+# 
+
+
+```
+
+
+### Markers with colors for each year  
+```{r}
+# RColorBrewer::display.brewer.all()
+
+icons <- awesomeIcons(       # Function 2 is a "meta-function" 
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = dat$Color
+)
+
+leaf <- dat %>%
+  leaflet() %>% 
+  addTiles() %>% 
+  addAwesomeMarkers(lng = ~Long, lat = ~Lat, icon = icons, 
+                    label = ~paste(Year, paste0(Long, ", ", Lat), i, sep = "<br>") %>% 
+                      purrr::map(htmltools::HTML))
+leaf %>%
+  addPolylines(lng = df_line1$Long, df_line1$Lat) %>%
+  addPolylines(lng = df_line2$Long, df_line2$Lat) %>%
+  addPolylines(lng = df_line3$Long, df_line3$Lat) %>%
+  addPolylines(lng = df_line4$Long, df_line4$Lat)
+
+```
+
+### Map with smaller sample symbols  
+```{r}
+
+dat %>%
+  leaflet() %>% 
+  addTiles() %>% 
+  addCircleMarkers(lng = ~Long, lat = ~Lat, radius = 5, color = "red") %>%
+  addPolylines(lng = df_line1$Long, df_line1$Lat) %>%
+  addPolylines(lng = df_line2$Long, df_line2$Lat) %>%
+  addPolylines(lng = df_line3$Long, df_line3$Lat) %>%
+  addPolylines(lng = df_line4$Long, df_line4$Lat)
+
+
+```
+
+
+
+
+## 3b. Map using nivamaps (aerial photo  
+
+```{r}
+library(nivamaps)
+library(sf)
+
+df_lines <- list(df_line1, df_line2, df_line3, df_line4)
+
+for (i in 1:4){
+  df_lines[[i]] <-   data.frame( df_lines[[i]], L1 = 1, L2 = 1)
+  df_lines[[i]] <- as.matrix(df_lines[[i]])
+}
+
+map_center <- c(8.6070, 58.3494)
+
+```
+
+### Toporaster
+```{r}
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+         height = 600, width = 600,
+         layer = "no.norgedigitalt:toporaster") %>%
+  add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
+              border_color = "black", fill = TRUE) %>%
+  add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  make_html("Figures/07_sediment_areas_01.html")
+
+```
+
+### N250
+```{r}
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+         height = 600, width = 600,
+         layer = "no.niva:N250") %>%
+  add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
+              border_color = "black", fill = TRUE) %>%
+  add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  make_html("Figures/07_sediment_areas_02.html")
+
+```
+
+### Aerial photo  
+```{r}
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+         height = 600, width = 600,
+         layer = "no.norgedigitalt:flyfoto") %>%
+  add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
+              border_color = "black", fill = TRUE) %>%
+  add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  make_html("Figures/07_sediment_areas_03.html")
+```
+
+### Bathymetry  
+```{r}
+
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+         height = 600, width = 600,
+         layer = "no.niva:Marin") %>%
+  add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
+              border_color = "black", fill = TRUE) %>%
+  add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  make_html("Figures/07_sediment_areas_04.html")
+
+#
+# Map layers that work:
+#
+# no.norgedigitalt:toporaster
+# no.norgedigitalt:flyfoto
+# no.norgedigitalt:N5000 (for larger areas / small zoom numbers)
+# no.norgedigitalt:EuroFoto (for larger areas / for small zoom numbers)
+# no.niva:N250 (a bit slow)
+# no.niva:Marin (a bit slow)
+
+
+```
+
+
+### Bathymetry with sample positions    
+```{r}
+
+df_samples <- dat[,c("Lat","Long")] %>% as.matrix()
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+         height = 1100, width = 1100,
+         layer = "no.niva:Marin") %>%
+  add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
+              border_color = "black", fill = TRUE) %>%
+  add_points(df_samples, radius = 5, color = "#ffad4f", border = TRUE) %>%
+  add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  make_html("Figures/07_sediment_areas_04.html")
+
+# Areas3 + 3b: height = 1100, width = 1100, radius = 3
+# Areas3c: height = 1100, width = 1100, radius = 5
+
+#
+# Map layers that work:
+#
+# no.norgedigitalt:toporaster
+# no.norgedigitalt:flyfoto
+# no.norgedigitalt:N5000 (for larger areas / small zoom numbers)
+# no.norgedigitalt:EuroFoto (for larger areas / for small zoom numbers)
+# no.niva:N250 (a bit slow)
+# no.niva:Marin (a bit slow)
+
+
+```
+
+
+
+## 4. Plot TNT levels spatially    
+Check how they fit, redefine areas (section 2) if necessary  
+
+### All years, all data  
+```{r}
+
+# RColorBrewer::display.brewer.all()
+
+dat %>%
+  ggplot(aes(Long, Lat)) +
+  geom_point(aes(color = TBT)) +
+  scale_color_distiller(palette = "Spectral") +
+  facet_wrap(vars(Year)) +
+  geom_path(data = df_line1 %>% mutate(Long = Long - 0.00)) +
+  geom_path(data = df_line2) +
+  geom_path(data = df_line3)
+
+
+```
+
+### All years, areas 1-5 (not 6)  
+```{r}
+
+# RColorBrewer::display.brewer.all()
+
+dat %>%
+  filter(Lat > lat4) %>%
+  ggplot(aes(Long, Lat)) +
+  geom_point(aes(color = TBT)) +
+  scale_color_distiller(palette = "Spectral") +
+  facet_wrap(vars(Year)) +
+  geom_path(data = df_line1 %>% mutate(Long = Long - 0.00)) +
+  geom_path(data = df_line2) +
+  geom_path(data = df_line3)
+
+
+```
+### 2004  
+```{r}
+
+# RColorBrewer::display.brewer.all()
+
+dat %>%
+  filter(Lat > 58.335 & Year %in% c(2004,2008)) %>%
+  ggplot(aes(Long, Lat)) +
+  geom_point(aes(color = TBT)) +
+  scale_color_distiller(palette = "Spectral") +
+  facet_wrap(vars(Year), nrow = 1) +
+  geom_path(data = df_line1 %>% mutate(Long = Long - 0.00)) +
+  geom_path(data = df_line2) +
+  geom_path(data = df_line3)
+
+```
+
+## 5. Define Area column in data set  
+- Based on the lines defined in section 3, first chink
+- Data 'dat2'  
+```{r}
+
+# Function for finding whther a point is north of a line
+# Returnes TRUE/FALSE
+point_north_of_line <- function(long, lat, line){
+  prop_x <- (long - line$Long[1])/diff(line$Long)
+  slope <- diff(line$Lat)/diff(line$Long)
+  y_on_line <- line$Lat[1] + slope*prop_x*diff(line$Long)
+  lat > y_on_line
+}
+# TEst
+ i <- 24
+ point_north_of_line(dat$Long[i], dat$Lat[i], df_line3)
+ i <- 33
+ point_north_of_line(dat$Long[i], dat$Lat[i], df_line3)
+
+
+# Define areas west/north of 'df_line1'  
+# Mathematically we use 'point_north_of_line' to find it
+dat$West_of_line <- 1:nrow(dat) %>% purrr::map_lgl(~point_north_of_line(dat$Long[.], dat$Lat[.], df_line1))
+
+dat2 <- dat %>%
+  mutate(
+    Area = case_when(
+      Lat > lat2 & West_of_line ~ 1,
+      Lat > lat2 & !West_of_line ~ 2,
+      Lat > lat3 & West_of_line ~ 3,
+      Lat > lat3 & !West_of_line ~ 4,
+      Lat > lat4 ~ 5,
+      Lat <= lat4 ~ 6),
+    LOQ = case_when(
+      is.na(Flag) ~ "Over LOQ",
+      !is.na(Flag) ~ "Under LOQ")
+  )
+
+
+xtabs(~Area + Year, dat2)
+
+# PLots for checking that areas work  
+if (FALSE){
+  gg <- dat2 %>%
+    ggplot(aes(Long, Lat)) +
+    geom_point(aes(color = factor(Area))) +
+    facet_wrap(vars(Year)) +
+    geom_path(data = df_line1 %>% mutate(Long = Long - 0.00)) +
+    geom_path(data = df_line2) +
+    geom_path(data = df_line3)
+  
+  gg
+  gg + coord_cartesian(ylim = c(58.35,58.37))
+  
+}
+
+
+```
+
+## 6. Plot TBT  
+
+### Version 1  
+```{r}
+
+gg <- dat2 %>%
+  ggplot(aes(Year, TBT)) +
+  geom_point(aes(shape = LOQ)) +
+  scale_shape_manual(values = c(19, 6))
+
+gg + 
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(vars(Area))
+gg + 
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(vars(Area), scales = "free_y")
+gg + scale_y_log10() +
+  geom_smooth(method = "lm") +
+  facet_wrap(vars(Area))
+
+
+```
+
+### Version 2    
+```{r}
+
+
+gg <- dat2 %>%
+  mutate(Area = factor(Area)) %>%
+  ggplot(aes(Year, TBT, group = Area, color = Area)) +
+  scale_color_manual(values = RColorBrewer::brewer.pal(5, "Set1")) + 
+  geom_smooth(method = "lm") +
+  scale_y_log10() +
+  labs(y = "TBT (μg/kg w.w.)", x = "")
+
+ggsave("Figures/07_tbt_vs_year.png", gg, 
+         width = 4, height = 2.7, dpi = 500)
+
+gg
+
+
+```
+
+## 7. Statistics  
+### Regression table (for each area)  
+```{r}
+  
+dat2 %>%
+  split(.$Area) %>% 
+  purrr::map(~lm(log(TBT) ~ Year, data = .), .id = "Area") %>%
+  huxtable::huxreg()
+
+```
+
+### ANCOVA regression  
+```{r}
+
+m1 <- lm(log(TBT) ~ Year*factor(Area), data = dat2)
+m2 <- lm(log(TBT) ~ Year + factor(Area), data = dat2)
+m3 <- lm(log(TBT) ~ Year, data = dat2)
+summary(m2)
+anova(m1, m2, m3)
+
+# Change per year, log-scale
+slope <- summary(m2)$coef["Year", "Estimate"] 
+slope_lo <- slope - 2*summary(m2)$coef["Year", "Std. Error"] 
+slope_hi <- slope + 2*summary(m2)$coef["Year", "Std. Error"] 
+# Change per year, translated to percent on the ordinary scale
+perc_mid <- 100*(1 - exp(slope)) %>% round(3)
+perc_lo <- 100*(1 - exp(slope_lo)) %>% round(3)
+perc_hi <- 100*(1 - exp(slope_hi)) %>% round(3)
+cat("Change per year: ", perc_mid, " % (C.I. ", perc_hi, " - ", perc_lo, "%)", sep = "")
+
+
+
+
+```
+
+
+### Logistic regression   
+Same function as used in sript 06  
+
+#### Plots type 'base plot'  
+```{r}
+
+source("06_Tables_graphs_functions.R")
+
+plot_TBT_allareas <- function(data, ylim = NULL, add_pvalue = FALSE){
+  
+  par(mfrow = c(2,3), mar = c(4,5,2,1))
+  for (area in 1:5){
+    # area <- 1
+    df <- data %>% filter(Area %in% area & !is.na(TBT))
+    
+    df_pred <- pred_logistic(df$Year, df$TBT, x_range = range(df$Year), a = 0.05)
+    
+    plot(TBT ~ Year, data = df, type = "n", xlab = "", ylab = "", 
+         xlim = c(1994, 2016), ylim = ylim)
+    with(df_pred$fit, polygon.lines(x, Pred_lo, Pred_hi, border = FALSE))
+    with(df_pred$fit, lines(x, Pred))
+    with(df, points(Year, TBT, pch = 19))
+    mtext(paste("Area", area), line = 0.5)
+
+    if (add_pvalue){
+      pvalue <- summary(df_pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue_txt()
+      text(1995, 90000, pvalue, adj = 0)
+    } 
+    
+  }
+  
+}
+
+# Different y scales
+plot_TBT_allareas(dat2)
+
+# Common y scale  
+plot_TBT_allareas(dat2, ylim = c(0, max(dat2$TBT, na.rm = TRUE)), add_pvalue = TRUE)
+# plot_TBT_allareas(dat2, ylim = c(0, max(dat2$TBT, na.rm = TRUE)), add_pvalue = FALSE)
+
+```
+#### In same format as rest - data for plotting
+```{r}
+
+get_TBT_pred <- function(area, data){
+  
+  par(mfrow = c(2,3), mar = c(4,5,2,1))
+    # area <- 1
+    df <- data %>% filter(Area %in% area & !is.na(TBT))
+    
+    df_pred <- pred_logistic(df$Year, df$TBT, x_range = range(df$Year), a = 0.05)
+    
+    p_value <- summary(df_pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue_txt()
+    
+    list(df_pred$fit, p_value)
+
+}
+
+# Test
+# get_TBT_pred(1, dat2) %>% str(1)
+
+# All areas
+areas <- as.character(1:5)
+
+result <- areas %>% map(get_TBT_pred, data = dat2) %>% set_names(areas)
+result_t <- transpose(result)
+
+# str(result_t)
+
+df_pred <- result_t[[1]] %>% bind_rows(.id = "Area")
+df_pvalue <- data.frame(
+  Area = areas,
+  Text = result_t[[2]] %>% unlist()
+)
+
+
+```
+
+#### In same format as rest - plot   
+
+* Fig. 6B  
+
+```{r}
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = dat2 %>% filter(Area < 6), aes(Year, TBT)) +
+  geom_text(data = df_pvalue, aes(x = 1995, y = Inf, label = Text), 
+            hjust = 0, vjust = 1, size = 3) +
+  facet_wrap(vars(Area), labeller = "label_both") +
+  labs(y = "TBT in sediment (μg/kg TS)")
+
+if (save_plots){
+  ggsave("Figures/07_tbt_vs_year_logistic_1.png", 
+         gg,
+         width = 8, height = 5, dpi = 500)
+  ggsave("Figures/07_tbt_vs_year_logistic_2.png", 
+         gg + scale_y_log10(),
+         width = 8, height = 5, dpi = 500)
+}
+
+gg
+
+gg + scale_y_log10()
+
+```
+
+### Plot percent sterile at all stations
+```{r}
+# Run all stations (as above)
+sts <- dat2 %>% filter(!is.na(TBT)) %>% pull(Area) %>% unique()
+debugonce(pred_logistic_from_stationname)
+pred_logistic_from_stationname(
+  1, variable = "TBT", data = dat2 %>% mutate(Station = as.character(Area)))
+
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "TBT", data = dat2)
+names(df_pred_list) <- sts
+
+# Check p-values
+transpose(df_pred_list)$pvalue %>% bind_rows()
+
+# Run 4 using linear regression
+df_pred_list[["4"]] <- pred_linear_from_stationname("4", "Sterile_perc")
+
+# Collect data for plotting 
+df_pred <- bind_rows(transpose(df_pred_list)$fit)
+df_pvalue <- bind_rows(transpose(df_pred_list)$pvalue)
+df <- dat_intersex_litt_summ %>% filter(!is.na(Sterile_perc))
+
+# Plot
+gg <- ggplot() + 
+  geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+  geom_path(data = df_pred, aes(x, y = Pred)) +
+  geom_point(data = df, aes(Year, Sterile_perc)) +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station_name)) +
+  labs(title = "Percent of sterile females", x = "Year", y = "Percent sterile")
+if (save_plots)
+  ggsave("Figures/06_Timeseries_Litt_sterile.png", gg,
+         width = 8, height = 5, dpi = 500)
+gg
+
+```
