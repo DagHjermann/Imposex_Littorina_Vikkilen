@@ -102,17 +102,32 @@ round_pvalue <- function(pvalue){
   )
 }
 
+round_pvalue_txt <- function(pvalue){
+  case_when(pvalue < 0.001 ~ "P < 0.001",
+            pvalue < 0.10 ~ sprintf("P = %.3f", pvalue),
+            pvalue >= 0.05 ~ sprintf("P = %.2f", pvalue)
+  )
+}
+ # round_pvalue_txt(0.00001)
+ # round_pvalue_txt(0.0002)
+ # round_pvalue_txt(0.001523)
+ # round_pvalue_txt(0.01523)
+ # round_pvalue_txt(0.071223)
+ # round_pvalue_txt(0.1523)
+
 #
-# st_names
+# st_names - now we use the definitions given in main script 06
 #
 
-st_names <- data.frame(
-  Station = c("1", "4", "5", "5b", "6", "7"),
-  Station_name = c("St. 1 Håøya, Outer fjord", "St. 4 Hasseldalen", "St. 5 Skjeviga", 
-                   "St. 5B Båtstø", "St. 6 Shipyard", "St. 7 Inner Vikkilen"),
-  stringsAsFactors = FALSE
-)
-st_names$Station_name = factor(st_names$Station_name, levels = st_names$Station_name)
+# NEW (after combining st. 5 and 5b)
+# st_names <- data.frame(
+#   Station = c("71G", "1", "4", "5", "6", "7"),
+#   Station_name = c("Reference station 1 (100 km)", "Reference station 2 (5.5 km)", "Outer Vikkilen (2.5 km)", 
+#                    "Skjeviga (0.1 km)", 
+#                    "Shipyard (0 km)", "Inner Vikkilen (0.5 km)"),
+#   stringsAsFactors = FALSE
+# ) %>%
+#   mutate(Station_name = fct_inorder(Station_name))  # set as factor, for correct order
 
 #
 # Function for getting predicted values for a given station 'st' 
@@ -143,8 +158,8 @@ pred_logistic_from_data <- function(data, variable){
   # Add Station to the data frame
   pred$fit <- pred$fit %>% mutate(Station = st)
   # Also make a dataframe with P-value text
-  pvalue <- summary(pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue()
-  pvalue <- data.frame(Text = ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue)), 
+  pvalue <- summary(pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue_txt()
+  pvalue <- data.frame(Text = pvalue,   # ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue))
                        stringsAsFactors = FALSE)
   list(fit = pred$fit, pvalue = pvalue)
 }
