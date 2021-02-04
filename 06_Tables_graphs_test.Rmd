@@ -122,7 +122,7 @@ library(openxlsx)
 ## 0b. Settings
 ```{r}
 
-# save_plots <- TRUE
+save_plots <- TRUE
 save_plots <- FALSE
 
 ```
@@ -183,6 +183,12 @@ st_names <- data.frame(
     Station_name = fct_inorder(Station_name),  # set as factor, for correct order
     Station_name2 = fct_inorder(Station_name2)
   )
+
+# Reverse direction
+st_names$Station_name <- factor(st_names$Station_name, 
+                                levels = rev(levels(st_names$Station_name)))
+st_names$Station_name2 <- factor(st_names$Station_name2, 
+                                levels = rev(levels(st_names$Station_name2)))
 
 names(station_cols) <- st_names$Station_name
 
