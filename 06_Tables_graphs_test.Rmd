@@ -237,8 +237,8 @@ dat_tbt_mean <- dat_tbt %>%
     Station != "5b" ~ Station
   )) %>% # View()
   group_by(Species, Station, Year) %>%
-  summarise(TBT_mean = mean(TBT, na.rm = TRUE), TBT_flag = mean(TBT_flag %in% "<")) %>%
-  ungroup()
+  summarise(TBT_mean = mean(TBT, na.rm = TRUE), TBT_flag = mean(TBT_flag %in% "<"),
+            .groups = "drop")
 
 cat("TBT in Littorina, raw data \n")
 dat_tbt %>% 
@@ -328,6 +328,7 @@ dat_intersex_litt_summ
 ```{r}
 dat_intersex_litt_summ <- dat_intersex_litt %>%
   ungroup() %>%
+  filter(Sex %in% "f") %>%
   mutate(Station = case_when(
     Station %in% "5b" ~ "5",
     Station != "5b" ~ Station),
@@ -338,11 +339,12 @@ dat_intersex_litt_summ <- dat_intersex_litt %>%
       is.na(ISI) ~ 0,
       !is.na(ISI) ~ ISI)
     ) %>% # View()
-  group_by(Station, Year, Sex) %>%
+  group_by(Station, Year) %>%
   summarize(ISI_mean = mean(ISI, na.rm = FALSE),
             N_ISI = sum(!is.na(ISI)),
             Sterile_perc = mean((ISI >= 2)*100, na.rm = TRUE),
             PRL_mean = mean(PRL, na.rm = FALSE),
+            .groups = "drop"
             ) %>%
   ungroup()
 
@@ -353,9 +355,8 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
   left_join(dat_tbt_mean_snails %>% 
               filter(Species %in% "Littorina") %>%
               ungroup() %>%
-              mutate(Sex = "f") %>%    # to avoid that data are duplicated 
-              select(Station, Year, Sex, TBT_mean, TBT_flag), 
-            by = c("Station", "Year", "Sex")
+              select(Station, Year, TBT_mean, TBT_flag), 
+            by = c("Station", "Year")
             )
 
 nrow(dat_intersex_litt_summ)
@@ -908,8 +909,13 @@ gg
 ### Data for plotting ISI     
 Just copy-paste from above  
 ```{r}
+
 sts <- unique(dat_intersex_litt_summ$Station)
-df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
+# df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean",
+                               data = dat_intersex_litt_summ)
+# table(dat_intersex_litt_summ$Station)
+# sts
 names(df_pred_list) <- sts
 # df_pred_list[["5b"]]
 
@@ -923,7 +929,7 @@ if (FALSE){
   ggplot() + 
     geom_ribbon(data = df_pred_isi, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
     geom_path(data = df_pred_isi, aes(x, y = Pred)) +
-    geom_point(data = df_isi, aes(Year, ISI_mean)) +
+    geom_point(data = df_points_isi, aes(Year, ISI_mean)) +
     geom_text(data = df_pvalue_isi, aes(x = 2018, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.2, hjust = 1) +
     facet_wrap(vars(Station_name))
