@@ -105,7 +105,6 @@ Se mail, mappe 'Oppdatering sept2020' og notater i 'Manuscript intersex-versjon3
 
 
 
-
 ## 0. Libraries
 ```{r}
 library(dplyr)
@@ -122,7 +121,7 @@ library(openxlsx)
 ## 0b. Settings
 ```{r}
 
-save_plots <- TRUE
+# save_plots <- TRUE
 save_plots <- FALSE
 
 ```
@@ -209,6 +208,8 @@ st_names_mytilus <- tibble::tribble(
     Station_name = fct_inorder(Station_name),  # set as factor, for correct order
     Station_name2 = fct_inorder(Station_name2)
   )
+
+names(station_cols) <- st_names$Station_name
 
 ```
 
@@ -492,6 +493,7 @@ gg2
 ### PRL_mean vs. TBT
 
 ```{r, fig.height =4, fig.width =6}
+
 gg <- ggplot(dat_intersex_litt_summ, aes(TBT_mean, PRL_mean)) +
   geom_smooth(method = "lm") +
   labs(x = "TBT (μg/kg w.w.)", y = "FPrL")
@@ -633,6 +635,14 @@ close(con)
 cat("\n")
 print_correlations()
 
+cat("=================================\nCorrelation TBT_mean, ISI_mean \n\n")
+with(dat_intersex_litt_summ, cor.test(TBT_mean, ISI_mean, method = "kendall"))
+
+cat("=================================\nCorrelation TBT_mean, PRL_mean \n\n")
+with(dat_intersex_litt_summ, cor.test(TBT_mean, PRL_mean, method = "kendall"))
+
+cat("=================================\nCorrelation PRL_mean, ISI_mean \n\n")
+with(dat_intersex_litt_summ, cor.test(PRL_mean, ISI_mean, method = "kendall"))
 
 ```
 
@@ -642,7 +652,7 @@ print_correlations()
 with(dat_intersex_litt_summ, cor.test(TBT_mean, Year, method = "kendall"))
 
 # ANCOVA TBT_mean vs. time, adjusted for station 
-mod <- lm(log(TBT_mean) ~ Year + Station, data = dat_intersex_litt_summ)
+mod <- lm(log(TBT_meaøn) ~ Year + Station, data = dat_intersex_litt_summ)
 summary(mod)
 visreg::visreg(mod)
 
@@ -966,6 +976,7 @@ df_points_tbt <- dat_intersex_litt_summ %>% filter(!is.na(TBT_mean))
 
 # Test plot
 if (FALSE) {
+
   gg <- ggplot() + 
     geom_ribbon(data = df_pred_tbt, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
     geom_path(data = df_pred_tbt, aes(x, y = Pred)) +
@@ -975,7 +986,7 @@ if (FALSE) {
     facet_wrap(vars(Station_name)) +
     labs(title = "TBT", x = "Year", y = "TBT concentration")
   gg
-  
+
 }
 
 ```
@@ -1075,6 +1086,7 @@ gg <- ggplot() +
               vjust = 3.0, hjust = 1, size = 3.4) +
   # Vertical dashed line 
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
+  geom_text(data = df_km, aes(x = 2016, y = Inf, label = Km), vjust = 1.2) +
   facet_wrap(vars(Station_name)) +
   labs(title = "ISI and TBT", x = "Year") + 
   theme_bw() +
@@ -1228,8 +1240,6 @@ dat_tbt_mean_comb <- dat_tbt_mean_comb %>%
              Species %in% "Littorina" ~ "L. littorea",
              Species %in% "Nassarius" ~ "N. reticulatus",
              Species %in% "Nucella" ~ "N. lapillus",
-             Species %in% "Mytilus" ~ "M. edulis",
-             Species %in% "Sediment" ~ "Sediment"
            ),
          Species2 = factor(Species2, 
                            levels = c("L. littorea", "N. reticulatus", 
@@ -1301,11 +1311,10 @@ gg <- ggplot() +
   geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
   geom_path(data = df_pred, aes(x, y = Pred)) +
   geom_point(data = df, aes(Year, TBT_mean, fill = Species2), size = 2, pch = 21) +
-  scale_fill_discrete("") +
-  geom_text(data = df_pvalue, aes(x = 2018, y = Inf, label = Text), 
-            vjust = 1.2, hjust = 1, size = 3.4) +
-  facet_wrap(vars(Station_name2)) +
-  labs(x = "Year", y = "TBT concentration")
+  scale_fill_discrete("Species") +
+  geom_text(data = df_pvalue, aes(x = 2016, y = Inf, label = Text), vjust = 1.2) +
+  facet_wrap(vars(Station_name)) +
+  labs(title = "TBT", x = "Year", y = "TBT concentration")
 
 if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_2.png", 
@@ -1468,6 +1477,60 @@ gg
 
 ```
 
+### Plot blue mussel TBT at all stations
+```{r, fig.height = 5, fig.width=7.5}
+# Run all stations (as above)
+gg <- dat_tbt_mean %>%
+  filter(Species %in% "Mytilus") %>%
+  filter(Station %in% c("1", "2", "3", "4", "5", "6")) %>%
+  filter(!is.na(TBT_mean)) %>%
+  ggplot(aes(Year, TBT_mean)) +
+    geom_point(aes(color = Species)) + 
+    geom_smooth(method = "lm", se = FALSE) +
+    facet_wrap(vars(Station))
+
+gg
+gg + scale_y_log10()
+
+if (save_plots)
+  ggsave("Figures/06_Timeseries_TBT_bluemussel_log.png", gg + scale_y_log10())
+gg
+
+```
+
+
+
+### Plot TBT in blue mussel vs. TBT in Littorina  
+```{r, fig.height = 5, fig.width=7.5}
+# Run all stations (as above)
+df <- dat_tbt_mean %>%
+  filter(Species %in% c("Littorina", "Mytilus")) %>%
+  filter(Station %in% c("1", "4", "5", "6")) %>%
+  filter(!is.na(TBT_mean)) %>%
+  select(Species2, Station_name, Year, TBT_mean) %>%
+  # count(Species2, Station_name, Year) %>% filter(n > 1)    # for checking dublettes
+  tidyr::pivot_wider(names_from = Species2, values_from = TBT_mean) %>%
+  filter(!is.na(`M. edulis`) & !is.na(`L. littorea`))
+nrow(df)
+
+gg <- ggplot(df, aes(`L. littorea`, `M. edulis`)) +
+    geom_point(aes(fill = Station_name), size = 2, pch = 21) +
+  scale_fill_manual(values = station_cols) +
+    geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "TBT in L. littorea (μg/kg w.w.)", 
+       y = "TBT in M. edulis (μg/kg w.w.)")
+
+if (save_plots)
+  ggsave("Figures/06_Correlations_TBT_bluemussel_vs_Littorina.png", gg,
+         width = 7, height = 5, dpi = 500)
+
+cat("=================================\nCorrelation of TBT values \n\n")
+with(df, cor.test(`L. littorea`, `M. edulis`, method = "kendall"))
+
+gg
+
+
+```
 
 
 
