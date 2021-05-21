@@ -6,8 +6,12 @@ output: html_document
 ---
 
 Figures in MS:
-* 6A (map) edited based on map from 3b - "bathymetry with sample positions"
-* 6B (graph) 7 (statistics) - "In same format as rest"  
+* 7A (graph)   
+    - Section 6 PLot TBT - "In same format as rest"   
+    - '07_tbt_vs_year_FIG7A.png'  
+* 7B (map) edited based on map from 3b - "bathymetry with sample positions"   
+    - Section 3b "Bathymetry with samples I", creates 'Areas3c.jpg'    
+    - Areas3c_edit2 (Areas3c, but manually edited in Paint)
 
 ```{r setup}
 
@@ -76,7 +80,7 @@ dat <- dat %>%
 
 ```
 
-### Overlapping data deom script 05?  
+### Overlapping data from script 05?  
 ```{r}
 
 dat_script05 <- readRDS(file = "Data/05_TBT.RData")
@@ -180,6 +184,13 @@ colnames(coord_wharf)[1:2] <- c("Y", "X")
 
 ## 3a. Leaflet maps  
 
+### Map center  
+```{r}
+
+map_center <- c(8.6070, 58.3494)
+
+```
+
 
 ### Markers with colors for each year  
 ```{r}
@@ -268,8 +279,6 @@ for (i in 1:4){
   df_lines[[i]] <- as.matrix(df_lines[[i]])
 }
 
-map_center <- c(8.6070, 58.3494)
-
 ```
 
 ### Toporaster
@@ -316,19 +325,29 @@ make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
   make_html("Figures/07_sediment_areas_03.html")
 ```
 
-### Bathymetry  
+
+### Bathymetry with samples I    
+
+* Fig. 6B    
+* The map used is Areas3c_edit2 (Areas3c, but manually edited in Paint)
+
 ```{r}
 
+df_samples <- dat[,c("Lat","Long")] %>% as.matrix()
 make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
-         height = 600, width = 600,
+         height = 1100, width = 1100,
          layer = "no.niva:Marin") %>%
   add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
               border_color = "black", fill = TRUE) %>%
+  add_points(df_samples, radius = 5, color = "#ffad4f", border = TRUE) %>%
   add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
   add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
   add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
   add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
   make_html("Figures/07_sediment_areas_04.html")
+
+# Areas3 + 3b: height = 1100, width = 1100, radius = 3
+# Areas3c: height = 1100, width = 1100, radius = 5
 
 #
 # Map layers that work:
@@ -344,11 +363,29 @@ make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
 ```
 
 
-### Bathymetry with sample positions    
+### Bathymetry with samples II      
+
+* Could also be used for fig. 6A map?  
+* Note that position of letters depends a lot on zoom level (because they are only labels)    
+
 ```{r}
 
+coor_letters <- matrix(c(
+58.3620894,
+8.6126317,
+58.3626,
+8.6172068,
+58.3600,
+8.61200,
+58.3600,
+8.6159,
+58.3570,
+8.60879), ncol = 2, byrow = TRUE)
+
+lettersize <- 25
+
 df_samples <- dat[,c("Lat","Long")] %>% as.matrix()
-make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 16,
          height = 1100, width = 1100,
          layer = "no.niva:Marin") %>%
   add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
@@ -358,7 +395,12 @@ make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
   add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
   add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
   add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
-  make_html("Figures/07_sediment_areas_04.html")
+  add_text(long = coor_letters[1,2], lat = coor_letters[1,1], label = "1", size = lettersize) %>%
+  add_text(long = coor_letters[2,2], lat = coor_letters[2,1], label = "2", size = lettersize) %>%
+  add_text(long = coor_letters[3,2], lat = coor_letters[3,1], label = "3", size = lettersize) %>%
+  add_text(long = coor_letters[4,2], lat = coor_letters[4,1], label = "4", size = lettersize) %>%
+  add_text(long = coor_letters[5,2], lat = coor_letters[5,1], label = "5", size = lettersize) %>%
+  make_html("Figures/07_sediment_areas_04b.html")
 
 # Areas3 + 3b: height = 1100, width = 1100, radius = 3
 # Areas3c: height = 1100, width = 1100, radius = 5
@@ -432,7 +474,7 @@ dat %>%
 
 ```
 
-## 5. Define Area column in data set  
+## 5. Define 'Area' column in data set  
 - Based on the lines defined in section 3, first chink
 - Data 'dat2'  
 ```{r}
@@ -524,9 +566,11 @@ gg <- dat2 %>%
   scale_color_manual(values = RColorBrewer::brewer.pal(5, "Set1")) + 
   geom_smooth(method = "lm") +
   scale_y_log10() +
-  labs(y = "TBT (μg/kg w.w.)", x = "")
+  labs(y = "TBT (μg/kg d.w.)", x = "") +
+  theme_bw() +
+  theme(panel.grid = element_blank())
 
-ggsave("Figures/07_tbt_vs_year.png", gg, 
+ggsave("Figures/07_tbt_vs_year_FIG7A.png", gg, 
          width = 4, height = 2.7, dpi = 500)
 
 gg

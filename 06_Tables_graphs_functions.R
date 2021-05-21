@@ -145,6 +145,10 @@ pred_logistic_from_stationname <- function(st, variable, data = dat_intersex_lit
   # Also make a dataframe with P-value text
   pvalue <- summary(pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue()
   pvalue <- data.frame(Station = st, 
+                       Text = case_when(
+                         pvalue < 0.0001 ~ "P < 0.0001", 
+                         pvalue < 0.001 ~ "P < 0.001", 
+                         TRUE ~ paste("P = ", pvalue)), 
                        Text = ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue)), 
                        stringsAsFactors = FALSE)
   pvalue <- pvalue %>% left_join(st_names, by = "Station")
