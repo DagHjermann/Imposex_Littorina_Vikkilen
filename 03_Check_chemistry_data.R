@@ -126,8 +126,9 @@ df_sample_points <- df_sample_points %>%
   left_join(df_sample_points_projects) %>%                # add PROJECT_NAME
   mutate(labeltext = ifelse(                              # add label text for plot
     !is.na(STATION_NAME),
-    paste0(STATION_NAME, " (StasjonsID = ", STATION_ID, "),  prosjekt: ", PROJECT_NAME),
-    NA))
+    paste0(STATION_NAME, " (StasjonsID = ", STATION_ID, "),  prosjekt: ", PROJECT_NAME, "<br>LON = ", LONGITUDE, "<br>LAT = ", LATITUDE),
+    paste0("No STATION_NAME (StasjonsID = ", STATION_ID, "),  prosjekt: ", PROJECT_NAME, "<br>LON = ", LONGITUDE, "<br>LAT = ", LATITUDE))
+  )
 
 openxlsx::write.xlsx(df_sample_points, "Data/03_Stasjoner_Vikkilen.xlsx")
 
@@ -144,7 +145,7 @@ df_sample_points %>%
 
 # Map 2 - markers with station names are coloured
 getColor <- function()                                          # Function 1
-  ifelse(is.na(df_sample_points$labeltext), "green", "blue") # "hard-coded" for data set
+  ifelse(is.na(df_sample_points$STATION_NAME), "green", "blue") # "hard-coded" for data set
 
 icons <- awesomeIcons(       # Function 2 is a "meta-function" 
   icon = 'ios-close',
@@ -153,9 +154,12 @@ icons <- awesomeIcons(       # Function 2 is a "meta-function"
   markerColor = getColor()   # Refer to function 1 here
 )
 
+library( htmltools )
+pointlabels <- lapply(df_sample_points$labeltext, HTML)
+
 leaf <- df_sample_points %>%
   leaflet() %>% addTiles() %>% 
-  addAwesomeMarkers(lng = ~LONGITUDE, lat = ~LATITUDE, icon = icons, label = ~labeltext)
+  addAwesomeMarkers(lng = ~LONGITUDE, lat = ~LATITUDE, icon = icons, label = pointlabels)
 leaf
 
 # Save
