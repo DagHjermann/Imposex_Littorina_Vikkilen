@@ -128,8 +128,14 @@ Changes done before this version (may still be some wrong numbers used):
 
 Jeg vil gjerne sette inn %I i Tabell 1. Har du disse tallene et sted slik at jeg kan sette dem inn i? Jeg kunne også tenkt meg å sjekke at verdiene i gult samsvarer med de som du har brukt. Jeg kan sjekke dette selv hvis du sender meg stien til dataene dine.  
 
+#### Modification 6 (June 2021, asked for in mail 31.05.2021)  
 
-
+* Added intersex data for 2021  
+    - Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
+    - Data from four stations collected, Intersex = 0 for all
+    - Collection dates: st. 4 and 7 5.5.2021, st 1 Håøya and st. 6 Nymo collected 16.5.2021   
+    - Data added to summary data in part 3.c2
+    - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
 
 ## 0. Libraries
 ```{r}
@@ -152,6 +158,13 @@ source("06_Tables_graphs_functions.R")
 
 save_plots <- TRUE
 save_plots <- FALSE
+
+# Back up table (if needed)
+if (FALSE){
+  
+  file.copy("Figures/06_Littorina_tables.xlsx", "Figures/06_Littorina_tables_back_2021-06-21.xlsx")
+  
+}
 
 ```
 
@@ -203,9 +216,9 @@ st_names <- data.frame(
 st_names <- data.frame(
   Station = c("71G", "1", "4", 
               "5", "6", "7"),
-  Station_name = c("Reference station\nLangesundsfjord (100 km)", "Håøya (5.5 km)", "Outer Vikkilen (2.5 km)", 
+  Station_name = c("Reference station\nLangesundfjord (100 km)", "Håøya (5.5 km)", "Outer Vikkilen (2.5 km)", 
                    "Skjeviga (0.6 km)", "Shipyard (0 km)", "Inner Vikkilen (0.5 km)"),
-  Station_name2 = c("Reference station\nLangesundsfjord (100 km)", "Håøya (4-6 km)", "Outer Vikkilen (2 km)", 
+  Station_name2 = c("Reference station\nLangesundfjord (100 km)", "Håøya (4-6 km)", "Outer Vikkilen (2 km)", 
                     "Mid Vikkilen (0.8 km)", "Shipyard (0 km)", "Inner Vikkilen (0.5 km)"),
   stringsAsFactors = FALSE
   ) %>%
@@ -389,7 +402,7 @@ if (save_plots){
   ),
   "Output_excel/06_Mean_tbt.xlsx")
 
-    # wb <- openxlsx::createWorkbook("DHJ")
+  # wb <- openxlsx::createWorkbook("DHJ")
   # openxlsx::addWorksheet(wb, "Littorina TBT")
   # openxlsx::writeData(wb, sheet = 1, tab_tbt)
   # openxlsx::saveWorkbook(wb, "Figures/06_Littorina_tables.xlsx", overwrite = TRUE)
@@ -471,8 +484,50 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 
 ```
 
+### c2. Add 2021 data   
 
-### c2. Add station names  
+* Data only given in Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
+    - Data from four stations collected, Intersex = 0 for all  
+    - st. 7 'Vikkilen innerst' and st 4 (hasseldalen) collected 5.5.2021  
+    - st 1 Håøya and st. 6 Nymo collected 16.5.2021   
+    - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
+```{r}
+
+if (FALSE){
+  
+  dat_intersex_litt_summ %>%
+    filter(!is.na(ISI_mean)) %>%
+    xtabs(~Year + Station, .)  
+  
+  dat_intersex_litt_summ %>%
+    filter(Year == 2018)  
+}
+
+dat_extra <- data.frame(
+  Year = rep(2021, 4),
+  Station = c("1", "4", "6", "7"),
+  ISI_mean = rep(0, 4),
+  Sterile_perc = rep(0, 4),
+  I_perc = rep(0, 4),
+  PRL_mean = rep(0, 4)
+)  
+
+# Check if there already are 2021 data  
+check <- sum(dat_intersex_litt_summ$Year == 2021)
+check
+
+if (check == 0){
+  dat_intersex_litt_summ <- bind_rows(
+    dat_intersex_litt_summ,
+    dat_extra
+  )
+}
+
+
+```
+
+
+### c3. Add station names  
 ```{r}
 
 
@@ -486,12 +541,13 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 
 ```
 
-### c3. Save intersex data to excel
+### c4. Save intersex data to excel
 Add to existing 'wb' excel workbook  
 ```{r}
 
 if (save_plots){
   
+  # wb <- openxlsx::createWorkbook("DHJ")
   # openxlsx::addWorksheet(wb, "Littorina ISI raw")
   # openxlsx::writeData(wb, sheet = "Littorina ISI raw", dat_intersex_litt)
   # openxlsx::addWorksheet(wb, "Littorina ISI summ")
@@ -582,6 +638,8 @@ tab_tbt
 ```{r}
 
 if (save_plots){
+  
+  wb <- openxlsx::createWorkbook("DHJ")
   openxlsx::addWorksheet(wb, "Littorina ISI")
   openxlsx::writeData(wb, sheet = "Littorina ISI", tab_ISI)
   openxlsx::addWorksheet(wb, "Littorina sterile")
@@ -595,6 +653,9 @@ if (save_plots){
 
 
 ## 4. Littorina correlation figures   
+
+Using data 'dat_intersex_litt_summ' made in part 3 (finished in 3.c2)   
+* THe same data also used in parts 5, 6 and 7     
 
 Figures:  
 * Fig. 5 '06_Correlations_combined_color_FIG5.png'  
@@ -683,7 +744,7 @@ gg2
 
 ```
 
-### Combined plot  
+### FIG.5 Combined plot  
 For paper (Fig. 5)
 ```{r, fig.height = 7, fig.width= 9}
 
@@ -978,7 +1039,7 @@ gg
 ```
 
 
-### Plot PRL at all stations  
+### FIG. 4 Plot PRL at all stations  
 
 * Fig. 4     
 
@@ -1197,7 +1258,7 @@ if (FALSE) {
 
 ```
 
-### Plot ISI + TBT, B/W  
+### FIG. 2 Plot ISI + TBT, B/W  
 
 * Fig. 2 in paper
 
@@ -1218,14 +1279,14 @@ a <- b*(ylim.prim[1] - ylim.sec[1])
 # df_pred_isi <- df_pred_isi %>%
 #   mutate(Station_name = fct_recode(
 #     Station_name,
-#     `Reference station\nLangesundsfjord (100 km)` = "Reference station Langesundsfjord (100 km)"
+#     `Reference station\nLangesundfjord (100 km)` = "Reference station Langesundfjord (100 km)"
 #   )
 #   )
 # 
 # df_pred_tbt <- df_pred_tbt %>%
 #   mutate(Station_name = fct_recode(
 #     Station_name,
-#     `Reference station\nLangesundsfjord (100 km)` = "Reference station Langesundsfjord (100 km)"
+#     `Reference station\nLangesundfjord (100 km)` = "Reference station Langesundfjord (100 km)"
 #   )
 #   )
 
@@ -1336,7 +1397,7 @@ gg
 
 ```
 
-### Plot ISI + VDSI, B/W  
+### FIG. 3 Plot ISI + VDSI, B/W  
 
 * Fig. 3 in paper
 
@@ -1408,6 +1469,8 @@ gg
 
 
 ## 8. TBT - all species   
+
+* Data: 'dat_tbt_mean_snails' made in part 1 (finished in 1b) 
   
 * Fig. 6 (was fig. 4)   
     - 06_Timeseries_allsp_TBT_2_log.png   
@@ -1633,7 +1696,7 @@ gg + scale_y_log10(limits = c(0.3, 1100))
 
 ```
 
-#### Plot biota TBT, littorea + reticulatus, logistic
+#### FIG. 6 Plot biota TBT, littorea + reticulatus, logistic
 
 * Fig. 6 in paper  
 

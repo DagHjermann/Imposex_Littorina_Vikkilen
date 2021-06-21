@@ -128,8 +128,14 @@ Changes done before this version (may still be some wrong numbers used):
 
 Jeg vil gjerne sette inn %I i Tabell 1. Har du disse tallene et sted slik at jeg kan sette dem inn i? Jeg kunne også tenkt meg å sjekke at verdiene i gult samsvarer med de som du har brukt. Jeg kan sjekke dette selv hvis du sender meg stien til dataene dine.  
 
+#### Modification 6 (June 2021, asked for in mail 31.05.2021)  
 
-
+* Added intersex data for 2021  
+    - Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
+    - Data from four stations collected, Intersex = 0 for all
+    - Collection dates: st. 4 and 7 5.5.2021, st 1 Håøya and st. 6 Nymo collected 16.5.2021   
+    - Data added to summary data in part 3.c2
+    - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
 
 ## 0. Libraries
 
@@ -195,7 +201,14 @@ source("06_Tables_graphs_functions.R")
 
 ```r
 save_plots <- TRUE
-save_plots <- FALSE
+# save_plots <- FALSE
+
+# Back up table (if needed)
+if (FALSE){
+  
+  file.copy("Figures/06_Littorina_tables.xlsx", "Figures/06_Littorina_tables_back_2021-06-21.xlsx")
+  
+}
 ```
 
 
@@ -247,9 +260,9 @@ st_names <- data.frame(
 st_names <- data.frame(
   Station = c("71G", "1", "4", 
               "5", "6", "7"),
-  Station_name = c("Reference station\nLangesundsfjord (100 km)", "Håøya (5.5 km)", "Outer Vikkilen (2.5 km)", 
+  Station_name = c("Reference station\nLangesundfjord (100 km)", "Håøya (5.5 km)", "Outer Vikkilen (2.5 km)", 
                    "Skjeviga (0.6 km)", "Shipyard (0 km)", "Inner Vikkilen (0.5 km)"),
-  Station_name2 = c("Reference station\nLangesundsfjord (100 km)", "Håøya (4-6 km)", "Outer Vikkilen (2 km)", 
+  Station_name2 = c("Reference station\nLangesundfjord (100 km)", "Håøya (4-6 km)", "Outer Vikkilen (2 km)", 
                     "Mid Vikkilen (0.8 km)", "Shipyard (0 km)", "Inner Vikkilen (0.5 km)"),
   stringsAsFactors = FALSE
   ) %>%
@@ -551,7 +564,7 @@ if (save_plots){
   ),
   "Output_excel/06_Mean_tbt.xlsx")
 
-    # wb <- openxlsx::createWorkbook("DHJ")
+  # wb <- openxlsx::createWorkbook("DHJ")
   # openxlsx::addWorksheet(wb, "Littorina TBT")
   # openxlsx::writeData(wb, sheet = 1, tab_tbt)
   # openxlsx::saveWorkbook(wb, "Figures/06_Littorina_tables.xlsx", overwrite = TRUE)
@@ -667,8 +680,54 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
   bind_rows(dat_71G)
 ```
 
+### c2. Add 2021 data   
 
-### c2. Add station names  
+* Data only given in Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
+    - Data from four stations collected, Intersex = 0 for all  
+    - st. 7 'Vikkilen innerst' and st 4 (hasseldalen) collected 5.5.2021  
+    - st 1 Håøya and st. 6 Nymo collected 16.5.2021   
+    - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
+
+```r
+if (FALSE){
+  
+  dat_intersex_litt_summ %>%
+    filter(!is.na(ISI_mean)) %>%
+    xtabs(~Year + Station, .)  
+  
+  dat_intersex_litt_summ %>%
+    filter(Year == 2018)  
+}
+
+dat_extra <- data.frame(
+  Year = rep(2021, 4),
+  Station = c("1", "4", "6", "7"),
+  ISI_mean = rep(0, 4),
+  Sterile_perc = rep(0, 4),
+  I_perc = rep(0, 4),
+  PRL_mean = rep(0, 4)
+)  
+
+# Check if there already are 2021 data  
+check <- sum(dat_intersex_litt_summ$Year == 2021)
+check
+```
+
+```
+## [1] 0
+```
+
+```r
+if (check == 0){
+  dat_intersex_litt_summ <- bind_rows(
+    dat_intersex_litt_summ,
+    dat_extra
+  )
+}
+```
+
+
+### c3. Add station names  
 
 ```r
 dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
@@ -679,12 +738,13 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 # dat_intersex_litt_summ$Station
 ```
 
-### c3. Save intersex data to excel
+### c4. Save intersex data to excel
 Add to existing 'wb' excel workbook  
 
 ```r
 if (save_plots){
   
+  # wb <- openxlsx::createWorkbook("DHJ")
   # openxlsx::addWorksheet(wb, "Littorina ISI raw")
   # openxlsx::writeData(wb, sheet = "Littorina ISI raw", dat_intersex_litt)
   # openxlsx::addWorksheet(wb, "Littorina ISI summ")
@@ -796,20 +856,20 @@ dat_intersex_litt_summ %>%
 ```
 
 ```
-## # A tibble: 45 x 4
+## # A tibble: 49 x 4
 ##    Station  Year     f `<NA>`
 ##    <chr>   <dbl> <dbl>  <dbl>
 ##  1 1        2005    NA   0   
 ##  2 1        2011    NA   0   
 ##  3 1        2016    NA   0   
 ##  4 1        2018    NA   0   
-##  5 4        2005    NA   0.18
-##  6 4        2007    NA   0   
-##  7 4        2010    NA   0   
-##  8 4        2011    NA   0   
-##  9 4        2012    NA   0   
-## 10 4        2013    NA   0   
-## # ... with 35 more rows
+##  5 1        2021    NA   0   
+##  6 4        2005    NA   0.18
+##  7 4        2007    NA   0   
+##  8 4        2010    NA   0   
+##  9 4        2011    NA   0   
+## 10 4        2012    NA   0   
+## # ... with 39 more rows
 ```
 
 ```r
@@ -839,6 +899,8 @@ tab_tbt
 
 ```r
 if (save_plots){
+  
+  wb <- openxlsx::createWorkbook("DHJ")
   openxlsx::addWorksheet(wb, "Littorina ISI")
   openxlsx::writeData(wb, sheet = "Littorina ISI", tab_ISI)
   openxlsx::addWorksheet(wb, "Littorina sterile")
@@ -851,6 +913,9 @@ if (save_plots){
 
 
 ## 4. Littorina correlation figures   
+
+Using data 'dat_intersex_litt_summ' made in part 3 (finished in 3.c2)   
+* THe same data also used in parts 5, 6 and 7     
 
 Figures:  
 * Fig. 5 '06_Correlations_combined_color_FIG5.png'  
@@ -877,6 +942,31 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
+```
+
+```
+## Warning: Removed 19 rows containing missing values (geom_point).
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 19 rows containing missing values (geom_point).
+```
+
+```r
 gg1
 ```
 
@@ -885,14 +975,12 @@ gg1
 ```
 
 ```
-## Warning: Removed 15 rows containing non-finite values (stat_smooth).
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
-```
-## Warning: Removed 15 rows containing missing values (geom_point).
-```
-
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ```r
 gg2
@@ -903,12 +991,12 @@ gg2
 ```
 
 ```
-## Warning: Removed 15 rows containing non-finite values (stat_smooth).
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
 
-## Warning: Removed 15 rows containing missing values (geom_point).
+## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-18-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
 
 
 
@@ -933,6 +1021,31 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+```
+
+```
+## Warning: Removed 20 rows containing missing values (geom_point).
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 20 rows containing missing values (geom_point).
+```
+
+```r
 gg1
 ```
 
@@ -941,14 +1054,12 @@ gg1
 ```
 
 ```
-## Warning: Removed 16 rows containing non-finite values (stat_smooth).
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 20 rows containing missing values (geom_point).
 ```
 
-```
-## Warning: Removed 16 rows containing missing values (geom_point).
-```
-
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 ```r
 gg2
@@ -959,12 +1070,12 @@ gg2
 ```
 
 ```
-## Warning: Removed 16 rows containing non-finite values (stat_smooth).
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
 
-## Warning: Removed 16 rows containing missing values (geom_point).
+## Warning: Removed 20 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
 
 
 ### Sterile vs. ISI
@@ -988,7 +1099,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_Sterile_vs_ISI_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-gg1
 ```
 
 ```
@@ -1003,7 +1113,31 @@ gg1
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 5 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+```r
+gg1
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 5 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 ```r
 gg2
@@ -1019,9 +1153,9 @@ gg2
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-2.png)<!-- -->
 
-### Combined plot  
+### FIG.5 Combined plot  
 For paper (Fig. 5)
 
 ```r
@@ -1073,11 +1207,11 @@ legend <- cowplot::get_legend(gg_a_withlegend)
 ```
 
 ```
-## Warning: Removed 15 rows containing non-finite values (stat_smooth).
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
 ```
 
 ```
-## Warning: Removed 15 rows containing missing values (geom_point).
+## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
 ```r
@@ -1087,9 +1221,9 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 ```
 
 ```
-## Warning: Removed 15 rows containing non-finite values (stat_smooth).
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
 
-## Warning: Removed 15 rows containing missing values (geom_point).
+## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
 ```
@@ -1101,11 +1235,11 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 ```
 
 ```
-## Warning: Removed 16 rows containing non-finite values (stat_smooth).
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
 ```
 
 ```
-## Warning: Removed 16 rows containing missing values (geom_point).
+## Warning: Removed 20 rows containing missing values (geom_point).
 ```
 
 ```
@@ -1120,19 +1254,27 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 if (save_plots)
   ggsave("Figures/06_Correlations_combined_color_FIG5.png", gg_comb,
          width = 7.8, height = 5.8, dpi = 500)
+```
 
+```
+## Warning: Removed 1 rows containing missing values (geom_text).
+```
+
+```
+## Warning: Removed 1 rows containing missing values (geom_text).
+```
+
+```r
 gg_comb
 ```
 
 ```
 ## Warning: Removed 1 rows containing missing values (geom_text).
-```
 
-```
 ## Warning: Removed 1 rows containing missing values (geom_text).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 
 ### Correlations
@@ -1216,11 +1358,11 @@ print_correlations()
 ## 	Kendall's rank correlation tau
 ## 
 ## data:  PRL_mean and ISI_mean
-## z = 7.2438, p-value = 4.361e-13
+## z = 7.5036, p-value = 6.209e-14
 ## alternative hypothesis: true tau is not equal to 0
 ## sample estimates:
 ##       tau 
-## 0.9349278 
+## 0.9394094 
 ## 
 ## =================================
 ## Correlation Sterile_perc, ISI_mean
@@ -1236,11 +1378,11 @@ print_correlations()
 ## 	Kendall's rank correlation tau
 ## 
 ## data:  Sterile_perc and ISI_mean
-## z = 7.3546, p-value = 1.914e-13
+## z = 7.6045, p-value = 2.86e-14
 ## alternative hypothesis: true tau is not equal to 0
 ## sample estimates:
 ##       tau 
-## 0.9492288
+## 0.9520401
 ```
 
 ```r
@@ -1313,11 +1455,11 @@ print_correlations()
 ## 	Kendall's rank correlation tau
 ## 
 ## data:  PRL_mean and ISI_mean
-## z = 7.2438, p-value = 4.361e-13
+## z = 7.5036, p-value = 6.209e-14
 ## alternative hypothesis: true tau is not equal to 0
 ## sample estimates:
 ##       tau 
-## 0.9349278 
+## 0.9394094 
 ## 
 ## =================================
 ## Correlation Sterile_perc, ISI_mean
@@ -1333,11 +1475,11 @@ print_correlations()
 ## 	Kendall's rank correlation tau
 ## 
 ## data:  Sterile_perc and ISI_mean
-## z = 7.3546, p-value = 1.914e-13
+## z = 7.6045, p-value = 2.86e-14
 ## alternative hypothesis: true tau is not equal to 0
 ## sample estimates:
 ##       tau 
-## 0.9492288
+## 0.9520401
 ```
 
 ### TBT vs time, all stations   
@@ -1392,7 +1534,7 @@ summary(mod)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.7106 on 26 degrees of freedom
-##   (12 observations deleted due to missingness)
+##   (16 observations deleted due to missingness)
 ## Multiple R-squared:  0.8981,	Adjusted R-squared:  0.8746 
 ## F-statistic: 38.19 on 6 and 26 DF,  p-value: 1.098e-11
 ```
@@ -1401,7 +1543,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-1.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-1.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-2.png)<!-- -->
 
 ```r
 # As above, excluding the reference station
@@ -1431,7 +1573,7 @@ summary(mod)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.7103 on 24 degrees of freedom
-##   (11 observations deleted due to missingness)
+##   (14 observations deleted due to missingness)
 ## Multiple R-squared:  0.8879,	Adjusted R-squared:  0.8646 
 ## F-statistic: 38.03 on 5 and 24 DF,  p-value: 1.208e-10
 ```
@@ -1440,7 +1582,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-3.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-4.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-3.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-4.png)<!-- -->
 
 ```r
 # As above, excluding years before 2010
@@ -1471,7 +1613,7 @@ summary(mod)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4437 on 21 degrees of freedom
-##   (6 observations deleted due to missingness)
+##   (10 observations deleted due to missingness)
 ## Multiple R-squared:  0.9655,	Adjusted R-squared:  0.9557 
 ## F-statistic: 98.07 on 6 and 21 DF,  p-value: 2.956e-14
 ```
@@ -1480,7 +1622,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-5.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-6.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-5.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-6.png)<!-- -->
 
 ```r
 # Plot 
@@ -1496,14 +1638,14 @@ gg
 ```
 
 ```
-## Warning: Removed 12 rows containing non-finite values (stat_smooth).
+## Warning: Removed 16 rows containing non-finite values (stat_smooth).
 ```
 
 ```
-## Warning: Removed 12 rows containing missing values (geom_point).
+## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-7.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-7.png)<!-- -->
 
 ```r
 # ?visreg::visreg
@@ -1523,10 +1665,10 @@ ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
 ```
 
 ```
-## Warning: Removed 12 rows containing missing values (geom_point).
+## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 ###  ISI
 
@@ -1540,22 +1682,7 @@ ggplot(dat_intersex_litt_summ, aes(Year, ISI_mean)) +
 ## Warning: Removed 3 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
-
-### Mean PRL
-
-```r
-ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
-  geom_point() +
-  facet_wrap(vars(Station))
-```
-
-```
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
-
 
 ### Mean PRL
 
@@ -1570,6 +1697,21 @@ ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
 ```
 
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+
+
+### Mean PRL
+
+```r
+ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+```
+
+```
+## Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 ## 6. Littorina plots using logistic function   
 
@@ -1596,7 +1738,7 @@ with(df_pred$fit, lines(x, Pred))
 with(df, points(Year, TBT_mean, pch = 19)) 
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 
 ### Example for ISI 
@@ -1612,7 +1754,7 @@ with(df_pred$fit, lines(x, Pred))
 with(df, points(Year, ISI_mean, pch = 19)) 
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 ### ISI, ggplot variant
 
@@ -1624,7 +1766,7 @@ ggplot() +
   annotate("text", x = 2016, y = 1.3, label = paste("P =", round(pvalue, 4)))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 ### Plot two stations
 
@@ -1648,7 +1790,7 @@ ggplot() +
   facet_wrap(vars(Station))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 ### Plot ISI at all stations
 
@@ -1683,7 +1825,7 @@ ggplot() +
   facet_wrap(vars(Station_name))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 
 ### Plot percent sterile at all stations
@@ -1710,20 +1852,20 @@ transpose(df_pred_list)$pvalue %>% bind_rows()
 ```
 
 ```
-##   Station       Text     Text.1                                Station_name
-## 1       1    P =  NA       <NA>                              Håøya (5.5 km)
-## 2       4  P =  0.11  P =  0.11                     Outer Vikkilen (2.5 km)
-## 3       5 P =  0.019 P =  0.019                           Skjeviga (0.6 km)
-## 4       6 P < 0.0001 P < 0.0001                             Shipyard (0 km)
-## 5       7 P =  0.007 P =  0.007                     Inner Vikkilen (0.5 km)
-## 6     71G    P =  NA       <NA> Reference station\nLangesundsfjord (100 km)
-##                                 Station_name2
-## 1                              Håøya (4-6 km)
-## 2                       Outer Vikkilen (2 km)
-## 3                       Mid Vikkilen (0.8 km)
-## 4                             Shipyard (0 km)
-## 5                     Inner Vikkilen (0.5 km)
-## 6 Reference station\nLangesundsfjord (100 km)
+##   Station       Text     Text.1                               Station_name
+## 1       1  P =  0.09  P =  0.09                             Håøya (5.5 km)
+## 2       4  P =  0.12  P =  0.12                    Outer Vikkilen (2.5 km)
+## 3       5 P =  0.019 P =  0.019                          Skjeviga (0.6 km)
+## 4       6 P < 0.0001 P < 0.0001                            Shipyard (0 km)
+## 5       7 P =  0.011 P =  0.011                    Inner Vikkilen (0.5 km)
+## 6     71G    P =  NA       <NA> Reference station\nLangesundfjord (100 km)
+##                                Station_name2
+## 1                             Håøya (4-6 km)
+## 2                      Outer Vikkilen (2 km)
+## 3                      Mid Vikkilen (0.8 km)
+## 4                            Shipyard (0 km)
+## 5                    Inner Vikkilen (0.5 km)
+## 6 Reference station\nLangesundfjord (100 km)
 ```
 
 ```r
@@ -1749,10 +1891,10 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 
-### Plot PRL at all stations  
+### FIG. 4 Plot PRL at all stations  
 
 * Fig. 4     
 
@@ -1794,7 +1936,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 
 ### Plot TBT at all stations  
@@ -1835,7 +1977,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 ## 7. Combined figures for time series  
 * ISI + TBT
@@ -1904,20 +2046,20 @@ transpose(df_pred_list)$pvalue %>% bind_rows()
 ```
 
 ```
-##   Station      Text    Text.1                                Station_name
-## 1       1 P =  0.29 P =  0.29                              Håøya (5.5 km)
-## 2       4 P =  0.05 P =  0.05                     Outer Vikkilen (2.5 km)
-## 3       5  P =  0.6  P =  0.6                           Skjeviga (0.6 km)
-## 4       6  P =  0.9  P =  0.9                             Shipyard (0 km)
-## 5       7 P =  0.19 P =  0.19                     Inner Vikkilen (0.5 km)
-## 6     71G P =  0.97 P =  0.97 Reference station\nLangesundsfjord (100 km)
-##                                 Station_name2
-## 1                              Håøya (4-6 km)
-## 2                       Outer Vikkilen (2 km)
-## 3                       Mid Vikkilen (0.8 km)
-## 4                             Shipyard (0 km)
-## 5                     Inner Vikkilen (0.5 km)
-## 6 Reference station\nLangesundsfjord (100 km)
+##   Station      Text    Text.1                               Station_name
+## 1       1 P =  0.29 P =  0.29                             Håøya (5.5 km)
+## 2       4 P =  0.05 P =  0.05                    Outer Vikkilen (2.5 km)
+## 3       5  P =  0.6  P =  0.6                          Skjeviga (0.6 km)
+## 4       6  P =  0.9  P =  0.9                            Shipyard (0 km)
+## 5       7 P =  0.19 P =  0.19                    Inner Vikkilen (0.5 km)
+## 6     71G P =  0.97 P =  0.97 Reference station\nLangesundfjord (100 km)
+##                                Station_name2
+## 1                             Håøya (4-6 km)
+## 2                      Outer Vikkilen (2 km)
+## 3                      Mid Vikkilen (0.8 km)
+## 4                            Shipyard (0 km)
+## 5                    Inner Vikkilen (0.5 km)
+## 6 Reference station\nLangesundfjord (100 km)
 ```
 
 ```r
@@ -2011,7 +2153,7 @@ if (FALSE) {
 }
 ```
 
-### Plot ISI + TBT, B/W  
+### FIG. 2 Plot ISI + TBT, B/W  
 
 * Fig. 2 in paper
 
@@ -2032,14 +2174,14 @@ a <- b*(ylim.prim[1] - ylim.sec[1])
 # df_pred_isi <- df_pred_isi %>%
 #   mutate(Station_name = fct_recode(
 #     Station_name,
-#     `Reference station\nLangesundsfjord (100 km)` = "Reference station Langesundsfjord (100 km)"
+#     `Reference station\nLangesundfjord (100 km)` = "Reference station Langesundfjord (100 km)"
 #   )
 #   )
 # 
 # df_pred_tbt <- df_pred_tbt %>%
 #   mutate(Station_name = fct_recode(
 #     Station_name,
-#     `Reference station\nLangesundsfjord (100 km)` = "Reference station Langesundsfjord (100 km)"
+#     `Reference station\nLangesundfjord (100 km)` = "Reference station Langesundfjord (100 km)"
 #   )
 #   )
 
@@ -2091,15 +2233,23 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
+```
 
+```
+## Warning: Removed 16 rows containing missing values (geom_point).
+
+## Warning: Removed 16 rows containing missing values (geom_point).
+```
+
+```r
 gg
 ```
 
 ```
-## Warning: Removed 12 rows containing missing values (geom_point).
+## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 
 ### Plot ISI + TBT, color
@@ -2149,17 +2299,23 @@ gg <- ggplot() +
 if (save_plots)
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_.png", gg,
          width = 7, height = 5, dpi = 500)
+```
 
+```
+## Warning: Removed 16 rows containing missing values (geom_point).
+```
+
+```r
 gg
 ```
 
 ```
-## Warning: Removed 12 rows containing missing values (geom_point).
+## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
-### Plot ISI + VDSI, B/W  
+### FIG. 3 Plot ISI + VDSI, B/W  
 
 * Fig. 3 in paper
 
@@ -2226,12 +2382,14 @@ if (save_plots){
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 
 
 
 
 ## 8. TBT - all species   
+
+* Data: 'dat_tbt_mean_snails' made in part 1 (finished in 1b) 
   
 * Fig. 6 (was fig. 4)   
     - 06_Timeseries_allsp_TBT_2_log.png   
@@ -2247,22 +2405,22 @@ xtabs(~Station_name + Species, dat_tbt_mean_snails)
 ```
 
 ```
-##                                              Species
-## Station_name                                  Buccinum Littorina Nassarius
-##   Inner Vikkilen (0.5 km)                            0         8         5
-##   Shipyard (0 km)                                    2         9         5
-##   Skjeviga (0.6 km)                                  0         3         5
-##   Outer Vikkilen (2.5 km)                            2         6         1
-##   Håøya (5.5 km)                                     0         3         4
-##   Reference station\nLangesundsfjord (100 km)        0         0         0
-##                                              Species
-## Station_name                                  Nucella Sediment
-##   Inner Vikkilen (0.5 km)                           0        1
-##   Shipyard (0 km)                                   0        3
-##   Skjeviga (0.6 km)                                 0        2
-##   Outer Vikkilen (2.5 km)                           0        3
-##   Håøya (5.5 km)                                    1        1
-##   Reference station\nLangesundsfjord (100 km)       0        0
+##                                             Species
+## Station_name                                 Buccinum Littorina Nassarius
+##   Inner Vikkilen (0.5 km)                           0         8         5
+##   Shipyard (0 km)                                   2         9         5
+##   Skjeviga (0.6 km)                                 0         3         5
+##   Outer Vikkilen (2.5 km)                           2         6         1
+##   Håøya (5.5 km)                                    0         3         4
+##   Reference station\nLangesundfjord (100 km)        0         0         0
+##                                             Species
+## Station_name                                 Nucella Sediment
+##   Inner Vikkilen (0.5 km)                          0        1
+##   Shipyard (0 km)                                  0        3
+##   Skjeviga (0.6 km)                                0        2
+##   Outer Vikkilen (2.5 km)                          0        3
+##   Håøya (5.5 km)                                   1        1
+##   Reference station\nLangesundfjord (100 km)       0        0
 ```
 
 ```r
@@ -2353,7 +2511,13 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_1.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
+```
 
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2361,7 +2525,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2371,7 +2535,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-44-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-2.png)<!-- -->
 
 Lumping stations (Station_name2)   
 
@@ -2391,7 +2555,13 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_2.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
+```
 
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2399,7 +2569,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2409,7 +2579,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-2.png)<!-- -->
 
 
 ### b. Biota TBT combined  
@@ -2446,20 +2616,20 @@ dat_tbt_mean_comb %>%
 
 ```
 ## # A tibble: 12 x 3
-##    `(Species == "Sediment")` Station_name2                                     n
-##    <lgl>                     <fct>                                         <int>
-##  1 FALSE                     "Inner Vikkilen (0.5 km)"                        14
-##  2 FALSE                     "Shipyard (0 km)"                                17
-##  3 FALSE                     "Mid Vikkilen (0.8 km)"                          12
-##  4 FALSE                     "Outer Vikkilen (2 km)"                          15
-##  5 FALSE                     "Håøya (4-6 km)"                                 10
-##  6 FALSE                     "Reference station\nLangesundsfjord (100 km)"     9
-##  7 TRUE                      "Inner Vikkilen (0.5 km)"                         1
-##  8 TRUE                      "Shipyard (0 km)"                                 3
-##  9 TRUE                      "Mid Vikkilen (0.8 km)"                           2
-## 10 TRUE                      "Outer Vikkilen (2 km)"                           3
-## 11 TRUE                      "Håøya (4-6 km)"                                  1
-## 12 TRUE                       <NA>                                            30
+##    `(Species == "Sediment")` Station_name2                                    n
+##    <lgl>                     <fct>                                        <int>
+##  1 FALSE                     "Inner Vikkilen (0.5 km)"                       14
+##  2 FALSE                     "Shipyard (0 km)"                               17
+##  3 FALSE                     "Mid Vikkilen (0.8 km)"                         12
+##  4 FALSE                     "Outer Vikkilen (2 km)"                         15
+##  5 FALSE                     "Håøya (4-6 km)"                                10
+##  6 FALSE                     "Reference station\nLangesundfjord (100 km)"     9
+##  7 TRUE                      "Inner Vikkilen (0.5 km)"                        1
+##  8 TRUE                      "Shipyard (0 km)"                                3
+##  9 TRUE                      "Mid Vikkilen (0.8 km)"                          2
+## 10 TRUE                      "Outer Vikkilen (2 km)"                          3
+## 11 TRUE                      "Håøya (4-6 km)"                                 1
+## 12 TRUE                       <NA>                                           30
 ```
 
 
@@ -2515,7 +2685,25 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_1.png", gg)
   ggsave("Figures/06_Timeseries_allsp_TBT_1_log.png", gg + scale_y_log10())
 }
+```
 
+```
+## Saving 8 x 5 in image
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Saving 8 x 5 in image
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2523,7 +2711,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2533,7 +2721,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-48-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
 
 
 
@@ -2569,13 +2757,13 @@ str(pred_list, 1)       # List of 5
 
 ```
 ## List of 6
-##  $ Outer Vikkilen (2 km)                      :List of 2
-##  $ Shipyard (0 km)                            :List of 2
-##  $ Håøya (4-6 km)                             :List of 2
-##  $ Mid Vikkilen (0.8 km)                      :List of 2
-##  $ Inner Vikkilen (0.5 km)                    :List of 2
+##  $ Outer Vikkilen (2 km)                     :List of 2
+##  $ Shipyard (0 km)                           :List of 2
+##  $ Håøya (4-6 km)                            :List of 2
+##  $ Mid Vikkilen (0.8 km)                     :List of 2
+##  $ Inner Vikkilen (0.5 km)                   :List of 2
 ##  $ Reference station
-## Langesundsfjord (100 km):List of 2
+## Langesundfjord (100 km):List of 2
 ```
 
 ```r
@@ -2608,7 +2796,7 @@ gg <- ggplot() +
 gg + scale_y_log10(limits = c(0.3, 8000))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
 
 ```r
 if (save_plots){
@@ -2619,11 +2807,17 @@ if (save_plots){
          gg + scale_y_log10(limits = c(0.3, 900)),
          width = 8, height = 5, dpi = 500)
 }
+```
 
+```
+## Warning: Removed 6 rows containing missing values (geom_text).
+```
+
+```r
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-2.png)<!-- -->
 
 ```r
 gg + scale_y_log10(limits = c(0.3, 1100))
@@ -2633,9 +2827,9 @@ gg + scale_y_log10(limits = c(0.3, 1100))
 ## Warning: Removed 6 rows containing missing values (geom_text).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-3.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-3.png)<!-- -->
 
-#### Plot biota TBT, littorea + reticulatus, logistic
+#### FIG. 6 Plot biota TBT, littorea + reticulatus, logistic
 
 * Fig. 6 in paper  
 
@@ -2679,13 +2873,13 @@ str(pred_list, 1)       # List of 5
 
 ```
 ## List of 6
-##  $ Håøya (4-6 km)                             :List of 2
-##  $ Outer Vikkilen (2 km)                      :List of 2
-##  $ Mid Vikkilen (0.8 km)                      :List of 2
-##  $ Shipyard (0 km)                            :List of 2
-##  $ Inner Vikkilen (0.5 km)                    :List of 2
+##  $ Håøya (4-6 km)                            :List of 2
+##  $ Outer Vikkilen (2 km)                     :List of 2
+##  $ Mid Vikkilen (0.8 km)                     :List of 2
+##  $ Shipyard (0 km)                           :List of 2
+##  $ Inner Vikkilen (0.5 km)                   :List of 2
 ##  $ Reference station
-## Langesundsfjord (100 km):List of 2
+## Langesundfjord (100 km):List of 2
 ```
 
 ```r
@@ -2757,7 +2951,7 @@ if (save_plots){
 gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
 
 
 ### c. Plot TBT in blue mussel vs. TBT in Littorina   
@@ -2777,41 +2971,41 @@ xtabs(~Station_name2 + Year + Species, df)
 ```
 ## , , Species = Littorina
 ## 
-##                                              Year
-## Station_name2                                 2005 2007 2009 2010 2011 2012
-##   Inner Vikkilen (0.5 km)                        0    1    0    1    1    0
-##   Shipyard (0 km)                                1    1    1    1    1    0
-##   Mid Vikkilen (0.8 km)                          0    1    0    1    1    0
-##   Outer Vikkilen (2 km)                          0    0    0    0    1    0
-##   Håøya (4-6 km)                                 0    0    0    0    1    0
-##   Reference station\nLangesundsfjord (100 km)    0    0    0    0    1    1
-##                                              Year
-## Station_name2                                 2013 2014 2015 2016 2017 2018
-##   Inner Vikkilen (0.5 km)                        1    1    0    1    0    1
-##   Shipyard (0 km)                                1    1    0    1    0    1
-##   Mid Vikkilen (0.8 km)                          0    0    0    0    0    0
-##   Outer Vikkilen (2 km)                          1    1    0    1    0    1
-##   Håøya (4-6 km)                                 0    0    0    1    0    1
-##   Reference station\nLangesundsfjord (100 km)    1    1    1    1    1    1
+##                                             Year
+## Station_name2                                2005 2007 2009 2010 2011 2012 2013
+##   Inner Vikkilen (0.5 km)                       0    1    0    1    1    0    1
+##   Shipyard (0 km)                               1    1    1    1    1    0    1
+##   Mid Vikkilen (0.8 km)                         0    1    0    1    1    0    0
+##   Outer Vikkilen (2 km)                         0    0    0    0    1    0    1
+##   Håøya (4-6 km)                                0    0    0    0    1    0    0
+##   Reference station\nLangesundfjord (100 km)    0    0    0    0    1    1    1
+##                                             Year
+## Station_name2                                2014 2015 2016 2017 2018
+##   Inner Vikkilen (0.5 km)                       1    0    1    0    1
+##   Shipyard (0 km)                               1    0    1    0    1
+##   Mid Vikkilen (0.8 km)                         0    0    0    0    0
+##   Outer Vikkilen (2 km)                         1    0    1    0    1
+##   Håøya (4-6 km)                                0    0    1    0    1
+##   Reference station\nLangesundfjord (100 km)    1    1    1    1    1
 ## 
 ## , , Species = Mytilus
 ## 
-##                                              Year
-## Station_name2                                 2005 2007 2009 2010 2011 2012
-##   Inner Vikkilen (0.5 km)                        1    0    0    0    0    0
-##   Shipyard (0 km)                                0    0    0    0    0    0
-##   Mid Vikkilen (0.8 km)                          1    2    0    0    0    0
-##   Outer Vikkilen (2 km)                          2    1    0    0    0    0
-##   Håøya (4-6 km)                                 2    0    0    0    0    0
-##   Reference station\nLangesundsfjord (100 km)    0    0    0    0    0    0
-##                                              Year
-## Station_name2                                 2013 2014 2015 2016 2017 2018
-##   Inner Vikkilen (0.5 km)                        0    0    0    0    0    0
-##   Shipyard (0 km)                                0    0    0    0    0    1
-##   Mid Vikkilen (0.8 km)                          0    0    0    0    0    1
-##   Outer Vikkilen (2 km)                          0    0    0    1    0    2
-##   Håøya (4-6 km)                                 0    0    0    0    0    0
-##   Reference station\nLangesundsfjord (100 km)    0    0    0    0    0    0
+##                                             Year
+## Station_name2                                2005 2007 2009 2010 2011 2012 2013
+##   Inner Vikkilen (0.5 km)                       1    0    0    0    0    0    0
+##   Shipyard (0 km)                               0    0    0    0    0    0    0
+##   Mid Vikkilen (0.8 km)                         1    2    0    0    0    0    0
+##   Outer Vikkilen (2 km)                         2    1    0    0    0    0    0
+##   Håøya (4-6 km)                                2    0    0    0    0    0    0
+##   Reference station\nLangesundfjord (100 km)    0    0    0    0    0    0    0
+##                                             Year
+## Station_name2                                2014 2015 2016 2017 2018
+##   Inner Vikkilen (0.5 km)                       0    0    0    0    0
+##   Shipyard (0 km)                               0    0    0    0    1
+##   Mid Vikkilen (0.8 km)                         0    0    0    0    1
+##   Outer Vikkilen (2 km)                         0    0    1    0    2
+##   Håøya (4-6 km)                                0    0    0    0    0
+##   Reference station\nLangesundfjord (100 km)    0    0    0    0    0
 ```
 
 
@@ -2831,7 +3025,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 #### Plot as time series, b/w 
 
@@ -2849,7 +3043,13 @@ if (save_plots)
   ggsave("Figures/06_Timeseries_Litt_Myt_TBT.png", 
          gg + scale_y_log10(),
          width = 8, height = 5, dpi = 500)
-  
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg + scale_y_log10()
 ```
 
@@ -2857,7 +3057,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
 
 #### Plot against each other    
 
@@ -2898,13 +3098,13 @@ if (save_plots){
 gg1
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
 
 ```r
 gg2
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-2.png)<!-- -->
 
 
 
@@ -2933,7 +3133,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2943,11 +3143,19 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-2.png)<!-- -->
 
 ```r
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_sediment_log.png", gg + scale_y_log10())
+```
+
+```
+## Saving 7.5 x 5 in image
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2955,7 +3163,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-3.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-3.png)<!-- -->
 
 
 
