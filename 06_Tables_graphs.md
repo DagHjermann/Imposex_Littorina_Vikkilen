@@ -9,7 +9,7 @@ output:
     toc_float: true  
 ---
 
-## General
+## General  
 - percentage sterile females (%S) = (number of sterile females/total number of females)*100
     - stage 2-4 females are sterile
 - mean Female Penis Length (FPL)
@@ -20,6 +20,8 @@ For N. lapillus,
 For B. undatum
 - Penis Classification Index (PCI) after Strand and Jacobsen (2002)
 
+## Figures  
+- All figures have 'FIG' in the filename (and so can easily be searched)
 
 #### Modification 1  
 From Merete 20.11.2019
@@ -185,13 +187,15 @@ library(cowplot)
 ```r
 # install.packages("openxlsx")
 library(openxlsx)
+
+source("06_Tables_graphs_functions.R")
 ```
 
 ## 0b. Settings
 
 ```r
 save_plots <- TRUE
-# save_plots <- FALSE
+save_plots <- FALSE
 ```
 
 
@@ -440,22 +444,26 @@ dat_imposex_reticul_summ <- dat_imposex_reticul %>%
     #                      TRUE ~ "x")
     #      )
 
-dat_imposex_reticul_summ %>%
+df <- dat_imposex_reticul_summ %>%
   arrange(Year, Station ) %>%
   select(Station, Year, VDSI) %>%
   pivot_wider(names_from = "Year", values_from = "VDSI") %>%
-  arrange(Station)
+  arrange(desc(Station))
+
+writexl::write_xlsx(df,  "Output_excel/06_Imposex_nettsnegl.xlsx")
+
+df
 ```
 
 ```
 ## # A tibble: 5 x 7
 ##   Station `2007` `2009` `2010` `2011` `2012` `2014`
 ##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-## 1 1        NA        NA  0.806  0.447  0.455   0.2 
-## 2 4         4        NA  2.89   1.71   0.871  NA   
+## 1 7         4         4  3.97   3.94  NA       3.6 
+## 2 6         3.96      4  4      3.96   3.87    3.19
 ## 3 5        NA        NA  3.58   3.18   2.65    1.97
-## 4 6         3.96      4  4      3.96   3.87    3.19
-## 5 7         4         4  3.97   3.94  NA       3.6
+## 4 4         4        NA  2.89   1.71   0.871  NA   
+## 5 1        NA        NA  0.806  0.447  0.455   0.2
 ```
 
 ## 2. TBT - tables of species
@@ -507,7 +515,8 @@ xtabs(~Station + Year, dat_tbt %>% filter(Species %in% "Littorina"))
 ```r
 tab_tbt <- dat_tbt_mean_snails %>%
   group_by(Station, Year) %>%
-  spread(Year, TBT_mean)
+  spread(Year, TBT_mean) %>%
+  arrange(Species, desc(Station))
 
 tab_tbt
 ```
@@ -517,15 +526,15 @@ tab_tbt
 ## # Groups:   Station [33]
 ##    Species  Station TBT_flag Station_name   Station_name2   `2004` `2005` `2007`
 ##    <chr>    <chr>      <dbl> <fct>          <fct>            <dbl>  <dbl>  <dbl>
-##  1 Buccinum 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
-##  2 Buccinum 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   NA  
-##  3 Littori~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
-##  4 Littori~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA    NaN   NA  
+##  1 Buccinum 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   NA  
+##  2 Buccinum 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
+##  3 Littori~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA    NaN   97.7
+##  4 Littori~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA    148   31.3
 ##  5 Littori~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   35.7
-##  6 Littori~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA    148   31.3
-##  7 Littori~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA    NaN   97.7
-##  8 Nassari~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
-##  9 Nassari~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
+##  6 Littori~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA    NaN   NA  
+##  7 Littori~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
+##  8 Nassari~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA     NA   53.4
+##  9 Nassari~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   56.1
 ## 10 Nassari~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   18.1
 ## # ... with 36 more rows, and 8 more variables: 2008 <dbl>, 2009 <dbl>,
 ## #   2010 <dbl>, 2011 <dbl>, 2013 <dbl>, 2014 <dbl>, 2016 <dbl>, 2018 <dbl>
@@ -535,9 +544,16 @@ tab_tbt
 
 ```r
 if (save_plots){
-  wb <- openxlsx::createWorkbook("DHJ")
-  openxlsx::addWorksheet(wb, "Littorina TBT")
-  openxlsx::writeData(wb, sheet = 1, tab_tbt)
+  
+  writexl::write_xlsx(list(
+    TBT = tab_tbt,
+    Info = data.frame(Source = "Imposex_Littorina_Vikkilen script 06 (original filename: 06_Mean_tbt.xlsx)")
+  ),
+  "Output_excel/06_Mean_tbt.xlsx")
+
+    # wb <- openxlsx::createWorkbook("DHJ")
+  # openxlsx::addWorksheet(wb, "Littorina TBT")
+  # openxlsx::writeData(wb, sheet = 1, tab_tbt)
   # openxlsx::saveWorkbook(wb, "Figures/06_Littorina_tables.xlsx", overwrite = TRUE)
 }
 ```
@@ -613,6 +629,7 @@ dat_intersex_litt_summ <- dat_intersex_litt %>%
   summarize(ISI_mean = mean(ISI, na.rm = FALSE),
             N_ISI = sum(!is.na(ISI)),
             Sterile_perc = mean((ISI >= 2)*100, na.rm = TRUE),
+            I_perc = mean((ISI > 0)*100, na.rm = TRUE),
             PRL_mean = mean(PRL, na.rm = FALSE),
             .groups = "drop"
             ) %>%
@@ -667,10 +684,53 @@ Add to existing 'wb' excel workbook
 
 ```r
 if (save_plots){
-  openxlsx::addWorksheet(wb, "Littorina ISI raw")
-  openxlsx::writeData(wb, sheet = "Littorina ISI raw", dat_intersex_litt)
-  openxlsx::addWorksheet(wb, "Littorina ISI summ")
-  openxlsx::writeData(wb, sheet = "Littorina ISI summ", dat_intersex_litt_summ)
+  
+  # openxlsx::addWorksheet(wb, "Littorina ISI raw")
+  # openxlsx::writeData(wb, sheet = "Littorina ISI raw", dat_intersex_litt)
+  # openxlsx::addWorksheet(wb, "Littorina ISI summ")
+  # openxlsx::writeData(wb, sheet = "Littorina ISI summ", dat_intersex_litt_summ)
+  
+  tab1 <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, ISI_mean) %>%
+    pivot_wider(names_from = Year, values_from = ISI_mean, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab2a <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, I_perc) %>%
+    pivot_wider(names_from = Year, values_from = I_perc, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab2b <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, Sterile_perc) %>%
+    pivot_wider(names_from = Year, values_from = Sterile_perc, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab3 <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, PRL_mean) %>%
+    pivot_wider(names_from = Year, values_from = PRL_mean, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab4 <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, TBT_mean, TBT_flag) %>%
+    mutate(TBT = case_when(
+      is.na(TBT_flag) ~ as.character(TBT_mean),
+      TBT_flag == 0 ~ as.character(TBT_mean),
+      TBT_flag == 1 ~ paste("<", TBT_mean))
+    ) %>%
+    select(-TBT_mean, -TBT_flag) %>%
+    pivot_wider(names_from = Year, values_from = TBT, names_sort = TRUE)  %>%
+    arrange(desc(Station))
+
+  writexl::write_xlsx(list(
+    ISI = tab1,
+    I_perc = tab2a,
+    Sterile_perc = tab2b,
+    PRL_mean = tab3,
+    TBT = tab4,
+    Info = data.frame(Source = "Imposex_Littorina_Vikkilen script 06 (original filename: 06_Means_Littorina.xlsx)")
+  ),
+  "Output_excel/06_Means_Littorina.xlsx")
+
 }
 ```
 
@@ -761,15 +821,15 @@ tab_tbt
 ## # Groups:   Station [33]
 ##    Species  Station TBT_flag Station_name   Station_name2   `2004` `2005` `2007`
 ##    <chr>    <chr>      <dbl> <fct>          <fct>            <dbl>  <dbl>  <dbl>
-##  1 Buccinum 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
-##  2 Buccinum 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   NA  
-##  3 Littori~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
-##  4 Littori~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA    NaN   NA  
+##  1 Buccinum 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   NA  
+##  2 Buccinum 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
+##  3 Littori~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA    NaN   97.7
+##  4 Littori~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA    148   31.3
 ##  5 Littori~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   35.7
-##  6 Littori~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA    148   31.3
-##  7 Littori~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA    NaN   97.7
-##  8 Nassari~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
-##  9 Nassari~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
+##  6 Littori~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA    NaN   NA  
+##  7 Littori~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
+##  8 Nassari~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA     NA   53.4
+##  9 Nassari~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   56.1
 ## 10 Nassari~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   18.1
 ## # ... with 36 more rows, and 8 more variables: 2008 <dbl>, 2009 <dbl>,
 ## #   2010 <dbl>, 2011 <dbl>, 2013 <dbl>, 2014 <dbl>, 2016 <dbl>, 2018 <dbl>
@@ -817,31 +877,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 15 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 15 rows containing missing values (geom_point).
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 15 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 15 rows containing missing values (geom_point).
-```
-
-```r
 gg1
 ```
 
@@ -851,7 +886,9 @@ gg1
 
 ```
 ## Warning: Removed 15 rows containing non-finite values (stat_smooth).
+```
 
+```
 ## Warning: Removed 15 rows containing missing values (geom_point).
 ```
 
@@ -896,31 +933,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 16 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 16 rows containing missing values (geom_point).
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 16 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 16 rows containing missing values (geom_point).
-```
-
-```r
 gg1
 ```
 
@@ -930,7 +942,9 @@ gg1
 
 ```
 ## Warning: Removed 16 rows containing non-finite values (stat_smooth).
+```
 
+```
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
@@ -974,31 +988,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_Sterile_vs_ISI_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 5 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 5 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
-```r
 gg1
 ```
 
@@ -1008,7 +997,9 @@ gg1
 
 ```
 ## Warning: Removed 5 rows containing non-finite values (stat_smooth).
+```
 
+```
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
@@ -1129,23 +1120,15 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 if (save_plots)
   ggsave("Figures/06_Correlations_combined_color_FIG5.png", gg_comb,
          width = 7.8, height = 5.8, dpi = 500)
-```
 
-```
-## Warning: Removed 1 rows containing missing values (geom_text).
-```
-
-```
-## Warning: Removed 1 rows containing missing values (geom_text).
-```
-
-```r
 gg_comb
 ```
 
 ```
 ## Warning: Removed 1 rows containing missing values (geom_text).
+```
 
+```
 ## Warning: Removed 1 rows containing missing values (geom_text).
 ```
 
@@ -1814,7 +1797,7 @@ gg
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 
-### Plot TBT at all stations
+### Plot TBT at all stations  
 
 ```r
 # Run all stations (as above)
@@ -2108,15 +2091,7 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
-```
 
-```
-## Warning: Removed 12 rows containing missing values (geom_point).
-
-## Warning: Removed 12 rows containing missing values (geom_point).
-```
-
-```r
 gg
 ```
 
@@ -2174,13 +2149,7 @@ gg <- ggplot() +
 if (save_plots)
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_.png", gg,
          width = 7, height = 5, dpi = 500)
-```
 
-```
-## Warning: Removed 12 rows containing missing values (geom_point).
-```
-
-```r
 gg
 ```
 
@@ -2384,13 +2353,7 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_1.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
-```
 
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -2428,13 +2391,7 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_2.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
-```
 
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -2558,25 +2515,7 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_1.png", gg)
   ggsave("Figures/06_Timeseries_allsp_TBT_1_log.png", gg + scale_y_log10())
 }
-```
 
-```
-## Saving 8 x 5 in image
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Saving 8 x 5 in image
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -2609,15 +2548,20 @@ df <- dat_tbt_mean_comb %>%
   filter(!Species %in% c("Sediment", "Mytilus")) %>%
   filter(!is.na(TBT_mean))
 sts <- unique(df$Station_name2)
-# sts <- c("1", "4", "5", "6", "7")
-pred_list <- sts %>% lapply(
-  function(st) {
-    df_station <- df %>% filter(Station_name2 %in% st)
+
+get_logistic_result <- function(st, data) {
+    df_station <- data %>% filter(Station_name2 %in% st)
     result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
     result$fit$Station_name2 <- st
     result$pvalue$Station_name2 <- st
     result
-  })
+}
+# debugonce(get_logistic_result)
+# debugonce(pred_logistic_from_data)
+# get_logistic_result("Outer Vikkilen (2 km)", df)
+
+# sts <- c("1", "4", "5", "6", "7")
+pred_list <- sts %>% lapply(get_logistic_result, data = df)
 names(pred_list) <- sts
 
 str(pred_list, 1)       # List of 5
@@ -2640,7 +2584,7 @@ str(pred_list[[1]], 1)  # List of 2: $fit  and $pvalue
 
 ```
 ## List of 2
-##  $ fit   :'data.frame':	100 obs. of  6 variables:
+##  $ fit   :'data.frame':	100 obs. of  5 variables:
 ##  $ pvalue:'data.frame':	1 obs. of  2 variables:
 ```
 
@@ -2655,11 +2599,18 @@ gg <- ggplot() +
   geom_path(data = df_pred, aes(x, y = Pred)) +
   geom_point(data = df, aes(Year, TBT_mean, fill = Species2), size = 2, pch = 21) +
   scale_fill_discrete("") +
-  geom_text(data = df_pvalue, aes(x = 2018, y = Inf, label = Text), 
+  geom_text(data = df_pvalue, aes(x = 2018, y = 8000, label = Text), 
             vjust = 1.2, hjust = 1, size = 3.4) +
+  # Vertical dashed line 
+  geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
   facet_wrap(vars(Station_name2)) +
   labs(x = "Year", y = "TBT concentration")
+gg + scale_y_log10(limits = c(0.3, 8000))
+```
 
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+
+```r
 if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_2.png", 
          gg,
@@ -2672,13 +2623,17 @@ if (save_plots){
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
 
 ```r
-gg + scale_y_log10(limits = c(0.3, 900))
+gg + scale_y_log10(limits = c(0.3, 1100))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
+```
+## Warning: Removed 6 rows containing missing values (geom_text).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-3.png)<!-- -->
 
 #### Plot biota TBT, littorea + reticulatus, logistic
 
@@ -2686,19 +2641,37 @@ gg + scale_y_log10(limits = c(0.3, 900))
 
 
 ```r
-df <- dat_tbt_mean_comb %>%
-  filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
-  filter(!is.na(TBT_mean))
-sts <- unique(df$Station_name2)
-# sts <- c("1", "4", "5", "6", "7")
-pred_list <- sts %>% lapply(
-  function(st) {
+# I% text label is made here
+df_ipercent <- dat_intersex_litt_summ %>%
+  filter(!is.na(I_perc)) %>%
+  group_by(Station_name2) %>%
+  arrange(Year) %>%
+  summarise(Text_Iperc = paste0(
+    "I%: ", 
+    round(first(I_perc), 0), " (", first(Year), ") - ",
+    round(last(I_perc), 0), " (", last(Year), ")"
+  ))
+
+
+get_logistic_result <- function(st) {
     df_station <- df %>% filter(Station_name2 %in% st)
     result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
     result$fit$Station_name2 <- st
     result$pvalue$Station_name2 <- st
     result
-  })
+}
+
+df <- dat_tbt_mean_comb %>%
+  filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
+  filter(!is.na(TBT_mean))
+sts <- unique(df$Station_name2) 
+sts <- levels(sts)[as.numeric(sts)]
+# sts <- c("1", "4", "5", "6", "7")
+
+# test
+# get_logistic_result(2)
+
+pred_list <- sts %>% lapply(get_logistic_result)
 names(pred_list) <- sts
 
 str(pred_list, 1)       # List of 5
@@ -2721,7 +2694,7 @@ str(pred_list[[1]], 1)  # List of 2: $fit  and $pvalue
 
 ```
 ## List of 2
-##  $ fit   :'data.frame':	100 obs. of  6 variables:
+##  $ fit   :'data.frame':	100 obs. of  5 variables:
 ##  $ pvalue:'data.frame':	1 obs. of  2 variables:
 ```
 
@@ -2754,33 +2727,37 @@ gg <- ggplot() +
                             fill = Species2, shape = Species2), size = 2) +
   scale_fill_discrete("") +
   scale_shape_manual("", values = c(21, 24)) +
-  geom_text(data = df_pvalue, aes(x = 2018, y = Inf, label = Text), 
+  # P-value text
+  geom_text(data = df_pvalue, aes(x = 2018, y = 8000, label = paste("Slope: ", Text)), 
             vjust = 1.2, hjust = 1, size = 3.4) +
+  # I% text
+  geom_text(data = df_ipercent, aes(x = 2018, y = 2500, label = Text_Iperc), 
+            vjust = 1.2, hjust = 1, size = 2.8) +
+  geom_segment(
+    data = data.frame(
+      x = 2008,
+      xend = 2008,
+      y = 0.5,
+      yend = 700
+    ), aes(x=x, y = y, xend = xend, yend= yend), color = "red", linetype = 2) +
   facet_wrap(vars(Station_name2)) +
   labs(x = "Year", y = expression(mu*g~TBT/kg~w.w)) +
   theme_bw() +
   theme(
     panel.grid = element_blank())
 
+# save_plots <- TRUE
 if (save_plots){
-  ggsave("Figures/06_Timeseries_allsp_TBT_3.png", 
-         gg,
-         width = 8, height = 5, dpi = 500)
   ggsave("Figures/06_Timeseries_allsp_TBT_3_log_FIG6.png", 
-         gg + scale_y_log10(limits = c(0.3, 900)),
+         gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100)),
          width = 6.6, height = 4.2, dpi = 500)
 }
 
-gg
+# gg
+gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100))
 ```
 
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
-
-```r
-gg + scale_y_log10(limits = c(0.3, 900))
-```
-
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-2.png)<!-- -->
 
 
 ### c. Plot TBT in blue mussel vs. TBT in Littorina   
@@ -2872,13 +2849,7 @@ if (save_plots)
   ggsave("Figures/06_Timeseries_Litt_Myt_TBT.png", 
          gg + scale_y_log10(),
          width = 8, height = 5, dpi = 500)
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
+  
 gg + scale_y_log10()
 ```
 
@@ -2977,14 +2948,6 @@ gg + scale_y_log10()
 ```r
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_sediment_log.png", gg + scale_y_log10())
-```
-
-```
-## Saving 7.5 x 5 in image
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 

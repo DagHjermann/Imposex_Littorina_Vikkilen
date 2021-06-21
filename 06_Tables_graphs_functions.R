@@ -159,8 +159,8 @@ pred_logistic_from_data <- function(data, variable){
   df <- data %>% as.data.frame()
   # pred = list of dataframe ('fit') and model ('model')
   pred <- pred_logistic(df$Year, df[[variable]], x_range = c(2005, 2018), a = 0.05)
-  # Add Station to the data frame
-  pred$fit <- pred$fit %>% mutate(Station = st)
+  # Add Station to the data frame 
+  # pred$fit <- pred$fit %>% mutate(Station = station)   # do this in the calling function instead
   # Also make a dataframe with P-value text
   pvalue <- summary(pred$model)$coef["x","Pr(>|t|)"] %>% round_pvalue_txt()
   pvalue <- data.frame(Text = pvalue,   # ifelse(pvalue == 0, "P < 0.0001", paste("P = ", pvalue))

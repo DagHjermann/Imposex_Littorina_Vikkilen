@@ -9,7 +9,7 @@ output:
     toc_float: true  
 ---
 
-## General
+## General  
 - percentage sterile females (%S) = (number of sterile females/total number of females)*100
     - stage 2-4 females are sterile
 - mean Female Penis Length (FPL)
@@ -20,6 +20,8 @@ For N. lapillus,
 For B. undatum
 - Penis Classification Index (PCI) after Strand and Jacobsen (2002)
 
+## Figures  
+- All figures have 'FIG' in the filename (and so can easily be searched)
 
 #### Modification 1  
 From Merete 20.11.2019
@@ -140,13 +142,16 @@ library(cowplot)
 
 # install.packages("openxlsx")
 library(openxlsx)
+
+source("06_Tables_graphs_functions.R")
+
 ```
 
 ## 0b. Settings
 ```{r}
 
 save_plots <- TRUE
-# save_plots <- FALSE
+save_plots <- FALSE
 
 ```
 
@@ -339,12 +344,15 @@ dat_imposex_reticul_summ <- dat_imposex_reticul %>%
     #                      TRUE ~ "x")
     #      )
 
-dat_imposex_reticul_summ %>%
+df <- dat_imposex_reticul_summ %>%
   arrange(Year, Station ) %>%
   select(Station, Year, VDSI) %>%
   pivot_wider(names_from = "Year", values_from = "VDSI") %>%
-  arrange(Station)
+  arrange(desc(Station))
 
+writexl::write_xlsx(df,  "Output_excel/06_Imposex_nettsnegl.xlsx")
+
+df
 
 
 ```
@@ -364,17 +372,26 @@ xtabs(~Station + Year, dat_tbt %>% filter(Species %in% "Littorina"))
 
 tab_tbt <- dat_tbt_mean_snails %>%
   group_by(Station, Year) %>%
-  spread(Year, TBT_mean)
+  spread(Year, TBT_mean) %>%
+  arrange(Species, desc(Station))
 
 tab_tbt
 ```
 
 ### a2. Save TBT data to excel
 ```{r}
+
 if (save_plots){
-  wb <- openxlsx::createWorkbook("DHJ")
-  openxlsx::addWorksheet(wb, "Littorina TBT")
-  openxlsx::writeData(wb, sheet = 1, tab_tbt)
+  
+  writexl::write_xlsx(list(
+    TBT = tab_tbt,
+    Info = data.frame(Source = "Imposex_Littorina_Vikkilen script 06 (original filename: 06_Mean_tbt.xlsx)")
+  ),
+  "Output_excel/06_Mean_tbt.xlsx")
+
+    # wb <- openxlsx::createWorkbook("DHJ")
+  # openxlsx::addWorksheet(wb, "Littorina TBT")
+  # openxlsx::writeData(wb, sheet = 1, tab_tbt)
   # openxlsx::saveWorkbook(wb, "Figures/06_Littorina_tables.xlsx", overwrite = TRUE)
 }
 ```
@@ -423,6 +440,7 @@ dat_intersex_litt_summ <- dat_intersex_litt %>%
   summarize(ISI_mean = mean(ISI, na.rm = FALSE),
             N_ISI = sum(!is.na(ISI)),
             Sterile_perc = mean((ISI >= 2)*100, na.rm = TRUE),
+            I_perc = mean((ISI > 0)*100, na.rm = TRUE),
             PRL_mean = mean(PRL, na.rm = FALSE),
             .groups = "drop"
             ) %>%
@@ -473,10 +491,53 @@ Add to existing 'wb' excel workbook
 ```{r}
 
 if (save_plots){
-  openxlsx::addWorksheet(wb, "Littorina ISI raw")
-  openxlsx::writeData(wb, sheet = "Littorina ISI raw", dat_intersex_litt)
-  openxlsx::addWorksheet(wb, "Littorina ISI summ")
-  openxlsx::writeData(wb, sheet = "Littorina ISI summ", dat_intersex_litt_summ)
+  
+  # openxlsx::addWorksheet(wb, "Littorina ISI raw")
+  # openxlsx::writeData(wb, sheet = "Littorina ISI raw", dat_intersex_litt)
+  # openxlsx::addWorksheet(wb, "Littorina ISI summ")
+  # openxlsx::writeData(wb, sheet = "Littorina ISI summ", dat_intersex_litt_summ)
+  
+  tab1 <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, ISI_mean) %>%
+    pivot_wider(names_from = Year, values_from = ISI_mean, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab2a <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, I_perc) %>%
+    pivot_wider(names_from = Year, values_from = I_perc, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab2b <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, Sterile_perc) %>%
+    pivot_wider(names_from = Year, values_from = Sterile_perc, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab3 <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, PRL_mean) %>%
+    pivot_wider(names_from = Year, values_from = PRL_mean, names_sort = TRUE) %>%
+    arrange(desc(Station))
+
+  tab4 <- dat_intersex_litt_summ %>%
+    select(Station, Station_name, Station_name2, Year, TBT_mean, TBT_flag) %>%
+    mutate(TBT = case_when(
+      is.na(TBT_flag) ~ as.character(TBT_mean),
+      TBT_flag == 0 ~ as.character(TBT_mean),
+      TBT_flag == 1 ~ paste("<", TBT_mean))
+    ) %>%
+    select(-TBT_mean, -TBT_flag) %>%
+    pivot_wider(names_from = Year, values_from = TBT, names_sort = TRUE)  %>%
+    arrange(desc(Station))
+
+  writexl::write_xlsx(list(
+    ISI = tab1,
+    I_perc = tab2a,
+    Sterile_perc = tab2b,
+    PRL_mean = tab3,
+    TBT = tab4,
+    Info = data.frame(Source = "Imposex_Littorina_Vikkilen script 06 (original filename: 06_Means_Littorina.xlsx)")
+  ),
+  "Output_excel/06_Means_Littorina.xlsx")
+
 }
 
 ```
@@ -485,6 +546,7 @@ if (save_plots){
 
 ### d1. Overview tables of mean values
 ```{r}
+
 tab_ISI <- dat_intersex_litt_summ %>%
   filter(Sex %in% "f") %>%
   mutate(ISI_mean = round(ISI_mean, 2)) %>%
@@ -960,7 +1022,7 @@ gg
 ```
 
 
-### Plot TBT at all stations
+### Plot TBT at all stations  
 ```{r}
 # Run all stations (as above)
 sts_tbt <- dat_intersex_litt_summ %>%
@@ -1520,15 +1582,20 @@ df <- dat_tbt_mean_comb %>%
   filter(!Species %in% c("Sediment", "Mytilus")) %>%
   filter(!is.na(TBT_mean))
 sts <- unique(df$Station_name2)
-# sts <- c("1", "4", "5", "6", "7")
-pred_list <- sts %>% lapply(
-  function(st) {
-    df_station <- df %>% filter(Station_name2 %in% st)
+
+get_logistic_result <- function(st, data) {
+    df_station <- data %>% filter(Station_name2 %in% st)
     result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
     result$fit$Station_name2 <- st
     result$pvalue$Station_name2 <- st
     result
-  })
+}
+# debugonce(get_logistic_result)
+# debugonce(pred_logistic_from_data)
+# get_logistic_result("Outer Vikkilen (2 km)", df)
+
+# sts <- c("1", "4", "5", "6", "7")
+pred_list <- sts %>% lapply(get_logistic_result, data = df)
 names(pred_list) <- sts
 
 str(pred_list, 1)       # List of 5
@@ -1544,10 +1611,13 @@ gg <- ggplot() +
   geom_path(data = df_pred, aes(x, y = Pred)) +
   geom_point(data = df, aes(Year, TBT_mean, fill = Species2), size = 2, pch = 21) +
   scale_fill_discrete("") +
-  geom_text(data = df_pvalue, aes(x = 2018, y = Inf, label = Text), 
+  geom_text(data = df_pvalue, aes(x = 2018, y = 8000, label = Text), 
             vjust = 1.2, hjust = 1, size = 3.4) +
+  # Vertical dashed line 
+  geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
   facet_wrap(vars(Station_name2)) +
   labs(x = "Year", y = "TBT concentration")
+gg + scale_y_log10(limits = c(0.3, 8000))
 
 if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_2.png", 
@@ -1559,7 +1629,7 @@ if (save_plots){
 }
 
 gg
-gg + scale_y_log10(limits = c(0.3, 900))
+gg + scale_y_log10(limits = c(0.3, 1100))
 
 ```
 
@@ -1569,19 +1639,37 @@ gg + scale_y_log10(limits = c(0.3, 900))
 
 ```{r, fig.height = 5, fig.width=8}
 
-df <- dat_tbt_mean_comb %>%
-  filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
-  filter(!is.na(TBT_mean))
-sts <- unique(df$Station_name2)
-# sts <- c("1", "4", "5", "6", "7")
-pred_list <- sts %>% lapply(
-  function(st) {
+# I% text label is made here
+df_ipercent <- dat_intersex_litt_summ %>%
+  filter(!is.na(I_perc)) %>%
+  group_by(Station_name2) %>%
+  arrange(Year) %>%
+  summarise(Text_Iperc = paste0(
+    "I%: ", 
+    round(first(I_perc), 0), " (", first(Year), ") - ",
+    round(last(I_perc), 0), " (", last(Year), ")"
+  ))
+
+
+get_logistic_result <- function(st) {
     df_station <- df %>% filter(Station_name2 %in% st)
     result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
     result$fit$Station_name2 <- st
     result$pvalue$Station_name2 <- st
     result
-  })
+}
+
+df <- dat_tbt_mean_comb %>%
+  filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
+  filter(!is.na(TBT_mean))
+sts <- unique(df$Station_name2) 
+sts <- levels(sts)[as.numeric(sts)]
+# sts <- c("1", "4", "5", "6", "7")
+
+# test
+# get_logistic_result(2)
+
+pred_list <- sts %>% lapply(get_logistic_result)
 names(pred_list) <- sts
 
 str(pred_list, 1)       # List of 5
@@ -1609,25 +1697,34 @@ gg <- ggplot() +
                             fill = Species2, shape = Species2), size = 2) +
   scale_fill_discrete("") +
   scale_shape_manual("", values = c(21, 24)) +
-  geom_text(data = df_pvalue, aes(x = 2018, y = Inf, label = Text), 
+  # P-value text
+  geom_text(data = df_pvalue, aes(x = 2018, y = 8000, label = paste("Slope: ", Text)), 
             vjust = 1.2, hjust = 1, size = 3.4) +
+  # I% text
+  geom_text(data = df_ipercent, aes(x = 2018, y = 2500, label = Text_Iperc), 
+            vjust = 1.2, hjust = 1, size = 2.8) +
+  geom_segment(
+    data = data.frame(
+      x = 2008,
+      xend = 2008,
+      y = 0.5,
+      yend = 700
+    ), aes(x=x, y = y, xend = xend, yend= yend), color = "red", linetype = 2) +
   facet_wrap(vars(Station_name2)) +
   labs(x = "Year", y = expression(mu*g~TBT/kg~w.w)) +
   theme_bw() +
   theme(
     panel.grid = element_blank())
 
+# save_plots <- TRUE
 if (save_plots){
-  ggsave("Figures/06_Timeseries_allsp_TBT_3.png", 
-         gg,
-         width = 8, height = 5, dpi = 500)
   ggsave("Figures/06_Timeseries_allsp_TBT_3_log_FIG6.png", 
-         gg + scale_y_log10(limits = c(0.3, 900)),
+         gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100)),
          width = 6.6, height = 4.2, dpi = 500)
 }
 
-gg
-gg + scale_y_log10(limits = c(0.3, 900))
+# gg
+gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100))
 
 ```
 
