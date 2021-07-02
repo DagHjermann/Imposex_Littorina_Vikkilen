@@ -137,6 +137,9 @@ Jeg vil gjerne sette inn %I i Tabell 1. Har du disse tallene et sted slik at jeg
     - Data added to summary data in part 3.c2
     - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
 
+#### Modification 7 (3. July 2021)
+    - added 2013 data for N reticulatus - see 1c 
+
 ## 0. Libraries
 ```{r}
 library(dplyr)
@@ -145,6 +148,7 @@ library(ggplot2)
 library(tidyr)
 library(forcats)
 library(cowplot)
+library(readxl)
 
 # install.packages("openxlsx")
 library(openxlsx)
@@ -319,13 +323,96 @@ str(dat_tbt_mean_snails)
 ```
 
 ### c. Imposex in N. reticulatus (nettsnegl)   
+
+2013 data  
+* Supplied later, in a separate file  
+```{r, warning=FALSE}
+
+colnames <- c("Nr", "Code", "SH", "AH", 
+"Te", "VS", "Pr", "Vd", "Pe_gl", "Gen_excr", "Other_excr", 
+"Paras",
+"O", "Od", "Ag", "Ig", "Cg", "Vag", "in.Od", "stage", "type", 
+"male", "Kommentar")
+
+columntypes <- c(Nr = "numeric", Code = "text", 
+                   SH = "numeric", SB = "numeric", yr = "numeric", VS = "text", 
+                   Pr = "text", Vd = "text", Pe_gl = "numeric", P_P = "numeric", 
+                   Gen_excr = "numeric", Other_excr = "numeric", O = "text", 
+                   Od = "text", Ag = "text", Ig = "text", Cg = "text", 
+                   Vag = "text", in.Od = "text", stage = "numeric", type = "text", 
+                   male = "numeric", Kommentar = "text")
+
+
+fn <- "Input_data/Nettsnegl-Nassarius-Hinia/imposexskjema 2013_hinia.xls"
+
+sheet <- "7_13"
+df_07 <- read_excel(fn, sheet = sheet, range = "A8:W58", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "7",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st6_13"
+df_06 <- read_excel(fn, sheet = sheet, range = "A8:W58", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "6",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st5b"
+df_05b <- read_excel(fn, sheet = sheet, range = "A8:W58", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "5b",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st5"
+df_05 <- read_excel(fn, sheet = sheet, range = "A8:W57", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "5",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st1"
+df_01 <- read_excel(fn, sheet = sheet, range = "A8:W57", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "1",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+df_2013 <- bind_rows(df_07, df_06, df_05b, df_05, df_01) %>%
+  mutate(
+    Sex = case_when(
+      male %in% 1 ~ "m",
+      TRUE ~ "f"),
+    Nr = as.numeric(Nr)
+  ) %>% 
+  filter(!is.na(Nr)) %>%
+  select(-Paras)
+  
+
+```
+
 In this case, we combine station 5b with station 6     
 * *Not* combining 5b with 5, as we did for intersex in L. littorea    
 * For Figure 4  
 * Used in part 7  
+
+
 ```{r}
 
-dat_imposex_reticul <- readRDS("Data/02_Nettsnegl_intersex_2007_2014.RData")
+dat_imposex_reticul <- readRDS("Data/02_Nettsnegl_intersex_2007_2014.RData") %>%
+  bind_rows(df_2013)
 
 # Some tables
 if (FALSE){
@@ -1728,7 +1815,7 @@ df <- dat_tbt_mean_comb %>%
   filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
   filter(!is.na(TBT_mean))
 sts <- unique(df$Station_name2) 
-sts <- levels(sts)[as.numeric(sts)]
+# sts <- levels(sts)[as.numeric(sts)]
 # sts <- c("1", "4", "5", "6", "7")
 
 # test

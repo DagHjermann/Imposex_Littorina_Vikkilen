@@ -137,6 +137,9 @@ Jeg vil gjerne sette inn %I i Tabell 1. Har du disse tallene et sted slik at jeg
     - Data added to summary data in part 3.c2
     - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
 
+#### Modification 7 (3. July 2021)
+    - added 2013 data for N reticulatus - see 1c 
+
 ## 0. Libraries
 
 ```r
@@ -191,6 +194,8 @@ library(cowplot)
 ```
 
 ```r
+library(readxl)
+
 # install.packages("openxlsx")
 library(openxlsx)
 
@@ -201,7 +206,7 @@ source("06_Tables_graphs_functions.R")
 
 ```r
 save_plots <- TRUE
-# save_plots <- FALSE
+save_plots <- FALSE
 
 # Back up table (if needed)
 if (FALSE){
@@ -419,18 +424,100 @@ str(dat_tbt_mean_snails)
 ```
 
 ### c. Imposex in N. reticulatus (nettsnegl)   
+
+2013 data  
+* Supplied later, in a separate file  
+
+```r
+colnames <- c("Nr", "Code", "SH", "AH", 
+"Te", "VS", "Pr", "Vd", "Pe_gl", "Gen_excr", "Other_excr", 
+"Paras",
+"O", "Od", "Ag", "Ig", "Cg", "Vag", "in.Od", "stage", "type", 
+"male", "Kommentar")
+
+columntypes <- c(Nr = "numeric", Code = "text", 
+                   SH = "numeric", SB = "numeric", yr = "numeric", VS = "text", 
+                   Pr = "text", Vd = "text", Pe_gl = "numeric", P_P = "numeric", 
+                   Gen_excr = "numeric", Other_excr = "numeric", O = "text", 
+                   Od = "text", Ag = "text", Ig = "text", Cg = "text", 
+                   Vag = "text", in.Od = "text", stage = "numeric", type = "text", 
+                   male = "numeric", Kommentar = "text")
+
+
+fn <- "Input_data/Nettsnegl-Nassarius-Hinia/imposexskjema 2013_hinia.xls"
+
+sheet <- "7_13"
+df_07 <- read_excel(fn, sheet = sheet, range = "A8:W58", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "7",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st6_13"
+df_06 <- read_excel(fn, sheet = sheet, range = "A8:W58", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "6",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st5b"
+df_05b <- read_excel(fn, sheet = sheet, range = "A8:W58", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "5b",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st5"
+df_05 <- read_excel(fn, sheet = sheet, range = "A8:W57", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "5",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+sheet <- "st1"
+df_01 <- read_excel(fn, sheet = sheet, range = "A8:W57", 
+                    col_names = colnames, col_types = columntypes) %>%
+  mutate(Sheet = sheet, 
+         Station = "1",
+         Year = 2013,
+         Nr = as.character(Nr),
+         .before = everything())
+
+df_2013 <- bind_rows(df_07, df_06, df_05b, df_05, df_01) %>%
+  mutate(
+    Sex = case_when(
+      male %in% 1 ~ "m",
+      TRUE ~ "f"),
+    Nr = as.numeric(Nr)
+  ) %>% 
+  filter(!is.na(Nr)) %>%
+  select(-Paras)
+```
+
 In this case, we combine station 5b with station 6     
 * *Not* combining 5b with 5, as we did for intersex in L. littorea    
 * For Figure 4  
 * Used in part 7  
 
+
+
 ```r
-dat_imposex_reticul <- readRDS("Data/02_Nettsnegl_intersex_2007_2014.RData")
+dat_imposex_reticul <- readRDS("Data/02_Nettsnegl_intersex_2007_2014.RData") %>%
+  bind_rows(df_2013)
 
 # Some tables
 if (FALSE){
   table(addNA(dat_imposex_reticul$Sex))
   table(addNA(dat_imposex_reticul$Station))
+  table(addNA(dat_imposex_reticul$Station), addNA(dat_imposex_reticul$Year))
   xtabs(~addNA(stage) + Sex, dat_imposex_reticul)
 }
 
@@ -460,6 +547,7 @@ dat_imposex_reticul_summ <- dat_imposex_reticul %>%
 df <- dat_imposex_reticul_summ %>%
   arrange(Year, Station ) %>%
   select(Station, Year, VDSI) %>%
+  mutate(VDSI = round(VDSI, 2)) %>%
   pivot_wider(names_from = "Year", values_from = "VDSI") %>%
   arrange(desc(Station))
 
@@ -469,14 +557,14 @@ df
 ```
 
 ```
-## # A tibble: 5 x 7
-##   Station `2007` `2009` `2010` `2011` `2012` `2014`
-##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-## 1 7         4         4  3.97   3.94  NA       3.6 
-## 2 6         3.96      4  4      3.96   3.87    3.19
-## 3 5        NA        NA  3.58   3.18   2.65    1.97
-## 4 4         4        NA  2.89   1.71   0.871  NA   
-## 5 1        NA        NA  0.806  0.447  0.455   0.2
+## # A tibble: 5 x 8
+##   Station `2007` `2009` `2010` `2011` `2012` `2013` `2014`
+##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+## 1 7         4         4   3.97   3.94  NA      3.96   3.6 
+## 2 6         3.96      4   4      3.96   3.87   3.94   3.19
+## 3 5        NA        NA   3.58   3.18   2.65   2.27   1.97
+## 4 4         4        NA   2.89   1.71   0.87  NA     NA   
+## 5 1        NA        NA   0.81   0.45   0.45   0.37   0.2
 ```
 
 ## 2. TBT - tables of species
@@ -677,7 +765,8 @@ nrow(dat_intersex_litt_summ)
 dat_71G <- readxl::read_excel("Oppdatering sept2020/06_Littorina_tables_MSC.xlsx", sheet = "71G for R")
 
 dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
-  bind_rows(dat_71G)
+  bind_rows(dat_71G) %>%
+  mutate(Sex = "f")
 ```
 
 ### c2. Add 2021 data   
@@ -702,6 +791,7 @@ if (FALSE){
 dat_extra <- data.frame(
   Year = rep(2021, 4),
   Station = c("1", "4", "6", "7"),
+  Sex = "f",
   ISI_mean = rep(0, 4),
   Sterile_perc = rep(0, 4),
   I_perc = rep(0, 4),
@@ -757,6 +847,7 @@ if (save_plots){
 
   tab2a <- dat_intersex_litt_summ %>%
     select(Station, Station_name, Station_name2, Year, I_perc) %>%
+    mutate(I_perc = round(I_perc, 1)) %>%
     pivot_wider(names_from = Year, values_from = I_perc, names_sort = TRUE) %>%
     arrange(desc(Station))
 
@@ -800,7 +891,6 @@ if (save_plots){
 
 ```r
 tab_ISI <- dat_intersex_litt_summ %>%
-  filter(Sex %in% "f") %>%
   mutate(ISI_mean = round(ISI_mean, 2)) %>%
   select(Station, Year, ISI_mean) %>%
   spread(Year, ISI_mean)
@@ -808,15 +898,20 @@ tab_ISI
 ```
 
 ```
-## # A tibble: 1 x 10
-##   Station `2010` `2011` `2012` `2013` `2014` `2015` `2016` `2017` `2018`
-##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-## 1 71G          0      0     NA     NA     NA      0      0      0      0
+## # A tibble: 6 x 14
+##   Station `2005` `2007` `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016`
+##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+## 1 1         0     NA     NA     NA      0     NA     NA     NA        NA   0   
+## 2 4         0.44   0     NA      0      0      0      0     NA        NA   0   
+## 3 5         1.67   0.68   0.4    0.52   0      0     NA     NA        NA  NA   
+## 4 6         3.05   1.75   1.85   2      0.79   0.76   0.69   0.19     NA   0.22
+## 5 7        NA      1.45   1      0.45   0.32   0.06   0     NA        NA   0   
+## 6 71G      NA     NA     NA      0      0     NA     NA     NA         0   0   
+## # ... with 3 more variables: 2017 <dbl>, 2018 <dbl>, 2021 <dbl>
 ```
 
 ```r
 tab_PRL <- dat_intersex_litt_summ %>%
-  filter(Sex %in% "f") %>%
   mutate(PRL_mean = round(PRL_mean, 2)) %>%
   select(Station, Year, PRL_mean) %>%
   filter(!is.na(PRL_mean)) %>%
@@ -825,15 +920,20 @@ tab_PRL
 ```
 
 ```
-## # A tibble: 1 x 5
-##   Station `2015` `2016` `2017` `2018`
-##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>
-## 1 71G          0      0      0      0
+## # A tibble: 6 x 14
+##   Station `2005` `2007` `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016`
+##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+## 1 1         0     NA     NA     NA      0      NA    NA     NA        NA    0  
+## 2 4         0.18   0     NA      0      0       0     0     NA        NA    0  
+## 3 5         1.84   1.31   0.6    0.84   0       0    NA     NA        NA   NA  
+## 4 6         5.24   2.99   3.24   3.15   1.18    0.7   0.64   0.12     NA    0.1
+## 5 7        NA      2.5    1.63   0.82   0.62    0     0     NA        NA    0  
+## 6 71G      NA     NA     NA     NA     NA      NA    NA     NA         0    0  
+## # ... with 3 more variables: 2017 <dbl>, 2018 <dbl>, 2021 <dbl>
 ```
 
 ```r
 tab_sterile <- dat_intersex_litt_summ %>%
-  filter(Sex %in% "f") %>%
   mutate(Sterile_perc = round(Sterile_perc, 1)) %>%
   select(Station, Year, Sterile_perc) %>%
   filter(!is.na(Sterile_perc)) %>%
@@ -842,10 +942,16 @@ tab_sterile
 ```
 
 ```
-## # A tibble: 1 x 5
-##   Station `2015` `2016` `2017` `2018`
-##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>
-## 1 71G          0      0      0      0
+## # A tibble: 6 x 14
+##   Station `2005` `2007` `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016`
+##   <chr>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+## 1 1            0   NA     NA     NA      0     NA     NA     NA       NA    0  
+## 2 4            4    0     NA      0      0      0      0     NA       NA    0  
+## 3 5           50   21.1   10     16.1    0      0     NA     NA       NA   NA  
+## 4 6           95   56.2   55.6   64.5   25.6   18.2   20.7    3.2     NA    6.2
+## 5 7           NA   45.5   25     13.6   10.5    0      0     NA       NA    0  
+## 6 71G         NA   NA     NA     NA     NA     NA     NA     NA        0    0  
+## # ... with 3 more variables: 2017 <dbl>, 2018 <dbl>, 2021 <dbl>
 ```
 
 ```r
@@ -856,19 +962,19 @@ dat_intersex_litt_summ %>%
 ```
 
 ```
-## # A tibble: 49 x 4
-##    Station  Year     f `<NA>`
-##    <chr>   <dbl> <dbl>  <dbl>
-##  1 1        2005    NA   0   
-##  2 1        2011    NA   0   
-##  3 1        2016    NA   0   
-##  4 1        2018    NA   0   
-##  5 1        2021    NA   0   
-##  6 4        2005    NA   0.18
-##  7 4        2007    NA   0   
-##  8 4        2010    NA   0   
-##  9 4        2011    NA   0   
-## 10 4        2012    NA   0   
+## # A tibble: 49 x 3
+##    Station  Year     f
+##    <chr>   <dbl> <dbl>
+##  1 1        2005  0   
+##  2 1        2011  0   
+##  3 1        2016  0   
+##  4 1        2018  0   
+##  5 1        2021  0   
+##  6 4        2005  0.18
+##  7 4        2007  0   
+##  8 4        2010  0   
+##  9 4        2011  0   
+## 10 4        2012  0   
 ## # ... with 39 more rows
 ```
 
@@ -942,31 +1048,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 19 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 19 rows containing missing values (geom_point).
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 19 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 19 rows containing missing values (geom_point).
-```
-
-```r
 gg1
 ```
 
@@ -976,11 +1057,13 @@ gg1
 
 ```
 ## Warning: Removed 19 rows containing non-finite values (stat_smooth).
+```
 
+```
 ## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 ```r
 gg2
@@ -996,7 +1079,7 @@ gg2
 ## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
 
 
 
@@ -1021,31 +1104,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 20 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 20 rows containing missing values (geom_point).
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 20 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 20 rows containing missing values (geom_point).
-```
-
-```r
 gg1
 ```
 
@@ -1055,11 +1113,13 @@ gg1
 
 ```
 ## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+```
 
+```
 ## Warning: Removed 20 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 ```r
 gg2
@@ -1075,7 +1135,7 @@ gg2
 ## Warning: Removed 20 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-2.png)<!-- -->
 
 
 ### Sterile vs. ISI
@@ -1099,31 +1159,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_Sterile_vs_ISI_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 5 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning: Removed 5 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
-```r
 gg1
 ```
 
@@ -1133,11 +1168,13 @@ gg1
 
 ```
 ## Warning: Removed 5 rows containing non-finite values (stat_smooth).
+```
 
+```
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 ```r
 gg2
@@ -1153,7 +1190,7 @@ gg2
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-2.png)<!-- -->
 
 ### FIG.5 Combined plot  
 For paper (Fig. 5)
@@ -1254,27 +1291,19 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 if (save_plots)
   ggsave("Figures/06_Correlations_combined_color_FIG5.png", gg_comb,
          width = 7.8, height = 5.8, dpi = 500)
-```
 
-```
-## Warning: Removed 1 rows containing missing values (geom_text).
-```
-
-```
-## Warning: Removed 1 rows containing missing values (geom_text).
-```
-
-```r
 gg_comb
 ```
 
 ```
 ## Warning: Removed 1 rows containing missing values (geom_text).
+```
 
+```
 ## Warning: Removed 1 rows containing missing values (geom_text).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 
 ### Correlations
@@ -1543,7 +1572,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-1.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-1.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
 
 ```r
 # As above, excluding the reference station
@@ -1582,7 +1611,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-3.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-4.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-3.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-4.png)<!-- -->
 
 ```r
 # As above, excluding years before 2010
@@ -1622,7 +1651,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-5.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-6.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-5.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-6.png)<!-- -->
 
 ```r
 # Plot 
@@ -1645,7 +1674,7 @@ gg
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-7.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-7.png)<!-- -->
 
 ```r
 # ?visreg::visreg
@@ -1668,7 +1697,7 @@ ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 ###  ISI
 
@@ -1682,22 +1711,7 @@ ggplot(dat_intersex_litt_summ, aes(Year, ISI_mean)) +
 ## Warning: Removed 3 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
-
-### Mean PRL
-
-```r
-ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
-  geom_point() +
-  facet_wrap(vars(Station))
-```
-
-```
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
-
 
 ### Mean PRL
 
@@ -1712,6 +1726,21 @@ ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
 ```
 
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+
+
+### Mean PRL
+
+```r
+ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+```
+
+```
+## Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 
 ## 6. Littorina plots using logistic function   
 
@@ -1738,7 +1767,7 @@ with(df_pred$fit, lines(x, Pred))
 with(df, points(Year, TBT_mean, pch = 19)) 
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 
 ### Example for ISI 
@@ -1754,7 +1783,7 @@ with(df_pred$fit, lines(x, Pred))
 with(df, points(Year, ISI_mean, pch = 19)) 
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 ### ISI, ggplot variant
 
@@ -1766,7 +1795,7 @@ ggplot() +
   annotate("text", x = 2016, y = 1.3, label = paste("P =", round(pvalue, 4)))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 ### Plot two stations
 
@@ -1790,7 +1819,7 @@ ggplot() +
   facet_wrap(vars(Station))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 ### Plot ISI at all stations
 
@@ -1825,7 +1854,7 @@ ggplot() +
   facet_wrap(vars(Station_name))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 
 ### Plot percent sterile at all stations
@@ -1891,7 +1920,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 
 ### FIG. 4 Plot PRL at all stations  
@@ -1936,7 +1965,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 
 ### Plot TBT at all stations  
@@ -1977,7 +2006,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 ## 7. Combined figures for time series  
 * ISI + TBT
@@ -2115,11 +2144,11 @@ transpose(df_pred_list)$pvalue %>% bind_rows()
 
 ```
 ##   Station       Text     Text.1            Station_name           Station_name2
-## 1       1 P =  0.035 P =  0.035          Håøya (5.5 km)          Håøya (4-6 km)
+## 1       1 P =  0.015 P =  0.015          Håøya (5.5 km)          Håøya (4-6 km)
 ## 2       4  P < 0.001 P =  3e-04 Outer Vikkilen (2.5 km)   Outer Vikkilen (2 km)
-## 3       5 P =  0.002 P =  0.002       Skjeviga (0.6 km)   Mid Vikkilen (0.8 km)
-## 4       6  P =  0.07  P =  0.07         Shipyard (0 km)         Shipyard (0 km)
-## 5       7 P =  0.013 P =  0.013 Inner Vikkilen (0.5 km) Inner Vikkilen (0.5 km)
+## 3       5 P < 0.0001 P < 0.0001       Skjeviga (0.6 km)   Mid Vikkilen (0.8 km)
+## 4       6  P =  0.12  P =  0.12         Shipyard (0 km)         Shipyard (0 km)
+## 5       7  P =  0.09  P =  0.09 Inner Vikkilen (0.5 km) Inner Vikkilen (0.5 km)
 ```
 
 ```r
@@ -2233,15 +2262,7 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
-```
 
-```
-## Warning: Removed 16 rows containing missing values (geom_point).
-
-## Warning: Removed 16 rows containing missing values (geom_point).
-```
-
-```r
 gg
 ```
 
@@ -2249,7 +2270,7 @@ gg
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 
 ### Plot ISI + TBT, color
@@ -2299,13 +2320,7 @@ gg <- ggplot() +
 if (save_plots)
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_.png", gg,
          width = 7, height = 5, dpi = 500)
-```
 
-```
-## Warning: Removed 16 rows containing missing values (geom_point).
-```
-
-```r
 gg
 ```
 
@@ -2313,7 +2328,7 @@ gg
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 
 ### FIG. 3 Plot ISI + VDSI, B/W  
 
@@ -2382,7 +2397,7 @@ if (save_plots){
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
 
 
 
@@ -2511,13 +2526,7 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_1.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
-```
 
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -2525,7 +2534,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2535,7 +2544,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-2.png)<!-- -->
 
 Lumping stations (Station_name2)   
 
@@ -2555,13 +2564,7 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_2.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
-```
 
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -2569,7 +2572,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2579,7 +2582,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-47-2.png)<!-- -->
 
 
 ### b. Biota TBT combined  
@@ -2685,25 +2688,7 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_1.png", gg)
   ggsave("Figures/06_Timeseries_allsp_TBT_1_log.png", gg + scale_y_log10())
 }
-```
 
-```
-## Saving 8 x 5 in image
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Saving 8 x 5 in image
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -2711,7 +2696,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2721,7 +2706,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-2.png)<!-- -->
 
 
 
@@ -2796,7 +2781,7 @@ gg <- ggplot() +
 gg + scale_y_log10(limits = c(0.3, 8000))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
 
 ```r
 if (save_plots){
@@ -2807,17 +2792,11 @@ if (save_plots){
          gg + scale_y_log10(limits = c(0.3, 900)),
          width = 8, height = 5, dpi = 500)
 }
-```
 
-```
-## Warning: Removed 6 rows containing missing values (geom_text).
-```
-
-```r
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-2.png)<!-- -->
 
 ```r
 gg + scale_y_log10(limits = c(0.3, 1100))
@@ -2827,7 +2806,7 @@ gg + scale_y_log10(limits = c(0.3, 1100))
 ## Warning: Removed 6 rows containing missing values (geom_text).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-3.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-3.png)<!-- -->
 
 #### FIG. 6 Plot biota TBT, littorea + reticulatus, logistic
 
@@ -2859,7 +2838,7 @@ df <- dat_tbt_mean_comb %>%
   filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
   filter(!is.na(TBT_mean))
 sts <- unique(df$Station_name2) 
-sts <- levels(sts)[as.numeric(sts)]
+# sts <- levels(sts)[as.numeric(sts)]
 # sts <- c("1", "4", "5", "6", "7")
 
 # test
@@ -2951,7 +2930,7 @@ if (save_plots){
 gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
 
 
 ### c. Plot TBT in blue mussel vs. TBT in Littorina   
@@ -3025,7 +3004,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
 
 #### Plot as time series, b/w 
 
@@ -3043,13 +3022,7 @@ if (save_plots)
   ggsave("Figures/06_Timeseries_Litt_Myt_TBT.png", 
          gg + scale_y_log10(),
          width = 8, height = 5, dpi = 500)
-```
-
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
+  
 gg + scale_y_log10()
 ```
 
@@ -3057,7 +3030,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
 
 #### Plot against each other    
 
@@ -3098,13 +3071,13 @@ if (save_plots){
 gg1
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
 
 ```r
 gg2
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-2.png)<!-- -->
 
 
 
@@ -3133,7 +3106,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -3143,19 +3116,11 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-57-2.png)<!-- -->
 
 ```r
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_sediment_log.png", gg + scale_y_log10())
-```
-
-```
-## Saving 7.5 x 5 in image
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```r
 gg
 ```
 
@@ -3163,7 +3128,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-3.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-57-3.png)<!-- -->
 
 
 
