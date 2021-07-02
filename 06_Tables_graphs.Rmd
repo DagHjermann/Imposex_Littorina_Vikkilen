@@ -331,6 +331,7 @@ dat_imposex_reticul <- readRDS("Data/02_Nettsnegl_intersex_2007_2014.RData")
 if (FALSE){
   table(addNA(dat_imposex_reticul$Sex))
   table(addNA(dat_imposex_reticul$Station))
+  table(addNA(dat_imposex_reticul$Station), addNA(dat_imposex_reticul$Year))
   xtabs(~addNA(stage) + Sex, dat_imposex_reticul)
 }
 
@@ -360,6 +361,7 @@ dat_imposex_reticul_summ <- dat_imposex_reticul %>%
 df <- dat_imposex_reticul_summ %>%
   arrange(Year, Station ) %>%
   select(Station, Year, VDSI) %>%
+  mutate(VDSI = round(VDSI, 2)) %>%
   pivot_wider(names_from = "Year", values_from = "VDSI") %>%
   arrange(desc(Station))
 
@@ -479,7 +481,8 @@ nrow(dat_intersex_litt_summ)
 dat_71G <- readxl::read_excel("Oppdatering sept2020/06_Littorina_tables_MSC.xlsx", sheet = "71G for R")
 
 dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
-  bind_rows(dat_71G)
+  bind_rows(dat_71G) %>%
+  mutate(Sex = "f")
 
 
 ```
@@ -506,6 +509,7 @@ if (FALSE){
 dat_extra <- data.frame(
   Year = rep(2021, 4),
   Station = c("1", "4", "6", "7"),
+  Sex = "f",
   ISI_mean = rep(0, 4),
   Sterile_perc = rep(0, 4),
   I_perc = rep(0, 4),
@@ -560,6 +564,7 @@ if (save_plots){
 
   tab2a <- dat_intersex_litt_summ %>%
     select(Station, Station_name, Station_name2, Year, I_perc) %>%
+    mutate(I_perc = round(I_perc, 1)) %>%
     pivot_wider(names_from = Year, values_from = I_perc, names_sort = TRUE) %>%
     arrange(desc(Station))
 
@@ -604,14 +609,12 @@ if (save_plots){
 ```{r}
 
 tab_ISI <- dat_intersex_litt_summ %>%
-  filter(Sex %in% "f") %>%
   mutate(ISI_mean = round(ISI_mean, 2)) %>%
   select(Station, Year, ISI_mean) %>%
   spread(Year, ISI_mean)
 tab_ISI
 
 tab_PRL <- dat_intersex_litt_summ %>%
-  filter(Sex %in% "f") %>%
   mutate(PRL_mean = round(PRL_mean, 2)) %>%
   select(Station, Year, PRL_mean) %>%
   filter(!is.na(PRL_mean)) %>%
@@ -619,7 +622,6 @@ tab_PRL <- dat_intersex_litt_summ %>%
 tab_PRL
 
 tab_sterile <- dat_intersex_litt_summ %>%
-  filter(Sex %in% "f") %>%
   mutate(Sterile_perc = round(Sterile_perc, 1)) %>%
   select(Station, Year, Sterile_perc) %>%
   filter(!is.na(Sterile_perc)) %>%
