@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'/>
+<!-- Only works using leaflet 0.7.7; leaflet 1.0 doesn't work -->
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css'/>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js'></script>
+<!-- The next script is for add_text (see: https://gis.stackexchange.com/a/111962) -->
+<!-- Since we use leaflet < 1.0, need to use the leaflet.label plugin, https://github.com/Leaflet/Leaflet.label -->
+<!-- In the adress below, replaced raw.githubusercontent.com with cdn.rawgit.com (see https://stackoverflow.com/a/41309463/1734247) -->
+<script src='https://cdn.rawgit.com/Leaflet/Leaflet.label/master/dist/leaflet.label.js'></script>
+<style type='text/css'>
+#mapid { height: 600px; width: 600px }
+</style>
+<script type='text/javascript'>
+var loadMap = function() {
+
+var map = L.map('mapid', {zoomControl: true}).setView({lon: 1.13325, lat: 50.22535}, 14);
+
+var wmsLayer = L.tileLayer.wms('https://aquamonitor.niva.no/geoserver/gwc/service/wms?', {
+layers: 'no.norgedigitalt:toporaster',
+version: '1.1.1',
+SRS: 'EPSG:32633',
+format: 'image/png',
+attributes: 'Kartverket'
+}).addTo(map);
+
+var marker = L.polyline([[58.35550,8.61228],[58.36300,8.61520]], {
+        stroke: true,
+        color: '#377eb8',
+        weight: 3,
+        opacity: 1.000,
+        fill: false,
+        fillColor: '#e41a1c',
+        fillOpacity: 1.000
+        }).addTo(map);
+
+var marker = L.polyline([[58.36020,8.61000],[58.36020,8.62500]], {
+        stroke: true,
+        color: '#377eb8',
+        weight: 3,
+        opacity: 1.000,
+        fill: false,
+        fillColor: '#e41a1c',
+        fillOpacity: 1.000
+        }).addTo(map);
+
+var marker = L.polyline([[58.35550,8.60500],[58.35550,8.62200]], {
+        stroke: true,
+        color: '#377eb8',
+        weight: 3,
+        opacity: 1.000,
+        fill: false,
+        fillColor: '#e41a1c',
+        fillOpacity: 1.000
+        }).addTo(map);
+
+var marker = L.polyline([[58.33000,8.58000],[58.33000,8.62200]], {
+        stroke: true,
+        color: '#377eb8',
+        weight: 3,
+        opacity: 1.000,
+        fill: false,
+        fillColor: '#e41a1c',
+        fillOpacity: 1.000
+        }).addTo(map);
+    var marker = L.circleMarker([58.35899,8.61541], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.34758,8.60742], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35143,8.60964], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35362,8.60806], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35620,8.61111], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.34765,8.61221], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.34825,8.61193], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35765,8.61225], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35940,8.61196], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35792,8.61488], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35990,8.61602], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36235,8.61305], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36125,8.61221], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36051,8.61239], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35958,8.61133], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.34493,8.60254], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36006,8.61223], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36038,8.61226], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35992,8.61186], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35595,8.61324], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.33942,8.60094], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.33942,8.60094], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35828,8.61187], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35972,8.61582], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35960,8.61426], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36037,8.61417], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36187,8.61441], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36245,8.61414], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35850,8.61665], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36029,8.61670], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36212,8.61878], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36159,8.61948], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36005,8.61900], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35928,8.62052], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35640,8.61619], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.30607,8.59348], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35887,8.61081], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36313,8.61338], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.30607,8.59348], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35486,8.60773], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35595,8.60938], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35887,8.61081], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36313,8.61338], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36251,8.61232], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36282,8.61556], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36176,8.62073], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35923,8.62028], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36078,8.61421], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35891,8.61352], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35693,8.61191], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35958,8.61362], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35942,8.61229], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.36078,8.61421], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35891,8.61352], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35693,8.61191], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35958,8.61362], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+    var marker = L.circleMarker([58.35942,8.61229], {
+      radius: 5,
+      stroke: true,
+      color: 'black',
+      weight: 1,
+      opacity: 1.000,
+      fill: true,
+      fillColor: '#ffad4f',
+      fillOpacity: 1.000
+      }).addTo(map);
+  }
+  </script>
+  </head>
+  
+  <body onload='loadMap()'>
+  <div id='mapid'></div>
+  </body>
+  
+  </html>
