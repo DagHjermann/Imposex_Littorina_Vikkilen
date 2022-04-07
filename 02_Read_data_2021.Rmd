@@ -1,0 +1,220 @@
+---
+title: "02_Read_data_2021"
+author: "DHJ"
+date: "7 4 2022"
+output: html_document
+---
+
+Get 2021 data  
+
+* Code from "C:\Data\seksjon 212\Milkys\994_Industry_data_2021.Rmd"  
+
+
+
+## 1. Preparations  
+
+### Packages + functions  
+```{r, echo = FALSE, results='hide', warning=FALSE, message=FALSE}
+
+### 0. Libraries   
+
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(lubridate)
+library(readxl)
+library(tidyr)
+library(knitr)         
+library(RColorBrewer)
+library(keyring)
+
+# library(niRvana)
+
+# source('994_Industry_data_functions.R', encoding = "UTF-8")  # Used to read from Nivadatabase
+
+library(niRvana)
+
+knitr::opts_chunk$set(results = 'hold', echo = FALSE)
+
+# For Kristiansand sediment  
+#source("991_Vannmiljo_snippets_functions.R", encoding = "UTF-8")
+#source("992_Vannmiljo_Urban_fjord_functions.R", encoding = "UTF-8")
+
+# RColorBrewer::display.brewer.all()
+
+```
+
+
+## 2. Biota data  
+
+### Stations from O-number  
+
+```{r}
+
+o_nr <- 15404
+
+df_projects <- get_project_from_onumber(o_nr)
+df_projects 
+
+
+df_stations <- get_nivabase_selection(
+  "PROJECT_ID, STATION_ID, STATION_CODE, STATION_NAME",
+  "PROJECTS_STATIONS",
+  "PROJECT_ID",
+  df_projects$PROJECT_ID) %>%
+  left_join(
+    df_projects, by = "PROJECT_ID"
+  )
+
+df_stations_summ <- df_stations %>%
+  group_by(STATION_ID) %>%
+  summarise(
+    across(c(PROJECT_ID, STATION_CODE, STATION_NAME), 
+           .fn = ~ paste(unique(.x), collapse = ","))
+  ) %>%
+  arrange(STATION_CODE)
+
+df_stations_summ
+
+df_stations_summ2 <- df_stations_summ
+
+```
+
+### Biota (specimens)     
+* Data for 2016, 2020 and 2021            
+```{r}
+
+df_specimens_1 <- get_specimens_from_stationdata(
+  df_stations_summ2, 
+  years = 1980:2021)
+
+df_specimens <- df_specimens_1 %>%
+  left_join(df_stations_summ2, by = "STATION_ID")
+
+# df_specimens %>%
+#   count(DATE_CAUGHT, STATION_CODE, STATION_NAME)
+
+table(df_specimens$Year)
+
+xtabs(~STATION_CODE + Year, df_specimens)
+
+```
+
+
+### Samples and chemistry values  
+```{r}
+
+# debugonce(get_biota_chemistry)
+df_chem1 <- get_biota_chemistry(years = 2016:2021, months_second_year = NA, 
+                               specimendata = df_specimens, 
+                               stationdata = df_stations_summ2)
+
+# mean(is.na(df_chem1))
+mean(is.na(df_chem1$SAMPLE_DATE))
+mean(is.na(df_specimens$DATE_CAUGHT))
+
+df_specsamp <- get_nivabase_selection(
+  "SAMPLE_ID, SPECIMEN_ID",
+  "BIOTA_SAMPLES_SPECIMENS",
+  "SAMPLE_ID",
+  unique(df_chem1$SAMPLE_ID)
+)
+
+df_specimens_year <- df_specimens %>%
+  group_by(SPECIMEN_ID) %>%
+  summarise(MYEAR = mean(Year), Year_range = diff(range(Year, na.rm = TRUE)))
+
+# check
+if (max(df_specimens_year$Year_range) > 0){
+  stop("More than one year for the same specimen!")
+} else {
+  df_specimens_year$Year_range <- NULL
+}
+
+#
+# Add MYEAR
+#
+df_specsamp_year <- df_specsamp %>%
+  left_join(df_specimens_year) %>%
+  group_by(SAMPLE_ID) %>%
+  summarise(MYEAR = mean(MYEAR), Year_range = diff(range(MYEAR, na.rm = TRUE)))
+  
+# check
+if (max(df_specsamp_year$Year_range) > 0){
+  stop("More than one year for the same sample!")
+} else {
+  df_specsamp_year$Year_range <- NULL
+}
+
+
+df_chem2a <- df_chem1 %>%
+  left_join(df_specsamp_year, by = "SAMPLE_ID")
+
+xtabs(~STATION_CODE + MYEAR, df_chem2a)
+
+
+```
+
+
+## 3. Sediment data     
+
+* 2016 + 2021  
+
+```{r}
+
+df_sed_samples <- get_nivabase_selection(
+  "STATION_ID, SAMPLE_ID, SAMPLE_POINT_ID, SAMPLE_DATE, WATER_DEPTH",
+  "SEDIMENT_SAMPLES",
+  "STATION_ID",
+  df_stations_summ2$STATION_ID
+)
+nrow(df_sed_samples)
+table(year(df_sed_samples$SAMPLE_DATE))
+# 1990 2021 
+#    3   18
+
+df_sed_slices <- get_nivabase_selection(
+  "SAMPLE_ID, SLICE_ID, DEPTH1, DEPTH2",
+  "SEDIMENT_SLICES",
+  "SAMPLE_ID",
+  unique(df_sed_samples$SAMPLE_ID)
+)
+nrow(df_sed_slices)
+
+df_sed_values_1 <- get_nivabase_selection(
+  "SLICE_ID, METHOD_ID, MATRIX, FRACTION_SIZE, VALUE, FLAG1, DETECTION_LIMIT, QUANTIFICATION_LIMIT",
+  "SEDIMENT_CHEMISTRY_VALUES",
+  "SLICE_ID",
+  unique(df_sed_slices$SLICE_ID)
+)
+
+df_sed_methods <- get_nivabase_selection(
+  "METHOD_ID, NAME, UNIT, LABORATORY",
+  "METHOD_DEFINITIONS",
+  "METHOD_ID",
+  unique(df_sed_values_1$METHOD_ID)
+)
+
+df_sed_values <- df_sed_values_1 %>%
+  left_join(df_sed_methods) %>%
+  left_join(df_sed_slices) %>%
+  left_join(df_sed_samples) %>%
+  left_join(df_stations_summ2)
+
+nrow(df_sed_values_1)  
+nrow(df_sed_values)  
+  
+xtabs(~STATION_CODE + year(SAMPLE_DATE), df_sed_values)
+
+```
+
+
+## 4. Save  
+```{r}
+
+write.csv(df_chem2a, "Input_data/Data_2016-2021_biota.csv", row.names = FALSE, quote = FALSE)  
+
+write.csv(df_sed_values, "Input_data/Data_2016-2021_sediment.csv", row.names = FALSE, quote = FALSE)  
+
+```
+
