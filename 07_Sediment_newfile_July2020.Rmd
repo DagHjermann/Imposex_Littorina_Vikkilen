@@ -266,7 +266,7 @@ dat %>%
 
 
 
-## 3b. Map using nivamaps (aerial photo  
+## 3b. Map using nivamaps (aerial photo ) 
 
 ```{r}
 library(nivamaps)
@@ -295,6 +295,26 @@ make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
   make_html("Figures/07_sediment_areas_01.html")
 
 ```
+
+### Toporaster with points
+```{r}
+
+df_samples <- dat[,c("Lat","Long")] %>% as.matrix()
+make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+         height = 1100, width = 1100,
+         layer = "no.norgedigitalt:toporaster") %>%
+  add_polygon(data = coord_wharf, col_lat = 1, col_long = 2, 
+              border_color = "black", fill = TRUE) %>%
+  add_points(df_samples, radius = 3, color = "#ffad4f", border = TRUE) %>%
+  add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8") %>%
+  make_html("Figures/07_sediment_areas_01_points.html")
+
+
+```
+
 
 ### N250
 ```{r}
@@ -415,6 +435,65 @@ make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 16,
 # no.niva:N250 (a bit slow)
 # no.niva:Marin (a bit slow)
 
+
+```
+
+
+
+
+## 3c. Map using manulal copy/paste into HTML  
+
+* Using the file '07_sediment_areas_manual.html'    
+    - This file was based on `index_withMarker_singlefile.html`   
+    - which again was based on https://github.com/kartverket/example-clients   
+    - had to modify the javascript part (originally in `L.TileLayer.Kartverket.min.js`)   
+    - chese changes were based on GetCapabilities, see Readme.txt in 'C:\Data\R_test\Leaflet-kartverket'  
+* 
+
+
+
+```{r}
+
+library(nivamaps)
+library(sf)
+
+df_lines <- list(df_line1, df_line2, df_line3, df_line4)
+
+for (i in 1:4){
+  df_lines[[i]] <-   data.frame( df_lines[[i]], L1 = 1, L2 = 1)
+  df_lines[[i]] <- as.matrix(df_lines[[i]])
+}
+
+```
+
+### Modify nivamaps functions so they accept CRS  
+
+```{r}
+
+source("07_nivamaps_modified_functions.R")
+
+```
+
+### Make leaflet parts for copying  
+
+* Using crs 3857 (pseudo-Mercator) - i.e. not transforming coordinates   
+    - transform from 3857 to 3857    
+* The leaflet parts of this (most of the file) were then added to '07_sediment_areas_manual.html' by copy-paste  
+* Opened this in browser, selected background mal, copy-paste to powerpoint using Snip  
+    - File 07_sediment_areas_manual.pptx  
+    - then saved as png and copy-paste to word, see last page in the ppt
+
+```{r}
+
+  make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 14,
+           height = 600, width = 600,
+           layer = "no.norgedigitalt:toporaster") %>%
+    add_polyline(data = df_lines[[1]], col_lat = 2, col_long = 1, border_color = "#377eb8", crs=3857) %>%
+    add_polyline(data = df_lines[[2]], col_lat = 2, col_long = 1, border_color = "#377eb8", crs=3857) %>%
+    add_polyline(data = df_lines[[3]], col_lat = 2, col_long = 1, border_color = "#377eb8", crs=3857) %>%
+    add_polyline(data = df_lines[[4]], col_lat = 2, col_long = 1, border_color = "#377eb8", crs=3857) %>%
+    add_points(df_samples, radius = 5, color = "#ffad4f", border = TRUE, crs=3857) %>%
+    make_html("Figures/07_sediment_areas_manual_parts_for_copying.html")
 
 ```
 
