@@ -3,6 +3,8 @@
 .RData
 .Ruserdata
 *.RData
+*.html
+*.ppt*
 Input_data/*
 Notater*.*
 Shortcuts/*
