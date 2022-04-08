@@ -1,0 +1,756 @@
+"STATION_CODE","STATION_NAME","LATIN_NAME","SAMPLE_DATE","TISSUE_NAME","SAMPLE_NO","REPNO","NAME","VALUE","FLAG1","FLAG2","UNIT","DETECTION_LIMIT","UNCERTAINTY","QUANTIFICATION_LIMIT","APPROVED","REMARK_sample","REMARK_chem","STATION_ID","SAMPLE_ID","METHOD_ID","VALUE_ID","TISSUE_ID","TAXONOMY_CODE_ID","MYEAR"
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Naftalen",50,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36370,2014208,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kobber",1.2,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67476,246962,35494,2018018,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.4,"<",NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67476,246962,36341,2018024,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36369,2014207,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[k]fluoranten",1.1,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36368,2018011,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krom",0.077,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67476,246962,35542,2018019,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tributyltinn (TBT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67476,246962,36340,2018023,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sum PAH 16",30,NA,NA,"UG_P_KG",NA,60,NA,1,NA,NA,67476,246962,35495,2017996,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36363,2018003,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Bly",0.12,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67476,246962,35556,2018016,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoren",0.96,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36362,2018002,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]pyren",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36360,2018000,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fenantren",7.6,NA,NA,"UG_P_KG",NA,40,0.5,1,NA,NA,67476,246962,36371,2018021,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.7,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36366,2018006,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kvikksølv",0.014,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67476,246962,35532,2018014,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kadmium",0.13,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67476,246962,35557,2018017,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaften",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36357,2017997,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Nikkel",0.089,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67476,246962,35558,2018008,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Pyren",4.4,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36364,2018004,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]antracen",0.79,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36367,2018010,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Naftalen",0.95,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36370,2018013,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]pyren",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36360,2014230,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36363,2014233,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36521,2014240,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",0.41,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36612,2014215,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36520,2014213,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36514,2014214,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36361,2014231,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Nikkel",0.2,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35655,2014246,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]antracen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36367,2014205,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaftylen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36358,2014228,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36519,2014212,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",1.39,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,31234,2014224,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36518,2014211,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",68.8,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,31233,2014225,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fettinnhold",1.35,NA,NA,"PERCENT",NA,0,NA,1,NA,NA,67476,246669,33351,2014223,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krom",0.08,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35671,2014245,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.41,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36615,2014218,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",0.55,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36614,2014217,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Arsen",2.2,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35669,2014241,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kadmium",0.15,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35667,2014243,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fenantren",5,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36371,2014234,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Pyren",0.8,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36364,2014235,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn (DBT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36516,2014209,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoranten",1.1,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36365,2014236,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sink",16,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35656,2014247,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kobber",0.9,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35668,2014244,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[b,j]fluoranten",0.85,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36366,2014238,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36613,2014216,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",0.41,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36617,2014220,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaften",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36357,2014227,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36515,2014239,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krysen",0.545,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36688,2014237,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kvikksølv",0.005,"<",NA,"MG_P_KG",NA,NA,NA,1,NA,NA,67476,246669,33676,2014226,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Antracen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36359,2014229,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.52,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36619,2014222,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[k]fluoranten",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36368,2014206,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoren",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67476,246669,36362,2014232,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Bly",0.14,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67476,246669,35670,2014242,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36616,2014219,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.27,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36618,2014221,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)",1,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67476,246669,36517,2014210,7,8859,2021
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67476,246962,36344,2018027,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sink",18,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67476,246962,35559,2018009,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Antracen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36359,2017999,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67476,246962,35672,2018007,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.4,"<",NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67476,246962,36342,2018025,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tørrstoff %",18,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67476,246962,36352,2018028,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibutyltinn (DBT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67476,246962,36339,2018022,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaftylen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36358,2017998,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoranten",8.6,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36365,2018005,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Arsen",3.2,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67476,246962,35555,2018015,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.5,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67476,246962,36343,2018026,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fettinnhold",2.3,NA,NA,"PERCENT",NA,20,0.1,1,NA,NA,67476,246962,35491,2018029,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.61,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67476,246962,36361,2018001,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36369,2018012,7,8859,2016
+"BL1","Stanghlm","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krysen+Trifenylen",3.2,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67476,246962,36372,2018020,7,8859,2016
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.0937,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36480,1875449,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krom",0.12,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67477,242174,35671,1875456,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Antracen",0.28,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36469,1875462,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[k]fluoranten",0.234,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36479,1875455,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",5.41,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,31012,1875428,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,67477,242174,36514,1875469,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB inkl. LOQ",1.94,NA,NA,"NG_P_G",NA,NA,1.2,1,NA,NA,67477,242174,36568,1875476,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoranten",0.966,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36475,1875470,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Nikkel",0.2,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67477,242174,35655,1875467,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Bly",0.29,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67477,242174,35670,1875485,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ eksl. LOQ",0.0059,NA,NA,"PG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36565,1875475,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sink",22,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67477,242174,35656,1875459,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn (DBT)",3,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36516,1875431,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 81",0.874,"<",NA,"PG_P_G",NA,NA,0.54,1,NA,NA,67477,242174,36558,1875478,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)",8.3,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36517,1875424,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 52",0.324,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67477,242174,36553,1875460,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 157",2.42,NA,NA,"PG_P_G",NA,0,0.82,1,NA,NA,67477,242174,36562,1875427,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krysen",0.755,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36476,1875458,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fenantren",3.01,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36466,1875483,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",0.89,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36614,1875434,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kvikksølv",0.012,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67477,242174,35532,1875484,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",3.86,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,31234,2014272,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn (DBT)",3.4,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36516,2014257,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.26,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36613,2014264,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[k]fluoranten",0.373,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36368,2014254,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",5.3,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36617,2014268,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Antracen",0.4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36359,2014277,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.77,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36521,2014288,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.77,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36519,2014260,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoren",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36362,2014280,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.46,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36361,2014279,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kadmium",0.11,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35667,2014248,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Nikkel",0.1,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35655,2014251,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.98,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36515,2014287,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kvikksølv",0.006,NA,NA,"MG_P_KG",NA,NA,NA,1,NA,NA,67477,246670,33676,2014274,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",1.7,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36612,2014263,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.16,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36366,2014286,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Naftalen",50,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36370,2014256,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.39,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36615,2014266,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",0.66,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36614,2014265,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]antracen",0.414,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36478,1875433,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 114",2.45,NA,NA,"PG_P_G",NA,0,1.1,1,NA,NA,67477,242174,35641,1875426,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 101",0.324,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67477,242174,36554,1875441,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 180",0.324,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67477,242174,36557,1875479,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 28",0.324,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67477,242174,36552,1875446,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36613,1875447,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 153",0.324,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67477,242174,36556,1875430,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fettinnhold",1.02,NA,NA,"PERCENT",NA,0,NA,1,NA,NA,67477,246670,33351,2014271,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fenantren",3.87,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36371,2014282,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoranten",2,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36365,2014284,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]pyren",0.321,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36360,2014278,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krom",0.05,"<",NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35671,2014250,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.77,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36518,2014259,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.26,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36616,2014267,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaftylen",0.321,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36358,2014276,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]antracen",0.524,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36367,2014253,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Arsen",1.7,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35669,2014289,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.26,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36618,2014269,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.5,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36514,2014262,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Pyren",1.4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36364,2014283,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaften",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36357,2014275,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kobber",0.9,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35668,2014249,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 189",1.29,"<",NA,"PG_P_G",NA,NA,0.8,1,NA,NA,67477,242174,36564,1875437,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoren",1.1,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36472,1875444,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36521,1875473,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kadmium",0.12,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67477,242174,35667,1875454,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 138",0.324,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67477,242174,36555,1875464,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 126",0.809,"<",NA,"PG_P_G",NA,NA,0.5,1,NA,NA,67477,242174,36560,1875442,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.382,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36473,1875451,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 169",3.88,"<",NA,"PG_P_G",NA,NA,2.4,1,NA,NA,67477,242174,36563,1875481,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",3.4,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36617,1875463,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 123",2.03,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67477,242174,36559,1875445,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tørrstoff %",13,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67477,242174,36352,1875432,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaften",1.11,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36467,1875486,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.29,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36618,1875474,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.458,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36471,1875443,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 118",104,NA,NA,"PG_P_G",NA,0,28,1,NA,NA,67477,242174,36443,1875472,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)",1.3,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36515,1875440,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]pyren",0.249,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36470,1875425,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",54.4,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,31014,1875457,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36519,1875461,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.321,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36369,2014255,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sink",14,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35656,2014252,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",70.5,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,31233,2014273,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)",13,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36517,2014258,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.344,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36363,2014281,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Bly",0.24,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67477,246670,35670,2014290,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaftylen",0.25,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36468,1875468,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kobber",0.82,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67477,242174,35668,1875480,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 105",41.1,NA,NA,"PG_P_G",NA,0,7.8,1,NA,NA,67477,242174,36570,1875482,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36518,1875471,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krysen",0.996,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67477,246670,36688,2014285,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fettinnhold",0.793,NA,NA,"PERCENT",NA,NA,NA,1,NA,NA,67477,242174,35491,1875477,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.5,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36619,2014270,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.77,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67477,246670,36520,2014261,7,8859,2021
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 156",9.24,NA,NA,"PG_P_G",NA,0,4.4,1,NA,NA,67477,242174,36571,1875450,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.85,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67477,242174,36520,1875453,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Naftalen",43.1,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36481,1875435,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ inkl. LOQ",0.204,NA,NA,"PG_P_G",NA,NA,0.13,1,NA,NA,67477,242174,36566,1875438,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.18,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36477,1875429,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Pyren",0.773,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36474,1875448,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.4,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36615,1875465,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",1.5,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36612,1875452,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.51,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36619,1875436,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Arsen",2,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67477,242174,35669,1875439,7,8859,2018
+"BL3","Biodden","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67477,242174,36616,1875466,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fettinnhold",0.538,NA,NA,"PERCENT",NA,NA,NA,1,NA,NA,67478,242169,35491,1875250,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",2.4,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36612,1875294,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 105",86.8,NA,NA,"PG_P_G",NA,0,7.8,1,NA,NA,67478,242169,36570,1875247,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Nikkel",0.2,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67478,242169,35655,1875290,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]pyren",0.67,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36470,1875287,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sink",22,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67478,242169,35656,1875292,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]antracen",0.552,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36478,1875263,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 153",0.551,NA,NA,"NG_P_G",NA,0,0.2,1,NA,NA,67478,242169,36556,1875296,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 157",3.91,NA,NA,"PG_P_G",NA,0,0.82,1,NA,NA,67478,242169,36562,1875284,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoren",1.24,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36472,1875282,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoranten",1.43,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36475,1875301,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tørrstoff %",12,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67478,242169,36352,1875257,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krom",0.15,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67478,242169,35671,1875265,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)",12,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36517,1875267,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",1.3,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36614,1875306,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 189",1.96,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67478,242169,36564,1875249,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kvikksølv",0.01,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67478,242169,35532,1875288,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.0971,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36480,1875280,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB eksl. LOQ",0.899,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36569,1875276,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kobber",0.62,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67478,242169,35668,1875260,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.98,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36477,1875269,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Naftalen",83.6,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36481,1875274,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB inkl. LOQ",1.95,NA,NA,"NG_P_G",NA,NA,1.2,1,NA,NA,67478,242169,36568,1875297,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Bly",0.24,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67478,242169,35670,1875286,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.51,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36619,1875268,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",8.86,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,31012,1875299,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36616,1875245,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.52,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36619,2014308,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",1.9,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36612,2014301,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fenantren",5,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36371,2014320,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]antracen",0.395,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36367,2014291,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoren",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36362,2014318,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Antracen",0.4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36359,2014315,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36520,2014299,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36518,2014297,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sink",16,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35656,2014333,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Nikkel",0.1,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35655,2014332,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",71.1,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,31233,2014311,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36616,2014305,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoranten",1.9,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36365,2014322,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kvikksølv",0.005,NA,NA,"MG_P_KG",NA,NA,NA,1,NA,NA,67478,246671,33676,2014312,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.42,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36615,2014304,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36521,2014326,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Naftalen",50,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36370,2014294,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)",16,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36517,2014296,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaftylen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36358,2014314,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[k]fluoranten",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36368,2014292,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36369,2014293,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.36,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36361,2014317,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36618,2014307,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",2.55,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,31234,2014310,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fettinnhold",1.63,NA,NA,"PERCENT",NA,0,NA,1,NA,NA,67478,246671,33351,2014309,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn (DBT)",3.7,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36516,2014295,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36519,2014298,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Arsen",1.9,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35669,2014327,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kobber",1.2,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35668,2014330,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kadmium",0.12,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35667,2014329,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36363,2014319,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 81",0.912,NA,NA,"PG_P_G",NA,0,0.54,1,NA,NA,67478,242169,36558,1875259,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn (DBT)",4.6,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36516,1875272,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Arsen",2,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67478,242169,35669,1875261,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.793,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36471,1875308,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.8,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36518,1875248,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 28",0.263,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67478,242169,36552,1875303,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",99,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,31014,1875293,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.8,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36520,1875258,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.41,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36615,1875281,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36613,1875295,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaftylen",0.42,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36468,1875304,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Antracen",0.32,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36469,1875302,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.769,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36473,1875289,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.8,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36519,1875283,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krysen",0.846,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36476,1875255,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36618,1875305,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 123",3.41,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67478,242169,36559,1875307,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Pyren",1.34,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36474,1875277,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 156",15.5,NA,NA,"PG_P_G",NA,0,4.4,1,NA,NA,67478,242169,36571,1875262,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 169",3.16,"<",NA,"PG_P_G",NA,NA,2.4,1,NA,NA,67478,242169,36563,1875264,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 118",206,NA,NA,"PG_P_G",NA,0,28,1,NA,NA,67478,242169,36443,1875275,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[k]fluoranten",0.491,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36479,1875246,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 180",0.263,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67478,242169,36557,1875300,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 101",0.263,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67478,242169,36554,1875273,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 114",4.81,NA,NA,"PG_P_G",NA,0,1.1,1,NA,NA,67478,242169,35641,1875254,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",4.9,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36617,1875252,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fenantren",3.11,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36466,1875291,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaften",1.33,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36467,1875285,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)",1.9,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36515,1875251,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krysen+Trifenylen",6.6,NA,NA,"UG_P_KG",NA,50,0.5,1,NA,NA,67478,246963,36372,2018054,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fettinnhold",2.8,NA,NA,"PERCENT",NA,20,0.1,1,NA,NA,67478,246963,35491,2018063,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoren",1.2,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67478,246963,36362,2018036,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sink",20,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67478,246963,35559,2018043,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.8,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67478,242169,36521,1875279,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 52",0.263,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67478,242169,36553,1875278,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 126",1.3,NA,NA,"PG_P_G",NA,0,0.5,1,NA,NA,67478,242169,36560,1875271,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ inkl. LOQ",0.237,NA,NA,"PG_P_G",NA,NA,0.13,1,NA,NA,67478,242169,36566,1875256,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 138",0.348,NA,NA,"NG_P_G",NA,0,0.2,1,NA,NA,67478,242169,36555,1875266,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kadmium",0.089,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67478,242169,35667,1875270,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ eksl. LOQ",0.143,NA,NA,"PG_P_G",NA,NA,NA,1,NA,NA,67478,242169,36565,1875298,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",0.75,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36614,2014303,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krysen",1.06,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36688,2014323,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]pyren",0.315,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36360,2014316,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Pyren",1.3,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36364,2014321,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)",1.1,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36515,2014325,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaften",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36357,2014313,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36514,2014300,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.09,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67478,246671,36366,2014324,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36613,2014302,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",6.7,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67478,246671,36617,2014306,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaften",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67478,246963,36357,2018031,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tributyltinn (TBT)",15.8,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67478,246963,36340,2018057,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Bly",0.22,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67478,246963,35556,2018050,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67478,246963,36344,2018061,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Pyren",7.3,NA,NA,"UG_P_KG",NA,50,0.5,1,NA,NA,67478,246963,36364,2018038,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]pyren",0.56,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36360,2018034,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaftylen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36358,2018032,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67478,246963,36343,2018060,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,67478,242169,36514,1875253,7,8859,2018
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.4,"<",NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67478,246963,36342,2018059,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kvikksølv",0.014,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67478,246963,35532,2018048,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.79,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36361,2018035,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]antracen",1.5,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67478,246963,36367,2018044,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fenantren",9.4,NA,NA,"UG_P_KG",NA,40,0.5,1,NA,NA,67478,246963,36371,2018055,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoranten",12,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67478,246963,36365,2018039,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Arsen",3.3,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67478,246963,35555,2018049,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tørrstoff %",20,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67478,246963,36352,2018062,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Naftalen",0.97,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36370,2018047,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kadmium",0.1,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67478,246963,35557,2018051,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36363,2018037,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[k]fluoranten",2.3,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36368,2018045,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.9,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67478,246963,35672,2018041,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.4,"<",NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67478,246963,36341,2018058,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kobber",1.5,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67478,246963,35494,2018052,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krom",0.05,"<",NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35671,2014331,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Bly",0.17,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67478,246671,35670,2014328,7,8859,2021
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Nikkel",0.055,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67478,246963,35558,2018042,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibutyltinn (DBT)",2.9,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67478,246963,36339,2018056,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sum PAH 16",46,NA,NA,"UG_P_KG",NA,60,NA,1,NA,NA,67478,246963,35495,2018030,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Antracen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67478,246963,36359,2018033,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[b,j]fluoranten",3.5,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67478,246963,36366,2018040,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67478,246963,36369,2018046,7,8859,2016
+"BL4","Kjellviga","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krom",0.074,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67478,246963,35542,2018053,7,8859,2016
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Nikkel",0.28,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67479,242172,35655,1875350,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 123",4.7,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67479,242172,36559,1875351,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ eksl. LOQ",0.149,NA,NA,"PG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36565,1875359,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36518,1875377,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36616,1875368,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36521,1875386,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kvikksølv",0.018,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67479,242172,35532,1875384,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 105",112,NA,NA,"PG_P_G",NA,0,7.8,1,NA,NA,67479,242172,36570,1875372,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Naftalen",68.6,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36481,1875373,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 153",0.404,NA,NA,"NG_P_G",NA,0,0.2,1,NA,NA,67479,242172,36556,1875376,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]antracen",1.44,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36478,1875349,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaften",1.24,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36467,1875405,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 189",1.99,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67479,242172,36564,1875391,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 180",0.293,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67479,242172,36557,1875392,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.84,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36471,1875352,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Pyren",2.85,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36474,1875360,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ inkl. LOQ",0.254,NA,NA,"PG_P_G",NA,NA,0.13,1,NA,NA,67479,242172,36566,1875387,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 156",15.7,NA,NA,"PG_P_G",NA,0,4.4,1,NA,NA,67479,242172,36571,1875390,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 118",241,NA,NA,"PG_P_G",NA,0,28,1,NA,NA,67479,242172,36443,1875396,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Antracen",0.35,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36469,1875393,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",16.3,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,31012,1875399,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fenantren",2.89,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36466,1875383,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoranten",3.82,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36475,1875346,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 126",1.35,NA,NA,"PG_P_G",NA,0,0.5,1,NA,NA,67479,242172,36560,1875353,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[b,j]fluoranten",3.03,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36477,1875355,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 52",0.293,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67479,242172,36553,1875395,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36613,1875397,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36519,1875366,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 157",5.1,NA,NA,"PG_P_G",NA,0,0.82,1,NA,NA,67479,242172,36562,1875361,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[k]fluoranten",0.69,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36479,1875379,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.0993,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36480,1875403,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)",20,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36517,1875345,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.41,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36615,1875398,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 101",0.293,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67479,242172,36554,1875371,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",90.9,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,31014,1875348,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krom",0.22,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67479,242172,35671,1875378,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",2.9,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36612,1875370,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Bly",0.43,NA,NA,"MG_P_KG",NA,25,0.03,1,NA,NA,67479,242172,35670,1875402,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)",3.5,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36515,1875400,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)",2.3,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36520,1875369,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 28",0.293,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67479,242172,36552,1875406,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB inkl. LOQ",1.87,NA,NA,"NG_P_G",NA,NA,1.2,1,NA,NA,67479,242172,36568,1875380,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoren",1.19,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36472,1875381,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 138",0.293,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67479,242172,36555,1875354,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.793,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36473,1875394,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn (DBT)",5.8,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67479,242172,36516,1875401,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tørrstoff %",14,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67479,242172,36352,1875343,7,8859,2018
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",9.9,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,31234,2014353,7,8859,2021
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaftylen",0.33,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36468,1875374,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sink",33,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67479,242172,35656,1875365,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krysen",1.97,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36476,1875347,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 114",6.49,NA,NA,"PG_P_G",NA,0,1.1,1,NA,NA,67479,242172,35641,1875385,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,67479,242172,36514,1875356,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 81",1,NA,NA,"PG_P_G",NA,0,0.54,1,NA,NA,67479,242172,36558,1875364,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kobber",0.88,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67479,242172,35668,1875367,7,8859,2018
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Nikkel",0.1,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67479,246964,35558,2018076,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Naftalen",0.86,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36370,2018081,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaftylen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36358,2018066,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[k]fluoranten",2.1,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36368,2018079,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67479,246964,35672,2018075,7,8859,2016
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]pyren",0.757,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36470,1875358,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",2.4,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36614,1875382,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kadmium",0.14,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67479,242172,35667,1875404,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fettinnhold",0.326,NA,NA,"PERCENT",NA,NA,NA,1,NA,NA,67479,242172,35491,1875362,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB eksl. LOQ",0.404,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36569,1875375,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Arsen",2.8,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67479,242172,35669,1875344,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",8.3,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36617,1875363,7,8859,2018
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.27,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36618,2014350,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.79,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36518,2014340,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoren",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36362,2014361,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",7.5,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36617,2014349,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Nikkel",0.1,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35655,2014375,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",76.8,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,31233,2014354,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.79,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36520,2014342,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.76,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36366,2014367,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",1,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36614,2014346,7,8859,2021
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 169",3.52,"<",NA,"PG_P_G",NA,NA,2.4,1,NA,NA,67479,242172,36563,1875357,7,8859,2018
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.51,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36619,1875389,7,8859,2018
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.27,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36616,2014348,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]antracen",0.929,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36367,2014334,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.27,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36613,2014345,7,8859,2021
+"BL5","Bie","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.78,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67479,242172,36618,1875388,7,8859,2018
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fenantren",7.2,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36371,2014363,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaften",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36357,2014356,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[k]fluoranten",0.511,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36368,2014335,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fettinnhold",1.35,NA,NA,"PERCENT",NA,0,NA,1,NA,NA,67479,246672,33351,2014352,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Antracen",0.7,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36359,2014358,7,8859,2021
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.4,"<",NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67479,246964,36342,2018093,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Pyren",9.2,NA,NA,"UG_P_KG",NA,50,0.5,1,NA,NA,67479,246964,36364,2018072,7,8859,2016
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Naftalen",50,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36370,2014337,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krysen",1.72,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36688,2014366,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36514,2014343,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kvikksølv",0.008,NA,NA,"MG_P_KG",NA,NA,NA,1,NA,NA,67479,246672,33676,2014355,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaftylen",0.324,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36358,2014357,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sink",17,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35656,2014376,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)",18,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36517,2014339,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kobber",1,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35668,2014373,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn (DBT)",3.9,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36516,2014338,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.51,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36619,2014351,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",2,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36612,2014344,7,8859,2021
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoranten",15,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67479,246964,36365,2018073,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]pyren",0.51,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36360,2018068,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kvikksølv",0.018,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67479,246964,35532,2018082,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.83,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36361,2018069,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fenantren",8.1,NA,NA,"UG_P_KG",NA,40,0.5,1,NA,NA,67479,246964,36371,2018089,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kobber",1.3,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67479,246964,35494,2018086,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Antracen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36359,2018067,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67479,246964,36369,2018080,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Arsen",3.2,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67479,246964,35555,2018083,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monooktyltinn (MOT)",1,NA,NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67479,246964,36341,2018092,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoren",0.88,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67479,246964,36362,2018070,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[b,j]fluoranten",3.8,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67479,246964,36366,2018074,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sink",21,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67479,246964,35559,2018077,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krysen+Trifenylen",7,NA,NA,"UG_P_KG",NA,50,0.5,1,NA,NA,67479,246964,36372,2018088,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kadmium",0.11,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67479,246964,35557,2018085,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fettinnhold",2.1,NA,NA,"PERCENT",NA,20,0.1,1,NA,NA,67479,246964,35491,2018097,7,8859,2016
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.516,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36361,2014360,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoranten",2.41,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36365,2014365,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.79,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36519,2014341,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.397,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36363,2014362,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Pyren",1.66,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36364,2014364,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.324,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36369,2014336,7,8859,2021
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibutyltinn (DBT)",3.4,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67479,246964,36339,2018090,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tributyltinn (TBT)",29.9,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67479,246964,36340,2018091,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67479,246964,36363,2018071,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaften",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67479,246964,36357,2018065,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tørrstoff %",17,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67479,246964,36352,2018096,7,8859,2016
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kadmium",0.12,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35667,2014372,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Arsen",1.8,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35669,2014370,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Bly",0.2,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35670,2014371,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.4,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36615,2014347,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]pyren",0.324,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67479,246672,36360,2014359,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krom",0.06,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67479,246672,35671,2014374,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.79,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36521,2014369,7,8859,2021
+"BL5","Bie","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)",1.5,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67479,246672,36515,2014368,7,8859,2021
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krom",0.22,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67479,246964,35542,2018087,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67479,246964,36344,2018095,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Bly",0.27,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67479,246964,35556,2018084,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sum PAH 16",50,NA,NA,"UG_P_KG",NA,60,NA,1,NA,NA,67479,246964,35495,2018064,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]antracen",1.7,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67479,246964,36367,2018078,7,8859,2016
+"BL5","Bie","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.2,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67479,246964,36343,2018094,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 28",0.303,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67480,242167,36552,1875194,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krom",0.2,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67480,242167,35671,1875220,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.51,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36477,1875185,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]antracen",0.476,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36478,1875206,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fettinnhold",2.74,NA,NA,"PERCENT",NA,NA,NA,1,NA,NA,67480,242167,35491,1875214,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",7.37,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,31012,1875189,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.346,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36473,1875208,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 156",13.4,NA,NA,"PG_P_G",NA,0,4.4,1,NA,NA,67480,242167,36571,1875166,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",70,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,31014,1875188,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Pyren",1.31,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36474,1875197,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Bly",0.22,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67480,242167,35670,1875225,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaftylen",0.32,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36468,1875177,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Nikkel",0.28,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67480,242167,35655,1875211,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 126",1.45,NA,NA,"PG_P_G",NA,0,0.5,1,NA,NA,67480,242167,36560,1875170,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoranten",1.93,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36475,1875168,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 118",169,NA,NA,"PG_P_G",NA,0,28,1,NA,NA,67480,242167,36443,1875176,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.77,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36518,1875187,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Arsen",2.1,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67480,242167,35669,1875204,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 105",67.3,NA,NA,"PG_P_G",NA,0,7.8,1,NA,NA,67480,242167,36570,1875193,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Acenaften",1.32,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36467,1875192,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Pyren",1.7,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36364,2014407,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krysen",1.21,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36688,2014409,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36520,2014385,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kvikksølv",0.005,"<",NA,"MG_P_KG",NA,NA,NA,1,NA,NA,67480,246673,33676,2014398,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",16,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36617,2014392,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fenantren",8.5,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36371,2014406,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Antracen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36359,2018101,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[b,j]fluoranten",3.4,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67480,246965,36366,2018108,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoren",0.77,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67480,246965,36362,2018104,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibutyltinn (DBT)",10.2,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67480,246965,36339,2018124,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",18,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36617,1875195,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.77,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36519,1875181,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",2.5,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36614,1875196,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 157",3.72,NA,NA,"PG_P_G",NA,0,0.82,1,NA,NA,67480,242167,36562,1875186,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 81",0.818,"<",NA,"PG_P_G",NA,NA,0.54,1,NA,NA,67480,242167,36558,1875207,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.77,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36521,1875226,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ eksl. LOQ",0.155,NA,NA,"PG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36565,1875215,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 169",3.64,"<",NA,"PG_P_G",NA,NA,2.4,1,NA,NA,67480,242167,36563,1875184,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.451,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36471,1875171,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB eksl. LOQ",0.401,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36569,1875164,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fluoren",1.26,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36472,1875191,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tributyltinn (TBT)",43,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36517,1875217,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 189",1.49,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67480,242167,36564,1875219,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Krysen",0.868,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36476,1875203,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Fenantren",3.07,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36466,1875209,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tørrstoff %",15,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67480,242167,36352,1875212,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monobutyltinn (MBT)",3.7,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36515,1875205,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.49,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36619,1875200,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sum 6 DIN-PCB inkl. LOQ",1.92,NA,NA,"NG_P_G",NA,NA,1.2,1,NA,NA,67480,242167,36568,1875175,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.26,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36616,1875213,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 180",0.303,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67480,242167,36557,1875183,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[a]pyren",0.197,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36470,1875190,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn (DBT)",11,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36516,1875173,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 153",0.401,NA,NA,"NG_P_G",NA,0,0.2,1,NA,NA,67480,242167,36556,1875218,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.39,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36615,1875222,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 52",0.303,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67480,242167,36553,1875182,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 101",0.303,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67480,242167,36554,1875180,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Benzo[k]fluoranten",0.278,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36479,1875167,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Antracen",0.37,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36469,1875169,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.0958,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36480,1875210,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"WHO(2005)-PCB TEQ inkl. LOQ",0.264,NA,NA,"PG_P_G",NA,NA,0.13,1,NA,NA,67480,242167,36566,1875179,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 138",0.303,"<",NA,"NG_P_G",NA,NA,0.2,1,NA,NA,67480,242167,36555,1875174,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Naftalen",56.2,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36481,1875216,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.26,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36613,1875178,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kvikksølv",0.013,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67480,242167,35532,1875172,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.51,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36618,1875165,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kadmium",0.11,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67480,242167,35667,1875224,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Kobber",0.89,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67480,242167,35668,1875221,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.5,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,67480,242167,36514,1875227,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 114",3.33,NA,NA,"PG_P_G",NA,0,1.1,1,NA,NA,67480,242167,35641,1875199,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Bly",0.15,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35670,2014414,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]pyren",0.57,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36360,2018102,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.4,"<",NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67480,246965,36342,2018127,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.89,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36361,2018103,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Pyren",8.6,NA,NA,"UG_P_KG",NA,50,0.5,1,NA,NA,67480,246965,36364,2018106,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fluoranten",15,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67480,246965,36365,2018107,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67480,246965,36344,2018129,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[k]fluoranten",2.2,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36368,2018113,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Arsen",2.6,NA,NA,"MG_P_KG",NA,30,0.05,1,NA,NA,67480,246965,35555,2018117,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.3,"<",NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67480,246965,35672,2018109,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaften",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67480,246965,36357,2018099,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.7,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36514,2014386,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoranten",2,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36365,2014408,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.29,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36616,2014391,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Arsen",1.8,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35669,2014413,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kadmium",0.11,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35667,2014415,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",2.6,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36614,2014389,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[k]fluoranten",0.438,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36368,2014378,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krom",0.061,NA,NA,"MG_P_KG",NA,50,0.03,1,NA,NA,67480,246965,35542,2018121,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Naftalen",0.7,NA,NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36370,2018115,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kvikksølv",0.014,NA,NA,"MG_P_KG",NA,30,0.005,1,NA,NA,67480,246965,35532,2018116,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Nikkel",0.058,NA,NA,"MG_P_KG",NA,40,0.04,1,NA,NA,67480,246965,35558,2018110,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kadmium",0.083,NA,NA,"MG_P_KG",NA,25,0.001,1,NA,NA,67480,246965,35557,2018119,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.5,"<",NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67480,246965,36369,2018114,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tributyltinn (TBT)",69.4,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67480,246965,36340,2018125,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Benzo[a]antracen",1.7,NA,NA,"UG_P_KG",NA,60,0.5,1,NA,NA,67480,246965,36367,2018112,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Acenaftylen",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36358,2018100,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fenantren",7.3,NA,NA,"UG_P_KG",NA,40,0.5,1,NA,NA,67480,246965,36371,2018123,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Krysen+Trifenylen",7.1,NA,NA,"UG_P_KG",NA,50,0.5,1,NA,NA,67480,246965,36372,2018122,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sink",17,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67480,246965,35559,2018111,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Monooktyltinn (MOT)",2.7,NA,NA,"UG_P_KG",NA,NA,0.4,1,NA,NA,67480,246965,36341,2018126,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Sum PAH 16",48,NA,NA,"UG_P_KG",NA,60,NA,1,NA,NA,67480,246965,35495,2018098,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Tørrstoff %",17,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,67480,246965,36352,2018130,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Fettinnhold",2.2,NA,NA,"PERCENT",NA,20,0.1,1,NA,NA,67480,246965,35491,2018131,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.6,NA,NA,"UG_P_KG",NA,NA,0.3,1,NA,NA,67480,246965,36343,2018128,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.5,"<",NA,"UG_P_KG",NA,70,0.5,1,NA,NA,67480,246965,36363,2018105,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Kobber",1.3,NA,NA,"MG_P_KG",NA,25,0.02,1,NA,NA,67480,246965,35494,2018120,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.84,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36519,2014384,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH ekskl. LOQ",4.86,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,31234,2014396,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.54,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36619,2014394,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Krom",0.05,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35671,2014417,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Indeno[1,2,3-cd]pyren",0.354,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36363,2014405,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.35,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36618,2014393,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Naftalen",50,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36370,2014380,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibenzo[a,h]antracen",0.316,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36369,2014379,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.84,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36521,2014412,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]pyren",0.318,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36360,2014402,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sum 16 EPA-PAH inkl. LOQ",77.9,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,31233,2014397,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Nikkel",0.1,"<",NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35655,2014418,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaften",4,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36357,2014399,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monobutyltinn (MBT)",3.8,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36515,2014411,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.29,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36613,2014388,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",5.7,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36612,2014387,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Sink",16,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35656,2014419,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.5,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,67480,242167,36520,1875202,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",5.5,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,67480,242167,36612,1875223,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"Sink",22,NA,NA,"MG_P_KG",NA,25,0.5,1,NA,NA,67480,242167,35656,1875201,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2018-09-10,"Whole soft body",1,1,"PCB 123",3.23,NA,NA,"PG_P_G",NA,0,0.8,1,NA,NA,67480,242167,36559,1875198,7,8859,2018
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[b,j]fluoranten",1.44,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36366,2014410,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Tributyltinn (TBT)",39,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36517,2014382,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Antracen",0.7,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36359,2014401,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fluoren",5.5,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36362,2014404,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Acenaftylen",0.316,"<",NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36358,2014400,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Dibutyltinn (DBT)",11,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36516,2014381,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[a]antracen",0.622,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36367,2014377,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Benzo[g,h,i]perylen",0.475,NA,NA,"UG_P_KG",NA,0,NA,1,NA,NA,67480,246673,36361,2014403,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2016-03-16,"Whole soft body",1,1,"Bly",0.19,NA,NA,"MG_P_KG",NA,40,0.03,1,NA,NA,67480,246965,35556,2018118,7,8859,2016
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.43,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36615,2014390,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.84,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,67480,246673,36518,2014383,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Kobber",1,NA,NA,"MG_P_KG",NA,0,NA,1,NA,NA,67480,246673,35668,2014416,7,8859,2021
+"BL6","Nymo","Mytilus edulis",2021-09-01,"Whole soft body",1,1,"Fettinnhold",1.46,NA,NA,"PERCENT",NA,0,NA,1,NA,NA,67480,246673,33351,2014395,7,8859,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn (DBT)",1.8,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36516,1875334,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.81,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36519,1875338,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.52,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36619,1875342,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.81,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36520,1875340,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.81,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36515,1875329,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.81,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36521,1875339,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)",1.4,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36517,1875326,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",0.93,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36612,1875331,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",0.54,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36614,1875337,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36618,1875336,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.81,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68173,242171,36518,1875327,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.52,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36619,2014435,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.3,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36520,2014426,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36613,2014429,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)",3.2,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36517,2014423,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",1.3,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36617,2014433,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.43,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36618,2014434,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36616,2014432,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.41,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36615,2014431,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.41,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36615,1875330,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2016-08-16,"Whole soft body",1,1,"Tributyltinn",1,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68173,230977,36542,1783248,7,8879,2016
+"Lit1","Håøya - strandsnegl","Littorina littorea",2016-08-16,"Whole soft body",1,1,"Tørrstoff %",28,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68173,230977,36352,1783247,7,8879,2016
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",0.55,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36614,2014430,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",0.86,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36612,2014428,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.28,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36616,1875332,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,68173,242171,36514,1875341,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36613,1875335,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tørrstoff %",30,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,68173,242171,36352,1875328,7,8879,2018
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36518,2014424,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36521,2014421,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36515,2014420,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36514,2014427,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.81,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36519,2014425,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn (DBT)",1.7,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68173,246674,36516,2014422,7,8879,2021
+"Lit1","Håøya - strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",0.56,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68173,242171,36617,1875333,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.78,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36518,1875422,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.4,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36615,1875408,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",2.3,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36614,1875409,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.78,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36521,1875415,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36616,1875407,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.26,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36618,1875414,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn (DBT)",7.9,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36516,2014454,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.78,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36519,1875412,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.42,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36615,2014463,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.38,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36618,2014466,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.1,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36520,2014458,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.83,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36518,2014456,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.5,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36619,1875413,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",2.5,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36612,1875419,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2016-08-23,"Whole soft body",1,1,"Tributyltinn",11.6,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68174,230978,36542,1783250,7,8879,2016
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.83,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36521,2014453,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)",6.4,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36517,1875421,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tørrstoff %",30,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,68174,242173,36352,1875418,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn (DBT)",5,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36516,1875423,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",2.6,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36617,1875420,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",6.5,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36617,2014465,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",2.2,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36614,2014462,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.7,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36514,2014459,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)",16,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36517,2014455,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2016-08-23,"Whole soft body",1,1,"Tørrstoff %",31,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68174,230978,36352,1783249,7,8879,2016
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36616,2014464,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)",0.78,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36520,1875410,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,68174,242173,36514,1875417,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",4,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36612,2014460,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)",3.5,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68174,242173,36515,1875411,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68174,242173,36613,1875416,7,8879,2018
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.83,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36519,2014457,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36613,2014461,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.53,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36619,2014467,7,8879,2021
+"Lit4","Hasseldalen strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)",3.3,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68174,246676,36515,2014452,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",76,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36617,2014481,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.53,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36619,2014483,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.53,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36619,1875313,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)",180,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36517,2014471,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)",5.4,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36520,2014474,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.56,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36616,2014480,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn (DBT)",120,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36516,2014470,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.58,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36616,1875320,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",30,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36612,1875314,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",26,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36617,1875316,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn (DBT)",58,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36516,1875312,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.82,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36519,1875321,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)",64,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36517,1875319,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36613,1875318,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",1.7,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36521,1875323,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)",36,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36515,1875309,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",43,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36614,2014478,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)",2.7,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36520,1875324,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.93,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36618,1875325,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.82,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68176,242170,36518,1875311,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2016-08-23,"Whole soft body",1,1,"Tørrstoff %",26,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68176,230979,36352,1783251,7,8879,2016
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2016-08-23,"Whole soft body",1,1,"Tributyltinn",104,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68176,230979,36542,1783252,7,8879,2016
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)",63,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36515,2014468,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",59,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36612,2014476,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36613,2014477,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tørrstoff %",30,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,68176,242170,36352,1875315,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",25,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36614,1875317,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.42,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36615,2014479,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",1.6,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36521,2014469,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",1.8,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36618,2014482,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.82,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36518,2014472,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.42,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68176,242170,36615,1875322,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,68176,242170,36514,1875310,7,8879,2018
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.82,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36519,2014473,7,8879,2021
+"Lit6","AS Nymo strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68176,246677,36514,2014475,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2016-08-23,"Whole soft body",1,1,"Tributyltinn",51.4,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68177,230976,36542,1783246,7,8879,2016
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2016-08-23,"Whole soft body",1,1,"Tørrstoff %",29,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68177,230976,36352,1783245,7,8879,2016
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tørrstoff %",32,NA,NA,"PERCENT",NA,12,0.02,1,NA,NA,68177,242168,36352,1875231,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.51,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36618,1875239,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn (DBT)",19,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36516,1875240,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36521,1875234,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36616,1875228,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)",29,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36517,1875243,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.27,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36613,1875244,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trifenyltinn (TPhT)",1.5,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36520,1875241,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36518,1875237,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",12,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36617,1875235,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.79,"<",NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36519,1875230,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.41,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36615,1875238,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.51,"<",NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36619,1875242,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)",13,NA,NA,"NG_P_G",NA,NA,5,1,NA,NA,68177,242168,36515,1875233,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",8.7,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36614,1875232,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",9.8,NA,NA,"NG_P_G",NA,NA,NA,1,NA,NA,68177,242168,36612,1875236,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn (DBT)",56,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36516,2014438,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TetraBT)",0.82,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36521,2014437,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)-Sn",71,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36617,2014449,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn-Sn (DOT-Sn)",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36613,2014445,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36514,2014443,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dioktyltinn (DOT)",0.82,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36519,2014441,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)",29,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36515,2014436,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tetrabutyltinn (TTBT)-Sn",0.28,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36616,2014448,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monobutyltinn (MBT)-Sn",20,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36614,2014446,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)",0.82,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36518,2014440,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2018-08-13,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)",1.6,"<",NA,"NG_P_G",NA,NA,10,1,NA,NA,68177,242168,36514,1875229,7,8879,2018
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Tributyltinn (TBT)",170,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36517,2014439,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)",2.5,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36520,2014442,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Monooktyltinn (MOT)-Sn",0.42,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36615,2014447,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trisykloheksyltinn (TCHT)-Sn",0.53,"<",NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36619,2014451,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Dibutyltinn-Sn (DBT-Sn)",28,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36612,2014444,7,8879,2021
+"Lit7","Vikkilen innerst strandsnegl","Littorina littorea",2021-05-05,"Whole soft body",1,1,"Trifenyltinn (TPhT)-Sn",0.86,NA,NA,"NG_P_G",NA,0,NA,1,NA,NA,68177,246675,36618,2014450,7,8879,2021
+"Vikk_torsk","Vikkilen Torsk","Gadus morhua",2016-08-26,"Lever",1,1,"Tørrstoff %",42,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68178,230996,36352,1783265,3,8850,2016
+"Vikk_torsk","Vikkilen Torsk","Gadus morhua",2016-08-26,"Lever",1,1,"Tributyltinn",101,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68178,230996,36542,1783266,3,8850,2016
+"Vikk_torsk","Vikkilen Torsk","Gadus morhua",2016-08-26,"Muskel",1,1,"Fettinnhold",0.4,NA,NA,"PERCENT",NA,NA,0.1,1,NA,NA,68178,230997,35491,1783269,2,8850,2016
+"Vikk_torsk","Vikkilen Torsk","Gadus morhua",2016-08-26,"Muskel",1,1,"Tørrstoff %",19,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68178,230997,36352,1783268,2,8850,2016
+"Vikk_torsk","Vikkilen Torsk","Gadus morhua",2016-08-26,"Lever",1,1,"Fettinnhold",28.7,NA,NA,"PERCENT",NA,NA,0.1,1,NA,NA,68178,230996,35491,1783267,3,8850,2016
+"Vikk_torsk","Vikkilen Torsk","Gadus morhua",2016-08-26,"Muskel",1,1,"Tributyltinn",30.2,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68178,230997,36542,1783270,2,8850,2016
+"Vikk_krabbe","Vikkilen krabbe","Cancer pagurus",2016-08-26,"Krabbeskall innmat",1,1,"Fettinnhold",6.1,NA,NA,"PERCENT",NA,NA,0.1,1,NA,NA,68179,230998,35491,1783272,21,8874,2016
+"Vikk_krabbe","Vikkilen krabbe","Cancer pagurus",2016-08-26,"Krabbeskall innmat",1,1,"Tributyltinn",7.46,NA,NA,"NG_P_G",NA,NA,1,1,NA,NA,68179,230998,36542,1783273,21,8874,2016
+"Vikk_krabbe","Vikkilen krabbe","Cancer pagurus",2016-08-26,"Krabbeskall innmat",1,1,"Tørrstoff %",22,NA,NA,"PERCENT",NA,NA,0.02,1,NA,NA,68179,230998,36352,1783271,21,8874,2016

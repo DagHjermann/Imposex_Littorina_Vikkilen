@@ -2,13 +2,16 @@
 title: "02_Read_data_2021"
 author: "DHJ"
 date: "7 4 2022"
-output: html_document
+output: 
+  html_document:
+    keep_md: true
+    toc: true
+    toc_float: true
 ---
 
 Get 2021 data  
 
 * Code from "C:\Data\seksjon 212\Milkys\994_Industry_data_2021.Rmd"  
-
 
 
 ## 1. Preparations  
@@ -44,9 +47,6 @@ knitr::opts_chunk$set(results = 'hold', echo = FALSE)
 
 ```
 
-
-## 2. Biota data  
-
 ### Stations from O-number  
 
 ```{r}
@@ -79,6 +79,9 @@ df_stations_summ
 df_stations_summ2 <- df_stations_summ
 
 ```
+
+
+## 2. Biota data  
 
 ### Biota (specimens)     
 * Data for 2016, 2020 and 2021            
@@ -199,11 +202,12 @@ df_sed_values <- df_sed_values_1 %>%
   left_join(df_sed_methods) %>%
   left_join(df_sed_slices) %>%
   left_join(df_sed_samples) %>%
-  left_join(df_stations_summ2)
+  left_join(df_stations_summ2) %>%
+  add_coordinates()
 
 nrow(df_sed_values_1)  
 nrow(df_sed_values)  
-  
+
 xtabs(~STATION_CODE + year(SAMPLE_DATE), df_sed_values)
 
 ```
@@ -212,9 +216,13 @@ xtabs(~STATION_CODE + year(SAMPLE_DATE), df_sed_values)
 ## 4. Save  
 ```{r}
 
-write.csv(df_chem2a, "Input_data/Data_2016-2021_biota.csv", row.names = FALSE, quote = FALSE)  
+fn <- "Data/21_data_2016-2021_biota.csv"
+write.csv(df_chem2a, fn, row.names = FALSE)  # quote = FALSE was a bad idea  
+cat("Saved file", fn, "\n")
 
-write.csv(df_sed_values, "Input_data/Data_2016-2021_sediment.csv", row.names = FALSE, quote = FALSE)  
+fn <- "Data/21_data_2016-2021_sediment.csv"
+write.csv(df_sed_values, fn, row.names = FALSE)  # quote = FALSE was a bad idea  
+cat("Saved file", fn, "\n")
 
 ```
 

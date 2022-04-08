@@ -15,6 +15,8 @@
 #
 # and corresponding excel files
 #
+# NOTE: more data (2021 data) read in later using script 21
+#
 
 ## 0a. Libraries ----
 library(dplyr)
