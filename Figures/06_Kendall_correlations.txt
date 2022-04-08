@@ -1,0 +1,52 @@
+=================================
+Correlation TBT_mean, ISI_mean 
+
+
+	Kendall's rank correlation tau
+
+data:  TBT_mean and ISI_mean
+z = 3.702, p-value = 0.0002139
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5191121 
+
+=================================
+Correlation TBT_mean, PRL_mean 
+
+
+	Kendall's rank correlation tau
+
+data:  TBT_mean and PRL_mean
+z = 3.5078, p-value = 0.0004518
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4988878 
+
+=================================
+Correlation PRL_mean, ISI_mean 
+
+
+	Kendall's rank correlation tau
+
+data:  PRL_mean and ISI_mean
+z = 7.5036, p-value = 6.209e-14
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9394094 
+
+=================================
+Correlation Sterile_perc, ISI_mean 
+
+
+	Kendall's rank correlation tau
+
+data:  Sterile_perc and ISI_mean
+z = 7.6045, p-value = 2.86e-14
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9520401 
+

@@ -1,4 +1,5 @@
 Copied to 
+K:\Avdeling\Mar\Msc\Artikkel MSC Littorina  
 
 Name changes:
 Here:    06_Mean_tbt.xlsx

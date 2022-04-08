@@ -269,6 +269,7 @@ dat %>%
 ## 3b. Map using nivamaps (aerial photo ) 
 
 ```{r}
+
 library(nivamaps)
 library(sf)
 
@@ -441,7 +442,7 @@ make_map(center_lon = map_center[1], center_lat = map_center[2], zoom = 16,
 
 
 
-## 3c. Map using manulal copy/paste into HTML  
+## 3c. Map using manual copy/paste into HTML  
 
 * Using the file '07_sediment_areas_manual.html'    
     - This file was based on `index_withMarker_singlefile.html`   
@@ -552,8 +553,59 @@ dat %>%
   geom_path(data = df_line3)
 
 ```
+### 2016-2021  
+```{r}
 
-## 5. Define 'Area' column in data set  
+dat_2021_sediment <- read.csv("Data/21_data_2016-2021_sediment.csv")
+
+dat_2021_sediment %>%
+  filter(NAME %in% c("Tributyltinn", "Tributyltinn (TBT)")) %>% 
+  rename(Lat = LATITUDE, Long = LONGITUDE, TBT = VALUE) %>%
+  mutate(Year = year(SAMPLE_DATE)) %>%   #  xtabs(~NAME, .)
+  # filter(Lat > 58.335 & Year %in% c(2004,2008)) %>%
+  ggplot(aes(Long, Lat)) +
+  geom_point(aes(color = TBT)) +
+  scale_color_distiller(palette = "Spectral") +
+  facet_wrap(vars(Year), nrow = 1) +
+  geom_path(data = df_line1 %>% mutate(Long = Long - 0.00)) +
+  geom_path(data = df_line2) +
+  geom_path(data = df_line3)
+
+```
+
+## 5. Make data set for plots  
+```{r}
+
+dat %>%
+  select(Year, TBT, Flag)
+
+```
+
+### a. Add 2021 data    
+```{r}
+
+dat_2016_2021_sediment <- read.csv("Data/21_data_2016-2021_sediment.csv")
+
+dat_tbt_sediment_2021 <- dat_2016_2021_sediment %>%
+  filter(NAME %in% c("Tributyltinn", "Tributyltinn (TBT)")) %>% 
+  rename(Lat = LATITUDE, Long = LONGITUDE, TBT = VALUE, Flag = FLAG1) %>%
+  mutate(Year = year(SAMPLE_DATE)) %>%
+  filter(Year %in% 2021) %>% 
+  select(Year, Lat, Long, TBT, Flag)
+
+check <- dat$Year %in% 2021
+
+if (sum(check)==0){
+  dat <- bind_rows(
+    dat,
+    dat_tbt_sediment_2021
+  )
+}
+
+```
+
+
+### b. Define 'Area' column in data set  
 - Based on the lines defined in section 3, first chink
 - Data 'dat2'  
 ```{r}
@@ -734,6 +786,8 @@ plot_TBT_allareas(dat2, ylim = c(0, max(dat2$TBT, na.rm = TRUE)), add_pvalue = T
 # plot_TBT_allareas(dat2, ylim = c(0, max(dat2$TBT, na.rm = TRUE)), add_pvalue = FALSE)
 
 ```
+
+
 #### In same format as rest - data for plotting
 ```{r}
 
@@ -773,8 +827,6 @@ df_pvalue <- data.frame(
 
 #### In same format as rest - plot   
 
-* Fig. 6B  
-
 ```{r}
 
 # Plot
@@ -801,6 +853,10 @@ gg
 gg + scale_y_log10()
 
 ```
+
+
+
+## Appendix (not used)   
 
 ### Plot percent sterile at all stations
 ```{r}

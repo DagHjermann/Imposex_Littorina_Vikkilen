@@ -134,12 +134,13 @@ round_pvalue_txt <- function(pvalue){
 #   and a given variable 'variable'
 # Calls 'pred_logistic' 
 #
-pred_logistic_from_stationname <- function(st, variable, data = dat_intersex_litt_summ){
+pred_logistic_from_stationname <- function(st, variable, data = dat_intersex_litt_summ,
+                                           last_year = 2021){
   df <- data %>% as.data.frame()
   df <- df[df$Station %in% st & !is.na(df[[variable]]),]
   # Add Station names
   # pred = list of dataframe ('fit') and model ('model')
-  pred <- pred_logistic(df$Year, df[[variable]], x_range = c(2005, 2018), a = 0.05)
+  pred <- pred_logistic(df$Year, df[[variable]], x_range = c(2005, last_year), a = 0.05)
   # Add Station + Station name also to the data frame
   pred$fit <- pred$fit %>% mutate(Station = st) %>% left_join(st_names, by = "Station")
   # Also make a dataframe with P-value text
@@ -155,10 +156,10 @@ pred_logistic_from_stationname <- function(st, variable, data = dat_intersex_lit
   list(fit = pred$fit, pvalue = pvalue)
 }
 
-pred_logistic_from_data <- function(data, variable){
+pred_logistic_from_data <- function(data, variable, last_year = 2021){
   df <- data %>% as.data.frame()
   # pred = list of dataframe ('fit') and model ('model')
-  pred <- pred_logistic(df$Year, df[[variable]], x_range = c(2005, 2018), a = 0.05)
+  pred <- pred_logistic(df$Year, df[[variable]], x_range = c(2005, last_year), a = 0.05)
   # Add Station to the data frame 
   # pred$fit <- pred$fit %>% mutate(Station = station)   # do this in the calling function instead
   # Also make a dataframe with P-value text
