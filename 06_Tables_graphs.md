@@ -140,6 +140,15 @@ Jeg vil gjerne sette inn %I i Tabell 1. Har du disse tallene et sted slik at jeg
 #### Modification 7 (3. July 2021)
     - added 2013 data for N reticulatus - see 1c 
 
+#### Modification 8 (3. Feb 2022)
+    - added 2021 data, extracted from Nivabasen using script 21  
+    - TBT in Littorina: 1a-2 (splitting up the old 1a)  
+    - TBT in blue mussel (Mytilus): 8a  
+    - Intersex in Littorina: was already addded in modification 6 (part 3c2)  
+    - TBT in sediment: see script 07  
+    - Had to change functions a bit too, adding 'last_year', see function script 
+
+
 ## 0. Libraries
 
 ```r
@@ -169,32 +178,8 @@ library(ggplot2)
 library(tidyr)
 library(forcats)
 library(cowplot)
-```
-
-```
-## 
-## ********************************************************
-```
-
-```
-## Note: As of version 1.0.0, cowplot does not change the
-```
-
-```
-##   default ggplot2 theme anymore. To recover the previous
-```
-
-```
-##   behavior, execute:
-##   theme_set(theme_cowplot())
-```
-
-```
-## ********************************************************
-```
-
-```r
 library(readxl)
+library(stringr)
 
 # install.packages("openxlsx")
 library(openxlsx)
@@ -206,7 +191,9 @@ source("06_Tables_graphs_functions.R")
 
 ```r
 save_plots <- TRUE
-save_plots <- FALSE
+# save_plots <- FALSE
+
+last_year <- 2021
 
 # Back up table (if needed)
 if (FALSE){
@@ -306,9 +293,8 @@ st_names_mytilus <- tibble::tribble(
 
 ## 1. Data
 
-### a. Intersex and TBT data  
-16 April 2020: 
-- Combine 5 and 5B
+### a1. Intersex and TBT raw data  
+
 
 ```r
 #
@@ -326,7 +312,58 @@ dat_intersex_litt <- readRDS(file = "Data/02_Strandsnegl_intersex_2005_2018.RDat
 # Data made in script 05
 #
 dat_tbt <- readRDS(file = "Data/05_TBT.RData")
+```
 
+
+### a2. 2021 Littorina data 
+- Fetched from Nivabasen using 5. April 2022, see script 21     
+- Littorina TBT added to dat_tbt here
+- Mytilus TBT added to dat_tbt in part 8
+- Intersex not added here, added to 'dat_intersex_litt_summ' in part 3.c1a
+
+
+```r
+dat_2021_biota <- read.csv("Data/21_data_2016-2021_biota.csv")
+
+dat_tbt_2021 <- dat_2021_biota %>%
+  filter(MYEAR == 2021,
+         LATIN_NAME %in% "Littorina littorea",
+         NAME %in% c("Tributyltinn", "Tributyltinn (TBT)")) %>%
+  rename(
+    Year = MYEAR,
+    TBT = VALUE,
+    TBT_flag = FLAG1
+  ) %>%
+  mutate(
+    Station = str_extract(STATION_CODE, "[0-9]+"),
+    Species = "Littorina"
+  ) %>%
+  select(Station, Year, Species, TBT, TBT_flag)
+
+cat("dat_tbt_2021:", nrow(dat_tbt_2021), "rows\n")
+```
+
+```
+## dat_tbt_2021: 4 rows
+```
+
+```r
+# Add new data to dat_tbt
+check <- dat_tbt$Year == 2021
+if (sum(check) == 0){
+  dat_tbt <- bind_rows(
+    dat_tbt, dat_tbt_2021
+  )
+  
+}
+```
+### a3. Summarise TBT  
+
+16 April 2020: 
+- Combine 5 and 5B
+
+
+```r
 # Summarise TBT
 dat_tbt_mean <- dat_tbt %>% 
   mutate(Station = case_when(
@@ -362,6 +399,7 @@ dat_tbt %>%
 ##   2014 0 1 0  0 1 1
 ##   2016 1 1 0  0 1 1
 ##   2018 1 1 0  0 1 1
+##   2021 1 1 0  0 1 1
 ```
 
 ```r
@@ -394,11 +432,13 @@ dat_tbt_mean %>%
 ##   2014 0 1 0 1 1
 ##   2016 1 1 0 1 1
 ##   2018 1 1 0 1 1
+##   2021 1 1 0 1 1
 ```
 
 ```r
 # str(dat_tbt_mean)
 ```
+
 
 
 ### b. Add station names, snails + sediment only      
@@ -413,14 +453,14 @@ str(dat_tbt_mean_snails)
 ```
 
 ```
-## tibble[,7] [94 x 7] (S3: tbl_df/tbl/data.frame)
-##  $ Species      : chr [1:94] "Buccinum" "Buccinum" "Buccinum" "Buccinum" ...
-##  $ Station      : chr [1:94] "4" "4" "6" "6" ...
-##  $ Year         : num [1:94] 2013 2014 2013 2014 2011 ...
-##  $ TBT_mean     : num [1:94] 4.2 3.1 19.9 201 5 1 1.4 NaN 30.4 31 ...
-##  $ TBT_flag     : num [1:94] 0 0 0 0 0 0 0 0 0 0 ...
-##  $ Station_name : Factor w/ 6 levels "Inner Vikkilen (0.5 km)",..: 4 4 2 2 5 5 5 4 4 4 ...
-##  $ Station_name2: Factor w/ 6 levels "Inner Vikkilen (0.5 km)",..: 4 4 2 2 5 5 5 4 4 4 ...
+## tibble [98 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ Species      : chr [1:98] "Buccinum" "Buccinum" "Buccinum" "Buccinum" ...
+##  $ Station      : chr [1:98] "4" "4" "6" "6" ...
+##  $ Year         : num [1:98] 2013 2014 2013 2014 2011 ...
+##  $ TBT_mean     : num [1:98] 4.2 3.1 19.9 201 5 1 1.4 3.2 NaN 30.4 ...
+##  $ TBT_flag     : num [1:98] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ Station_name : Factor w/ 6 levels "Inner Vikkilen (0.5 km)",..: 4 4 2 2 5 5 5 5 4 4 ...
+##  $ Station_name2: Factor w/ 6 levels "Inner Vikkilen (0.5 km)",..: 4 4 2 2 5 5 5 5 4 4 ...
 ```
 
 ### c. Imposex in N. reticulatus (nettsnegl)   
@@ -567,6 +607,10 @@ df
 ## 5 1        NA        NA   0.81   0.45   0.45   0.37   0.2
 ```
 
+
+
+
+
 ## 2. TBT - tables of species
 
 ```r
@@ -576,7 +620,7 @@ xtabs(~Species, dat_tbt_mean)
 ```
 ## Species
 ##  Buccinum Littorina   Mytilus Nassarius   Nucella  Sediment 
-##         4        29         4        20         1        40
+##         4        33         4        20         1        40
 ```
 
 ```r
@@ -585,13 +629,13 @@ xtabs(~Species + Year, dat_tbt_mean)
 
 ```
 ##            Year
-## Species     2004 2005 2007 2008 2009 2010 2011 2013 2014 2016 2018
-##   Buccinum     0    0    0    0    0    0    0    2    2    0    0
-##   Littorina    0    3    3    0    1    3    5    3    3    4    4
-##   Mytilus      0    1    1    0    0    0    0    0    0    1    1
-##   Nassarius    0    0    3    0    1    3    5    4    4    0    0
-##   Nucella      0    0    0    0    0    0    1    0    0    0    0
-##   Sediment    14    2    3   17    0    0    0    4    0    0    0
+## Species     2004 2005 2007 2008 2009 2010 2011 2013 2014 2016 2018 2021
+##   Buccinum     0    0    0    0    0    0    0    2    2    0    0    0
+##   Littorina    0    3    3    0    1    3    5    3    3    4    4    4
+##   Mytilus      0    1    1    0    0    0    0    0    0    1    1    0
+##   Nassarius    0    0    3    0    1    3    5    4    4    0    0    0
+##   Nucella      0    0    0    0    0    0    1    0    0    0    0    0
+##   Sediment    14    2    3   17    0    0    0    4    0    0    0    0
 ```
 
 ## 3. Littorina data
@@ -604,13 +648,13 @@ xtabs(~Station + Year, dat_tbt %>% filter(Species %in% "Littorina"))
 
 ```
 ##        Year
-## Station 2005 2007 2009 2010 2011 2013 2014 2016 2018
-##      1     0    0    0    0    1    0    0    1    1
-##      4     1    0    0    0    1    1    1    1    1
-##      5     0    0    0    0    1    0    0    0    0
-##      5b    0    1    0    1    1    0    0    0    0
-##      6     1    1    1    1    1    1    1    1    1
-##      7     1    1    0    1    1    1    1    1    1
+## Station 2005 2007 2009 2010 2011 2013 2014 2016 2018 2021
+##      1     0    0    0    0    1    0    0    1    1    1
+##      4     1    0    0    0    1    1    1    1    1    1
+##      5     0    0    0    0    1    0    0    0    0    0
+##      5b    0    1    0    1    1    0    0    0    0    0
+##      6     1    1    1    1    1    1    1    1    1    1
+##      7     1    1    0    1    1    1    1    1    1    1
 ```
 
 ```r
@@ -623,22 +667,23 @@ tab_tbt
 ```
 
 ```
-## # A tibble: 46 x 16
+## # A tibble: 46 x 17
 ## # Groups:   Station [33]
-##    Species  Station TBT_flag Station_name   Station_name2   `2004` `2005` `2007`
-##    <chr>    <chr>      <dbl> <fct>          <fct>            <dbl>  <dbl>  <dbl>
-##  1 Buccinum 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   NA  
-##  2 Buccinum 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
-##  3 Littori~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA    NaN   97.7
-##  4 Littori~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA    148   31.3
-##  5 Littori~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   35.7
-##  6 Littori~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA    NaN   NA  
-##  7 Littori~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
-##  8 Nassari~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA     NA   53.4
-##  9 Nassari~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   56.1
-## 10 Nassari~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   18.1
-## # ... with 36 more rows, and 8 more variables: 2008 <dbl>, 2009 <dbl>,
-## #   2010 <dbl>, 2011 <dbl>, 2013 <dbl>, 2014 <dbl>, 2016 <dbl>, 2018 <dbl>
+##    Species   Station TBT_flag Station_name    Station_name2 `2004` `2005` `2007`
+##    <chr>     <chr>      <dbl> <fct>           <fct>          <dbl>  <dbl>  <dbl>
+##  1 Buccinum  6              0 Shipyard (0 km) Shipyard (0 ~     NA     NA   NA  
+##  2 Buccinum  4              0 Outer Vikkilen~ Outer Vikkil~     NA     NA   NA  
+##  3 Littorina 7              0 Inner Vikkilen~ Inner Vikkil~     NA    NaN   97.7
+##  4 Littorina 6              0 Shipyard (0 km) Shipyard (0 ~     NA    148   31.3
+##  5 Littorina 5              0 Skjeviga (0.6 ~ Mid Vikkilen~     NA     NA   35.7
+##  6 Littorina 4              0 Outer Vikkilen~ Outer Vikkil~     NA    NaN   NA  
+##  7 Littorina 1              0 Håøya (5.5 km)  Håøya (4-6 k~     NA     NA   NA  
+##  8 Nassarius 7              0 Inner Vikkilen~ Inner Vikkil~     NA     NA   53.4
+##  9 Nassarius 6              0 Shipyard (0 km) Shipyard (0 ~     NA     NA   56.1
+## 10 Nassarius 5              0 Skjeviga (0.6 ~ Mid Vikkilen~     NA     NA   18.1
+## # ... with 36 more rows, and 9 more variables: `2008` <dbl>, `2009` <dbl>,
+## #   `2010` <dbl>, `2011` <dbl>, `2013` <dbl>, `2014` <dbl>, `2016` <dbl>,
+## #   `2018` <dbl>, `2021` <dbl>
 ```
 
 ### a2. Save TBT data to excel
@@ -698,7 +743,7 @@ dat_intersex_litt %>%
 ## # ... with 29 more rows
 ```
 
-### c1a. Mean data per station/year, and add TBT  
+### c1a. Mean intersex per station/year, and add TBT  
 dat_intersex_litt_summ 
 
 - percentage sterile females (%S) = (number of sterile females/total number of females)*100  
@@ -744,6 +789,39 @@ nrow(dat_intersex_litt_summ)
 ```
 
 ```r
+#
+# Add 2021 data
+# NOT NEEDED - ALREADY ADDED IN c2!
+""
+```
+
+```
+## [1] ""
+```
+
+```r
+# Only zeros 
+# - taken from 2021 report 7701-2022, page 34, table 20
+#
+# check <- dat_intersex_litt_summ$Year == 2021
+# 
+# if (sum(check) == 0){
+#   dat_intersex_litt_summ <- bind_rows(
+#     dat_intersex_litt_summ,
+#     tibble(
+#       Station = c("1","4","6","7"),
+#       Year = 2021,
+#       ISI_mean = 0,
+#       N_ISI = 50,
+#       Sterile_perc = 0,
+#       I_perc = 0,
+#       PRL_mean = 0
+#     )
+#   )
+# }
+
+
+
 # Add TBT_mean, TBT_flag
 dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
   left_join(dat_tbt_mean_snails %>% 
@@ -752,6 +830,9 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
               select(Station, Year, TBT_mean, TBT_flag), 
             by = c("Station", "Year")
             )
+
+# Check
+# dat_intersex_litt_summ %>% arrange(Year) %>% tail(20)
 
 nrow(dat_intersex_litt_summ)
 ```
@@ -907,7 +988,7 @@ tab_ISI
 ## 4 6         3.05   1.75   1.85   2      0.79   0.76   0.69   0.19     NA   0.22
 ## 5 7        NA      1.45   1      0.45   0.32   0.06   0     NA        NA   0   
 ## 6 71G      NA     NA     NA      0      0     NA     NA     NA         0   0   
-## # ... with 3 more variables: 2017 <dbl>, 2018 <dbl>, 2021 <dbl>
+## # ... with 3 more variables: `2017` <dbl>, `2018` <dbl>, `2021` <dbl>
 ```
 
 ```r
@@ -929,7 +1010,7 @@ tab_PRL
 ## 4 6         5.24   2.99   3.24   3.15   1.18    0.7   0.64   0.12     NA    0.1
 ## 5 7        NA      2.5    1.63   0.82   0.62    0     0     NA        NA    0  
 ## 6 71G      NA     NA     NA     NA     NA      NA    NA     NA         0    0  
-## # ... with 3 more variables: 2017 <dbl>, 2018 <dbl>, 2021 <dbl>
+## # ... with 3 more variables: `2017` <dbl>, `2018` <dbl>, `2021` <dbl>
 ```
 
 ```r
@@ -951,7 +1032,7 @@ tab_sterile
 ## 4 6           95   56.2   55.6   64.5   25.6   18.2   20.7    3.2     NA    6.2
 ## 5 7           NA   45.5   25     13.6   10.5    0      0     NA       NA    0  
 ## 6 71G         NA   NA     NA     NA     NA     NA     NA     NA        0    0  
-## # ... with 3 more variables: 2017 <dbl>, 2018 <dbl>, 2021 <dbl>
+## # ... with 3 more variables: `2017` <dbl>, `2018` <dbl>, `2021` <dbl>
 ```
 
 ```r
@@ -983,22 +1064,23 @@ tab_tbt
 ```
 
 ```
-## # A tibble: 46 x 16
+## # A tibble: 46 x 17
 ## # Groups:   Station [33]
-##    Species  Station TBT_flag Station_name   Station_name2   `2004` `2005` `2007`
-##    <chr>    <chr>      <dbl> <fct>          <fct>            <dbl>  <dbl>  <dbl>
-##  1 Buccinum 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   NA  
-##  2 Buccinum 4              0 Outer Vikkile~ Outer Vikkilen~     NA     NA   NA  
-##  3 Littori~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA    NaN   97.7
-##  4 Littori~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA    148   31.3
-##  5 Littori~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   35.7
-##  6 Littori~ 4              0 Outer Vikkile~ Outer Vikkilen~     NA    NaN   NA  
-##  7 Littori~ 1              0 Håøya (5.5 km) Håøya (4-6 km)      NA     NA   NA  
-##  8 Nassari~ 7              0 Inner Vikkile~ Inner Vikkilen~     NA     NA   53.4
-##  9 Nassari~ 6              0 Shipyard (0 k~ Shipyard (0 km)     NA     NA   56.1
-## 10 Nassari~ 5              0 Skjeviga (0.6~ Mid Vikkilen (~     NA     NA   18.1
-## # ... with 36 more rows, and 8 more variables: 2008 <dbl>, 2009 <dbl>,
-## #   2010 <dbl>, 2011 <dbl>, 2013 <dbl>, 2014 <dbl>, 2016 <dbl>, 2018 <dbl>
+##    Species   Station TBT_flag Station_name    Station_name2 `2004` `2005` `2007`
+##    <chr>     <chr>      <dbl> <fct>           <fct>          <dbl>  <dbl>  <dbl>
+##  1 Buccinum  6              0 Shipyard (0 km) Shipyard (0 ~     NA     NA   NA  
+##  2 Buccinum  4              0 Outer Vikkilen~ Outer Vikkil~     NA     NA   NA  
+##  3 Littorina 7              0 Inner Vikkilen~ Inner Vikkil~     NA    NaN   97.7
+##  4 Littorina 6              0 Shipyard (0 km) Shipyard (0 ~     NA    148   31.3
+##  5 Littorina 5              0 Skjeviga (0.6 ~ Mid Vikkilen~     NA     NA   35.7
+##  6 Littorina 4              0 Outer Vikkilen~ Outer Vikkil~     NA    NaN   NA  
+##  7 Littorina 1              0 Håøya (5.5 km)  Håøya (4-6 k~     NA     NA   NA  
+##  8 Nassarius 7              0 Inner Vikkilen~ Inner Vikkil~     NA     NA   53.4
+##  9 Nassarius 6              0 Shipyard (0 km) Shipyard (0 ~     NA     NA   56.1
+## 10 Nassarius 5              0 Skjeviga (0.6 ~ Mid Vikkilen~     NA     NA   18.1
+## # ... with 36 more rows, and 9 more variables: `2008` <dbl>, `2009` <dbl>,
+## #   `2010` <dbl>, `2011` <dbl>, `2013` <dbl>, `2014` <dbl>, `2016` <dbl>,
+## #   `2018` <dbl>, `2021` <dbl>
 ```
 
 ### d2. Save summary tables to excel  
@@ -1048,7 +1130,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_ISI_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-gg1
 ```
 
 ```
@@ -1063,7 +1144,29 @@ gg1
 ## Warning: Removed 19 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
+## Removed 19 rows containing missing values (geom_point).
+```
+
+```r
+gg1
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 19 rows containing non-finite values (stat_smooth).
+## Removed 19 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 ```r
 gg2
@@ -1075,11 +1178,10 @@ gg2
 
 ```
 ## Warning: Removed 19 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 19 rows containing missing values (geom_point).
+## Removed 19 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-2.png)<!-- -->
 
 
 
@@ -1104,7 +1206,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_PRL_vs_TBT_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-gg1
 ```
 
 ```
@@ -1119,7 +1220,29 @@ gg1
 ## Warning: Removed 20 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+## Removed 20 rows containing missing values (geom_point).
+```
+
+```r
+gg1
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 20 rows containing non-finite values (stat_smooth).
+## Removed 20 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 ```r
 gg2
@@ -1131,11 +1254,10 @@ gg2
 
 ```
 ## Warning: Removed 20 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 20 rows containing missing values (geom_point).
+## Removed 20 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-21-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-2.png)<!-- -->
 
 
 ### Sterile vs. ISI
@@ -1159,7 +1281,6 @@ if (save_plots){
   ggsave("Figures/06_Correlations_Litt_Sterile_vs_ISI_bw.png", gg2, 
          width = 7, height = 5, dpi = 500)
 }
-gg1
 ```
 
 ```
@@ -1174,7 +1295,29 @@ gg1
 ## Warning: Removed 5 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 5 rows containing non-finite values (stat_smooth).
+## Removed 5 rows containing missing values (geom_point).
+```
+
+```r
+gg1
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Warning: Removed 5 rows containing non-finite values (stat_smooth).
+## Removed 5 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 ```r
 gg2
@@ -1186,11 +1329,10 @@ gg2
 
 ```
 ## Warning: Removed 5 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 5 rows containing missing values (geom_point).
+## Removed 5 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-22-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-24-2.png)<!-- -->
 
 ### FIG.5 Combined plot  
 For paper (Fig. 5)
@@ -1259,8 +1401,7 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 
 ```
 ## Warning: Removed 19 rows containing non-finite values (stat_smooth).
-
-## Warning: Removed 19 rows containing missing values (geom_point).
+## Removed 19 rows containing missing values (geom_point).
 ```
 
 ```
@@ -1291,19 +1432,26 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 if (save_plots)
   ggsave("Figures/06_Correlations_combined_color_FIG5.png", gg_comb,
          width = 7.8, height = 5.8, dpi = 500)
+```
 
+```
+## Warning: Removed 1 rows containing missing values (geom_text).
+```
+
+```
+## Warning: Removed 1 rows containing missing values (geom_text).
+```
+
+```r
 gg_comb
 ```
 
 ```
 ## Warning: Removed 1 rows containing missing values (geom_text).
+## Removed 1 rows containing missing values (geom_text).
 ```
 
-```
-## Warning: Removed 1 rows containing missing values (geom_text).
-```
-
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 
 ### Correlations
@@ -1572,7 +1720,7 @@ summary(mod)
 visreg::visreg(mod)
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-1.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-27-1.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-27-2.png)<!-- -->
 
 ```r
 # As above, excluding the reference station
@@ -1608,12 +1756,10 @@ summary(mod)
 ```
 
 ```r
-visreg::visreg(mod)
-```
+# visreg::visreg(mod)   # Got error:
+                        # Error in exists(as.character(CALL$data), call.env) : 
+                        #   first argument has length > 1
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-3.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-4.png)<!-- -->
-
-```r
 # As above, excluding years before 2010
 mod <- lm(log(TBT_mean) ~ Year + Station, data = dat_intersex_litt_summ %>% filter(Year >= 2010))
 summary(mod)
@@ -1648,12 +1794,8 @@ summary(mod)
 ```
 
 ```r
-visreg::visreg(mod)
-```
+# visreg::visreg(mod)
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-5.png)<!-- -->![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-6.png)<!-- -->
-
-```r
 # Plot 
 gg <- ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
   geom_smooth(method = "lm") + 
@@ -1674,7 +1816,7 @@ gg
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-25-7.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-27-3.png)<!-- -->
 
 ```r
 # ?visreg::visreg
@@ -1697,7 +1839,7 @@ ggplot(dat_intersex_litt_summ, aes(Year, TBT_mean)) +
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 ###  ISI
 
@@ -1711,36 +1853,36 @@ ggplot(dat_intersex_litt_summ, aes(Year, ISI_mean)) +
 ## Warning: Removed 3 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
-
-### Mean PRL
-
-```r
-ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
-  geom_point() +
-  facet_wrap(vars(Station))
-```
-
-```
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
-
-
-### Mean PRL
-
-```r
-ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
-  geom_point() +
-  facet_wrap(vars(Station))
-```
-
-```
-## Warning: Removed 5 rows containing missing values (geom_point).
-```
-
 ![](06_Tables_graphs_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+
+### Mean PRL
+
+```r
+ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+```
+
+```
+## Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+
+
+### Mean PRL
+
+```r
+ggplot(dat_intersex_litt_summ, aes(Year, PRL_mean)) +
+  geom_point() +
+  facet_wrap(vars(Station))
+```
+
+```
+## Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 ## 6. Littorina plots using logistic function   
 
@@ -1759,7 +1901,7 @@ source("06_Tables_graphs_functions.R")
 ```r
 st <- "7"
 df <- dat_intersex_litt_summ %>% filter(Station %in% st & !is.na(TBT_mean))
-df_pred <- pred_logistic(df$Year, df$TBT_mean, x_range = c(2005, 2018))
+df_pred <- pred_logistic(df$Year, df$TBT_mean, x_range = c(2005, last_year))
 
 plot(TBT_mean ~ Year, data = df, type = "n", xlab = "", ylab = "") 
 with(df_pred$fit, polygon.lines(x, Pred_lo, Pred_hi, border = FALSE)) 
@@ -1767,7 +1909,7 @@ with(df_pred$fit, lines(x, Pred))
 with(df, points(Year, TBT_mean, pch = 19)) 
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 
 ### Example for ISI 
@@ -1775,7 +1917,7 @@ with(df, points(Year, TBT_mean, pch = 19))
 ```r
 st <- "7"
 df <- dat_intersex_litt_summ %>% filter(Station %in% st & !is.na(ISI_mean))
-df_pred <- pred_logistic(df$Year, df$ISI_mean, x_range = c(2005, 2018), a = 0.05)
+df_pred <- pred_logistic(df$Year, df$ISI_mean, x_range = c(2005, last_year), a = 0.05)
 
 plot(ISI_mean ~ Year, data = df, type = "n", xlab = "", ylab = "") 
 with(df_pred$fit, polygon.lines(x, Pred_lo, Pred_hi, border = FALSE)) 
@@ -1783,7 +1925,7 @@ with(df_pred$fit, lines(x, Pred))
 with(df, points(Year, ISI_mean, pch = 19)) 
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 ### ISI, ggplot variant
 
@@ -1795,14 +1937,14 @@ ggplot() +
   annotate("text", x = 2016, y = 1.3, label = paste("P =", round(pvalue, 4)))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 ### Plot two stations
 
 ```r
 predlist <- list(
-  pred_logistic_from_stationname("6", "ISI_mean"),
-  pred_logistic_from_stationname("7", "ISI_mean")
+  pred_logistic_from_stationname("6", "ISI_mean", last_year = last_year),
+  pred_logistic_from_stationname("7", "ISI_mean", last_year = last_year)
 )
 
 # Combine
@@ -1819,13 +1961,13 @@ ggplot() +
   facet_wrap(vars(Station))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 ### Plot ISI at all stations
 
 ```r
 sts <- unique(dat_intersex_litt_summ$Station)
-df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean", last_year=last_year)
 ```
 
 ```
@@ -1854,7 +1996,7 @@ ggplot() +
   facet_wrap(vars(Station_name))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 
 ### Plot percent sterile at all stations
@@ -1862,7 +2004,7 @@ ggplot() +
 ```r
 # Run all stations (as above)
 sts <- unique(dat_intersex_litt_summ$Station)
-df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "Sterile_perc")
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "Sterile_perc", last_year=last_year)
 ```
 
 ```
@@ -1920,7 +2062,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 
 ### FIG. 4 Plot PRL at all stations  
@@ -1937,7 +2079,7 @@ gg
 # We make regressions for only two stations
 sts <- c("5", "6", "7")
 # debugonce(pred_logistic_from_stationname)
-df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "PRL_mean")
+df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "PRL_mean", last_year=last_year)
 names(df_pred_list) <- sts
 # df_pred_list[["5b"]]
 
@@ -1951,7 +2093,7 @@ gg <- ggplot() +
   geom_ribbon(data = df_pred, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
   geom_path(data = df_pred, aes(x, y = Pred)) +
   geom_point(data = df, aes(Year, PRL_mean)) +
-  geom_text(data = df_pvalue, aes(x = 2018, y = Inf, label = Text), 
+  geom_text(data = df_pvalue, aes(x = last_year, y = Inf, label = Text), 
             vjust = 1.2, hjust = 1, size = 3.4) +
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
   facet_wrap(vars(Station_name)) +
@@ -1965,7 +2107,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 
 ### Plot TBT at all stations  
@@ -1980,7 +2122,7 @@ sts_tbt <- dat_intersex_litt_summ %>%
   pull(Station)
 
 # debugonce(pred_logistic_from_stationname)
-df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean")
+df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean", last_year=last_year)
 names(df_pred_list) <- sts_tbt
 
 # Run 5b using linear regression
@@ -2006,7 +2148,7 @@ if (save_plots)
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 
 ## 7. Combined figures for time series  
 * ISI + TBT
@@ -2025,7 +2167,7 @@ Just copy-paste from above
 sts <- unique(dat_intersex_litt_summ$Station)
 # df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean")
 df_pred_list <- sts %>% lapply(pred_logistic_from_stationname, variable = "ISI_mean",
-                               data = dat_intersex_litt_summ)
+                               data = dat_intersex_litt_summ, last_year=last_year)
 ```
 
 ```
@@ -2053,7 +2195,7 @@ if (FALSE){
     geom_ribbon(data = df_pred_isi, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
     geom_path(data = df_pred_isi, aes(x, y = Pred)) +
     geom_point(data = df_points_isi, aes(Year, ISI_mean)) +
-    geom_text(data = df_pvalue_isi, aes(x = 2018, y = Inf, label = paste("ISI:", Text)), 
+    geom_text(data = df_pvalue_isi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.2, hjust = 1) +
     facet_wrap(vars(Station_name))
 }
@@ -2064,7 +2206,7 @@ As above but we change the curve to 'flat' for stations where tie trend pvalue >
 
 ```r
 # debugonce(pred_logistic_from_stationname)
-df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean")
+df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean", last_year=last_year)
 names(df_pred_list) <- sts_tbt
 
 # Get p-values for plot
@@ -2106,7 +2248,7 @@ if (FALSE) {
     geom_ribbon(data = df_pred_tbt, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
     geom_path(data = df_pred_tbt, aes(x, y = Pred)) +
     geom_point(data = df_points_tbt, aes(Year, TBT_mean)) +
-    geom_text(data = df_pvalue_tbt, aes(x = 2018, y = Inf, label = paste("TBT:", Text)), 
+    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
               vjust = 3.2, hjust = 1) +
     facet_wrap(vars(Station_name)) +
     labs(title = "TBT", x = "Year", y = "TBT concentration")
@@ -2121,10 +2263,10 @@ if (FALSE) {
 # Test for one station
 if (FALSE){
   # From last chunk:
-  x <- pred_logistic_from_stationname("1", variable = "TBT_mean", data = dat_intersex_litt_summ)
+  x <- pred_logistic_from_stationname("1", variable = "TBT_mean", data = dat_intersex_litt_summ, last_year=last_year)
   str(x, 1)  
   # We just replace variable and data:
-  x <- pred_logistic_from_stationname("1", variable = "VDSI", data = dat_imposex_reticul_summ)
+  x <- pred_logistic_from_stationname("1", variable = "VDSI", data = dat_imposex_reticul_summ, last_year=last_year)
   str(x, 1)  
 }
 
@@ -2132,7 +2274,7 @@ if (FALSE){
 sts_vdsi <- unique(dat_imposex_reticul_summ$Station)
 # debugonce(pred_logistic_from_stationname)
 df_pred_list <- sts_vdsi %>% 
-  lapply(pred_logistic_from_stationname, variable = "VDSI", data = dat_imposex_reticul_summ)
+  lapply(pred_logistic_from_stationname, variable = "VDSI", data = dat_imposex_reticul_summ, last_year=last_year)
 names(df_pred_list) <- sts_vdsi
 
 # Get p-values for plot
@@ -2173,7 +2315,7 @@ if (FALSE) {
     geom_ribbon(data = df_pred_vdsi, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
     geom_path(data = df_pred_vdsi, aes(x, y = Pred)) +
     geom_point(data = df_points_vdsi, aes(Year, VDSI)) +
-    geom_text(data = df_pvalue_vdsi, aes(x = 2018, y = Inf, label = paste("VDSI:", Text)), 
+    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
               vjust = 3.2, hjust = 1) +
     facet_wrap(vars(Station_name)) +
     labs(title = "VDSI", x = "Year", y = "VDSI concentration")
@@ -2233,9 +2375,9 @@ gg <- ggplot() +
   scale_y_continuous("ISI (circles)", 
                      sec.axis = sec_axis(~ (. - a)/b, name = "TBT (triangles)")) +
   # P-values
-    geom_text(data = df_pvalue_isi, aes(x = 2018, y = Inf, label = paste("ISI:", Text)), 
+    geom_text(data = df_pvalue_isi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.4, hjust = 1, size = 3.4) +
-    geom_text(data = df_pvalue_tbt, aes(x = 2018, y = Inf, label = paste("TBT:", Text)), 
+    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
               vjust = 3.0, hjust = 1, size = 3.4) +
   # X axis
   geom_hline(yintercept = 0) +
@@ -2262,7 +2404,14 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
+```
 
+```
+## Warning: Removed 16 rows containing missing values (geom_point).
+## Removed 16 rows containing missing values (geom_point).
+```
+
+```r
 gg
 ```
 
@@ -2270,7 +2419,7 @@ gg
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
 
 
 ### Plot ISI + TBT, color
@@ -2297,9 +2446,9 @@ gg <- ggplot() +
   scale_y_continuous("ISI (circles)", 
                      sec.axis = sec_axis(~ (. - a)/b, name = "TBT (triangles)")) +
   # P-values
-    geom_text(data = df_pvalue_isi, aes(x = 2018, y = Inf, label = paste("ISI:", Text)), 
+    geom_text(data = df_pvalue_isi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.4, hjust = 1, size = 3.4) +
-    geom_text(data = df_pvalue_tbt, aes(x = 2018, y = Inf, label = paste("TBT:", Text)), 
+    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
               vjust = 3.0, hjust = 1, size = 3.4) +
   # Vertical dashed line 
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
@@ -2320,7 +2469,13 @@ gg <- ggplot() +
 if (save_plots)
   ggsave("Figures/06_Timeseries_Comb_ISI_TBT_.png", gg,
          width = 7, height = 5, dpi = 500)
+```
 
+```
+## Warning: Removed 16 rows containing missing values (geom_point).
+```
+
+```r
 gg
 ```
 
@@ -2328,9 +2483,10 @@ gg
 ## Warning: Removed 16 rows containing missing values (geom_point).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
 
-### FIG. 3 Plot ISI + VDSI, B/W  
+
+### (Old FIG. 3)  Plot ISI + VDSI, B/W  
 
 * Fig. 3 in paper
 
@@ -2364,9 +2520,9 @@ gg <- ggplot() +
   scale_y_continuous("ISI (circles)", 
                      sec.axis = sec_axis(~ (. - a)/b, name = "VDSI (triangles)")) +
   # P-values
-    geom_text(data = df_pvalue_isi, aes(x = 2018, y = Inf, label = paste("ISI:", Text)), 
+    geom_text(data = df_pvalue_isi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.4, hjust = 1, size = 3.4) +
-    geom_text(data = df_pvalue_vdsi, aes(x = 2018, y = Inf, label = paste("VDSI:", Text)), 
+    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
               vjust = 3.0, hjust = 1, size = 3.4) +
   # X axis
   geom_hline(yintercept = 0) +
@@ -2388,18 +2544,158 @@ gg <- ggplot() +
         )
 
 if (save_plots){
-  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw_FIG3.png", gg,
+  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw.png", gg,
          width = 7, height = 5, dpi = 500)
-  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw_FIG3.svg", gg,
+  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
 
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 
+
+### FIG. 3 Plot TBT + VDSI, B/W  
+
+
+
+#### TBT alone, left (ordinary) axis
+
+```r
+ggplot() + 
+  # TBT data
+  geom_ribbon(data = df_pred_tbt, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_tbt, aes(x, y = Pred), color = cols2[1],
+            linetype = 2) +
+  geom_point(data = df_points_tbt, aes(Year, TBT_mean), color = cols2[1],
+             shape = 17) +
+  facet_wrap(vars(Station_name))
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+
+#### VDSI alone, left (ordinary) axis
+
+```r
+ggplot() + 
+  # TBT data
+  geom_ribbon(data = df_pred_vdsi, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_vdsi, aes(x, y = Pred), color = cols2[1],
+            linetype = 2) +
+  geom_point(data = df_points_vdsi, aes(Year, VDSI), color = cols2[1],
+             shape = 17) +
+  facet_wrap(vars(Station_name))
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+
+#### TBT + VDSI, VDSI on right axis  
+
+```r
+# For transformation of VDSI
+ylim.prim <- c(0, 510)    # TBT
+ylim.sec <- c(0, 6.2)    # VDSI
+b <- diff(ylim.prim)/diff(ylim.sec)
+a <- b*(ylim.prim[1] - ylim.sec[1])
+cols2 <- c("black", "black")
+
+gg <- ggplot() + 
+  # TBT data
+  geom_ribbon(data = df_pred_tbt, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_tbt, aes(x, y = Pred), color = cols2[1],
+            linetype = 2) +
+  geom_point(data = df_points_tbt, aes(Year, TBT_mean), color = cols2[1],
+             shape = 1) +
+# VDSI data
+  geom_ribbon(data = df_pred_vdsi, aes(x, ymin = a + b*Pred_lo, ymax = a + b*Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_vdsi, aes(x, y = a + b*Pred), color = cols2[2],
+            linetype = 2) +
+  geom_point(data = df_points_vdsi, aes(Year, a + b*VDSI), color = cols2[2],
+             shape = 17) +
+  scale_y_continuous("TBT (circles)", 
+                     sec.axis = sec_axis(~ (. - a)/b, name = "VDSI (black triangles)")) +
+  # P-values
+    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
+              vjust = 1.4, hjust = 1, size = 3.4) +
+    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
+              vjust = 3.0, hjust = 1, size = 3.4) +
+  # X axis
+  geom_hline(yintercept = 0) +
+  # Vertical dashed line 
+  geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
+  # Facetting
+  facet_wrap(vars(Station_name)) +
+  # Various styling
+  labs(x = "Year") + 
+  theme_bw() +
+    theme(
+        panel.grid = element_blank(),
+        axis.title.y.left = element_text(vjust = 1.5),
+        axis.title.y.right = element_text(vjust = 2)
+        )
+
+if (save_plots){
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.png", gg,
+         width = 7, height = 5, dpi = 500)
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.svg", gg,
+         width = 7, height = 5, dpi = 500)
+}
+
+gg
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+
+
+```r
+ggplot() + 
+  # TBT data
+  geom_ribbon(data = df_pred_tbt, aes(x, ymin = a + b*Pred_lo, ymax = a + b*Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols2[1],
+            linetype = 2) +
+  geom_point(data = df_points_tbt, aes(Year, a + b*TBT_mean), color = cols2[1],
+             shape = 17) +
+  facet_wrap(vars(Station_name)) 
+```
+
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+
+
+```r
+  labs(x = "Year") + 
+  theme_bw() +
+    theme(
+        panel.grid = element_blank(),
+        axis.line.y.left = element_line(color = cols2[1]), 
+        axis.ticks.y.left = element_line(color = cols2[1]),
+        axis.text.y.left = element_text(color = cols2[1]), 
+        axis.title.y.left = element_text(color = cols2[1], vjust = 1.5),
+        axis.line.y.right = element_line(color = cols2[2]), 
+        axis.ticks.y.right = element_line(color = cols2[2]),
+        axis.text.y.right = element_text(color = cols2[2]), 
+        axis.title.y.right = element_text(color = cols2[2], vjust = 2)
+        )
+```
+
+```
+## NULL
+```
+
+```r
+if (save_plots){
+  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw_FIG3.png", gg,
+         width = 7, height = 5, dpi = 500)
+  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw_FIG3.svg", gg,
+         width = 7, height = 5, dpi = 500)
+}
+```
 
 
 ## 8. TBT - all species   
@@ -2412,6 +2708,37 @@ gg
 
 ### a. Blue mussel only    
 
+#### 2021 data for Mytilus  
+
+```r
+# For checking what we need:
+# dat_tbt %>%
+#   filter(Species %in% "Mytilus") %>%
+#   select(Species, Station_Myt, Year, TBT, TBT_flag)
+
+dat_2021_mytilus <- dat_2021_biota %>%
+  filter(MYEAR == 2021,
+         LATIN_NAME %in% "Mytilus edulis",
+         NAME %in% c("Tributyltinn", "Tributyltinn (TBT)")) %>% # xtabs(~STATION_CODE, .)
+  rename(
+    Year = MYEAR,
+    TBT = VALUE,
+    TBT_flag = FLAG1
+  ) %>%
+  mutate(
+    Station_Myt = tolower(STATION_CODE) %>% sub("bl", "b", .),
+    Species = "Mytilus"
+  ) %>%
+  select(Station_Myt, Year, Species, TBT, TBT_flag) %>%
+  left_join(st_names_mytilus, by = "Station_Myt")   # Add station names
+
+cat("dat_2021_mytilus:", nrow(dat_2021_mytilus), "rows\n")
+```
+
+```
+## dat_2021_mytilus: 5 rows
+```
+
 #### Make 'dat_tbt_mean_mytilus'  
 Includes 'Station_name' based on 'Station_Myt' 
 
@@ -2422,11 +2749,11 @@ xtabs(~Station_name + Species, dat_tbt_mean_snails)
 ```
 ##                                             Species
 ## Station_name                                 Buccinum Littorina Nassarius
-##   Inner Vikkilen (0.5 km)                           0         8         5
-##   Shipyard (0 km)                                   2         9         5
+##   Inner Vikkilen (0.5 km)                           0         9         5
+##   Shipyard (0 km)                                   2        10         5
 ##   Skjeviga (0.6 km)                                 0         3         5
-##   Outer Vikkilen (2.5 km)                           2         6         1
-##   Håøya (5.5 km)                                    0         3         4
+##   Outer Vikkilen (2.5 km)                           2         7         1
+##   Håøya (5.5 km)                                    0         4         4
 ##   Reference station\nLangesundfjord (100 km)        0         0         0
 ##                                             Species
 ## Station_name                                 Nucella Sediment
@@ -2442,6 +2769,7 @@ xtabs(~Station_name + Species, dat_tbt_mean_snails)
 # Summarise TBT
 dat_tbt_mean_mytilus <- dat_tbt %>%
   filter(Species %in% "Mytilus") %>%
+  bind_rows(dat_2021_mytilus) %>%
   group_by(Species, Station_Myt, Year) %>%
   summarise(TBT_mean = mean(TBT, na.rm = TRUE), TBT_flag = mean(TBT_flag %in% "<"),
             .groups = "drop") %>% # View()
@@ -2453,40 +2781,19 @@ dat_tbt_mean_mytilus <- dat_tbt %>%
 ```
 
 ```r
-dat_tbt_mean_mytilus %>%
-  count(Station_Myt, Station_name)
-```
-
-```
-## # A tibble: 10 x 3
-##    Station_Myt Station_name                 n
-##    <chr>       <fct>                    <int>
-##  1 b1          Rivingen (6.4 km)            1
-##  2 b10         Inner Vikkilen (0.5 km)      1
-##  3 b2          Groos (4.0 km)               1
-##  4 b3          Grimstadodden (2.4 km)       1
-##  5 b4          Biodden (2.1 km)             4
-##  6 b5          Kjellviga (1.6 km)           1
-##  7 b6          Naksbø (1.1 km)              2
-##  8 b7          Bie (0.8 km)                 1
-##  9 b8          Gjømle/Skjevika (0.6 km)     1
-## 10 b9          Shipyard (0 km)              1
-```
-
-```r
 #str(dat_tbt_mean_snails)
 str(dat_tbt_mean_mytilus)
 ```
 
 ```
-## tibble[,7] [14 x 7] (S3: tbl_df/tbl/data.frame)
-##  $ Species      : chr [1:14] "Mytilus" "Mytilus" "Mytilus" "Mytilus" ...
-##  $ Station_Myt  : chr [1:14] "b1" "b10" "b2" "b3" ...
-##  $ Year         : num [1:14] 2005 2005 2005 2005 2005 ...
-##  $ TBT_mean     : num [1:14] 20 850 29 180 150 53.5 16.6 8.3 12 130 ...
-##  $ TBT_flag     : num [1:14] 0 0 0 0 0 0 0 0 0 0 ...
-##  $ Station_name : Factor w/ 10 levels "Rivingen (6.4 km)",..: 1 10 2 3 4 4 4 4 5 6 ...
-##  $ Station_name2: Factor w/ 5 levels "Håøya (4-6 km)",..: 1 5 1 2 2 2 2 2 2 3 ...
+## tibble [19 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ Species      : chr [1:19] "Mytilus" "Mytilus" "Mytilus" "Mytilus" ...
+##  $ Station_Myt  : chr [1:19] "b1" "b1" "b10" "b2" ...
+##  $ Year         : num [1:19] 2005 2021 2005 2005 2005 ...
+##  $ TBT_mean     : num [1:19] 20 1 850 29 180 13 150 53.5 16.6 8.3 ...
+##  $ TBT_flag     : num [1:19] 0 1 0 0 0 0 0 0 0 0 ...
+##  $ Station_name : Factor w/ 10 levels "Rivingen (6.4 km)",..: 1 1 10 2 3 3 4 4 4 4 ...
+##  $ Station_name2: Factor w/ 5 levels "Håøya (4-6 km)",..: 1 1 5 1 2 2 2 2 2 2 ...
 ```
 
 ```r
@@ -2526,7 +2833,13 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_1.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
+```
 
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2534,7 +2847,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2544,7 +2857,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-46-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-2.png)<!-- -->
 
 Lumping stations (Station_name2)   
 
@@ -2564,7 +2877,13 @@ gg <- dat_tbt_mean_mytilus %>%
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_bluemussel_log_2.png", gg + scale_y_log10(),
          width = 7, height = 5, dpi = 500)
+```
 
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2572,7 +2891,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2582,12 +2901,13 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-47-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-2.png)<!-- -->
 
 
 ### b. Biota TBT combined  
 
-#### Data set
+#### Data set   
+* Combine three data sets
 
 ```r
 # levels(dat_tbt_mean_snails$Station_name2)
@@ -2621,11 +2941,11 @@ dat_tbt_mean_comb %>%
 ## # A tibble: 12 x 3
 ##    `(Species == "Sediment")` Station_name2                                    n
 ##    <lgl>                     <fct>                                        <int>
-##  1 FALSE                     "Inner Vikkilen (0.5 km)"                       14
-##  2 FALSE                     "Shipyard (0 km)"                               17
-##  3 FALSE                     "Mid Vikkilen (0.8 km)"                         12
-##  4 FALSE                     "Outer Vikkilen (2 km)"                         15
-##  5 FALSE                     "Håøya (4-6 km)"                                10
+##  1 FALSE                     "Inner Vikkilen (0.5 km)"                       15
+##  2 FALSE                     "Shipyard (0 km)"                               18
+##  3 FALSE                     "Mid Vikkilen (0.8 km)"                         13
+##  4 FALSE                     "Outer Vikkilen (2 km)"                         19
+##  5 FALSE                     "Håøya (4-6 km)"                                12
 ##  6 FALSE                     "Reference station\nLangesundfjord (100 km)"     9
 ##  7 TRUE                      "Inner Vikkilen (0.5 km)"                        1
 ##  8 TRUE                      "Shipyard (0 km)"                                3
@@ -2665,8 +2985,8 @@ dat_tbt_mean_comb %>%
 ##   Species   Species2           n
 ##   <chr>     <fct>          <int>
 ## 1 Buccinum  B. undatum         4
-## 2 Littorina L. littorea       38
-## 3 Mytilus   M. edulis         14
+## 2 Littorina L. littorea       42
+## 3 Mytilus   M. edulis         19
 ## 4 Nassarius N. reticulatus    20
 ## 5 Nucella   N. lapillus        1
 ## 6 Sediment  Sediment          40
@@ -2688,7 +3008,25 @@ if (save_plots){
   ggsave("Figures/06_Timeseries_allsp_TBT_1.png", gg)
   ggsave("Figures/06_Timeseries_allsp_TBT_1_log.png", gg + scale_y_log10())
 }
+```
 
+```
+## Saving 8 x 5 in image
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```
+## Saving 8 x 5 in image
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -2696,7 +3034,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -2706,7 +3044,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-50-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-58-2.png)<!-- -->
 
 
 
@@ -2724,7 +3062,7 @@ sts <- unique(df$Station_name2)
 
 get_logistic_result <- function(st, data) {
     df_station <- data %>% filter(Station_name2 %in% st)
-    result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
+    result <- pred_logistic_from_data(df_station, variable = "TBT_mean", last_year=last_year)
     result$fit$Station_name2 <- st
     result$pvalue$Station_name2 <- st
     result
@@ -2772,7 +3110,7 @@ gg <- ggplot() +
   geom_path(data = df_pred, aes(x, y = Pred)) +
   geom_point(data = df, aes(Year, TBT_mean, fill = Species2), size = 2, pch = 21) +
   scale_fill_discrete("") +
-  geom_text(data = df_pvalue, aes(x = 2018, y = 8000, label = Text), 
+  geom_text(data = df_pvalue, aes(x = last_year, y = 8000, label = Text), 
             vjust = 1.2, hjust = 1, size = 3.4) +
   # Vertical dashed line 
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
@@ -2781,7 +3119,7 @@ gg <- ggplot() +
 gg + scale_y_log10(limits = c(0.3, 8000))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-59-1.png)<!-- -->
 
 ```r
 if (save_plots){
@@ -2792,11 +3130,17 @@ if (save_plots){
          gg + scale_y_log10(limits = c(0.3, 900)),
          width = 8, height = 5, dpi = 500)
 }
+```
 
+```
+## Warning: Removed 6 rows containing missing values (geom_text).
+```
+
+```r
 gg
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-59-2.png)<!-- -->
 
 ```r
 gg + scale_y_log10(limits = c(0.3, 1100))
@@ -2806,7 +3150,7 @@ gg + scale_y_log10(limits = c(0.3, 1100))
 ## Warning: Removed 6 rows containing missing values (geom_text).
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-51-3.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-59-3.png)<!-- -->
 
 #### FIG. 6 Plot biota TBT, littorea + reticulatus, logistic
 
@@ -2828,7 +3172,7 @@ df_ipercent <- dat_intersex_litt_summ %>%
 
 get_logistic_result <- function(st) {
     df_station <- df %>% filter(Station_name2 %in% st)
-    result <- pred_logistic_from_data(df_station, variable = "TBT_mean")
+    result <- pred_logistic_from_data(df_station, variable = "TBT_mean", last_year=last_year)
     result$fit$Station_name2 <- st
     result$pvalue$Station_name2 <- st
     result
@@ -2901,10 +3245,10 @@ gg <- ggplot() +
   scale_fill_discrete("") +
   scale_shape_manual("", values = c(21, 24)) +
   # P-value text
-  geom_text(data = df_pvalue, aes(x = 2018, y = 8000, label = paste("Slope: ", Text)), 
+  geom_text(data = df_pvalue, aes(x = last_year, y = 8000, label = paste("Slope: ", Text)), 
             vjust = 1.2, hjust = 1, size = 3.4) +
   # I% text
-  geom_text(data = df_ipercent, aes(x = 2018, y = 2500, label = Text_Iperc), 
+  geom_text(data = df_ipercent, aes(x = last_year, y = 2500, label = Text_Iperc), 
             vjust = 1.2, hjust = 1, size = 2.8) +
   geom_segment(
     data = data.frame(
@@ -2930,7 +3274,7 @@ if (save_plots){
 gg + scale_y_log10(limits = c(0.3, 8000), breaks = c(1,10,100))
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
 
 
 ### c. Plot TBT in blue mussel vs. TBT in Littorina   
@@ -2959,13 +3303,13 @@ xtabs(~Station_name2 + Year + Species, df)
 ##   Håøya (4-6 km)                                0    0    0    0    1    0    0
 ##   Reference station\nLangesundfjord (100 km)    0    0    0    0    1    1    1
 ##                                             Year
-## Station_name2                                2014 2015 2016 2017 2018
-##   Inner Vikkilen (0.5 km)                       1    0    1    0    1
-##   Shipyard (0 km)                               1    0    1    0    1
-##   Mid Vikkilen (0.8 km)                         0    0    0    0    0
-##   Outer Vikkilen (2 km)                         1    0    1    0    1
-##   Håøya (4-6 km)                                0    0    1    0    1
-##   Reference station\nLangesundfjord (100 km)    1    1    1    1    1
+## Station_name2                                2014 2015 2016 2017 2018 2021
+##   Inner Vikkilen (0.5 km)                       1    0    1    0    1    1
+##   Shipyard (0 km)                               1    0    1    0    1    1
+##   Mid Vikkilen (0.8 km)                         0    0    0    0    0    0
+##   Outer Vikkilen (2 km)                         1    0    1    0    1    1
+##   Håøya (4-6 km)                                0    0    1    0    1    1
+##   Reference station\nLangesundfjord (100 km)    1    1    1    1    1    0
 ## 
 ## , , Species = Mytilus
 ## 
@@ -2978,13 +3322,13 @@ xtabs(~Station_name2 + Year + Species, df)
 ##   Håøya (4-6 km)                                2    0    0    0    0    0    0
 ##   Reference station\nLangesundfjord (100 km)    0    0    0    0    0    0    0
 ##                                             Year
-## Station_name2                                2014 2015 2016 2017 2018
-##   Inner Vikkilen (0.5 km)                       0    0    0    0    0
-##   Shipyard (0 km)                               0    0    0    0    1
-##   Mid Vikkilen (0.8 km)                         0    0    0    0    1
-##   Outer Vikkilen (2 km)                         0    0    1    0    2
-##   Håøya (4-6 km)                                0    0    0    0    0
-##   Reference station\nLangesundfjord (100 km)    0    0    0    0    0
+## Station_name2                                2014 2015 2016 2017 2018 2021
+##   Inner Vikkilen (0.5 km)                       0    0    0    0    0    0
+##   Shipyard (0 km)                               0    0    0    0    1    0
+##   Mid Vikkilen (0.8 km)                         0    0    0    0    1    1
+##   Outer Vikkilen (2 km)                         0    0    1    0    2    3
+##   Håøya (4-6 km)                                0    0    0    0    0    1
+##   Reference station\nLangesundfjord (100 km)    0    0    0    0    0    0
 ```
 
 
@@ -3004,7 +3348,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
 
 #### Plot as time series, b/w 
 
@@ -3022,7 +3366,13 @@ if (save_plots)
   ggsave("Figures/06_Timeseries_Litt_Myt_TBT.png", 
          gg + scale_y_log10(),
          width = 8, height = 5, dpi = 500)
-  
+```
+
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg + scale_y_log10()
 ```
 
@@ -3030,7 +3380,7 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-63-1.png)<!-- -->
 
 #### Plot against each other    
 
@@ -3071,13 +3421,13 @@ if (save_plots){
 gg1
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-64-1.png)<!-- -->
 
 ```r
 gg2
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-56-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-64-2.png)<!-- -->
 
 
 
@@ -3106,7 +3456,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
 
 ```r
 gg + scale_y_log10()
@@ -3116,11 +3466,19 @@ gg + scale_y_log10()
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-57-2.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-65-2.png)<!-- -->
 
 ```r
 if (save_plots)
   ggsave("Figures/06_Timeseries_TBT_sediment_log.png", gg + scale_y_log10())
+```
+
+```
+## Saving 7.5 x 5 in image
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+```r
 gg
 ```
 
@@ -3128,7 +3486,7 @@ gg
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](06_Tables_graphs_files/figure-html/unnamed-chunk-57-3.png)<!-- -->
+![](06_Tables_graphs_files/figure-html/unnamed-chunk-65-3.png)<!-- -->
 
 
 
@@ -3174,11 +3532,11 @@ xtabs(~Species + addNA(Station_name2), dat_tbt_mean_2species)
 ```
 ##            addNA(Station_name2)
 ## Species     \tShipyard (0 km) Bie/Skjeviga (0.6 km) Håøya (5.5 km)
-##   Littorina                9                     1              3
+##   Littorina               10                     1              4
 ##   Mytilus                  0                     0              0
 ##            addNA(Station_name2)
 ## Species     Inner Vikkilen (0.5 km) Outer Vikkilen (2.5 km) <NA>
-##   Littorina                       8                       6    3
+##   Littorina                       9                       7    3
 ##   Mytilus                         0                       0    4
 ```
 
@@ -3197,7 +3555,7 @@ nrow(df)
 ```
 
 ```
-## [1] 31
+## [1] 35
 ```
 
 
