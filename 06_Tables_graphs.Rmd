@@ -148,6 +148,13 @@ Jeg vil gjerne sette inn %I i Tabell 1. Har du disse tallene et sted slik at jeg
     - TBT in sediment: see script 07  
     - Had to change functions a bit too, adding 'last_year', see function script 
 
+#### Modification 9 (11. April 2022)
+    - Figur 3: VDSI og TBT bør bytte side slik at VDSI kommer på den primære y-aksen og TBT kommer på den sekundære y-aksen (da blir det samme prinsipp som for Figur 2). *section 7, 'Plot ISI + VDSI, B/W'*   
+    - Figur 5: Er det samme Kendall-korrelasjon i Figur 5 etter at 2021-data er inkludert? Hvis ikke, kan jeg få P-verdiene? *section 4, 'Combined plot'*  
+    - Figur 6. Vi bytter til T. reticulata slik du skriver nedenfor. Jeg ser at Jonny bruker Tritia reticulatus i NFR-søknaden. Jeg har gjort noen søk, og vi går for reticulata. *section 8, 'Plot biota TBT at all stations (logistic)', result: '06_Timeseries_allsp_TBT_2_log.png'*  
+    - Figur 7: Er P-verdiene de samme for sedimentene etter at data for 2021 ble inkludert? Hva er prosenten for hele området per år? Vi har ikke noe område 6, så den skal jeg droppe. *Script '07_Sediment_newfile_July2020.Rmd'*  
+    - Vi droppet figur på TBT-konsentrasjon for blåskjell og strandsnegl, men P var ikke signifikant (P=0,48). Kan du likevel se hva den blir når 2021-dataene er inkludert? Blåskjell skal være en kontroll for strandsnegl, men det gir vel ikke mening hvis det ikke er korrelasjon. *Sections 6 + 8*  
+ 
 
 ## 0. Libraries
 ```{r}
@@ -171,7 +178,7 @@ source("06_Tables_graphs_functions.R")
 ```{r}
 
 save_plots <- TRUE
-# save_plots <- FALSE
+save_plots <- FALSE
 
 last_year <- 2021
 
@@ -899,7 +906,8 @@ gg2
 ```
 
 
-### Sterile vs. ISI
+### Sterile vs. ISI  
+
 ```{r, fig.height =4, fig.width=6}
 
 gg <- ggplot(dat_intersex_litt_summ, aes(ISI_mean, Sterile_perc)) +
@@ -1010,9 +1018,15 @@ print_correlations <- function(){
   
 }
 
+#
 # Print to file
+#
+
+# File name and connection
 fn <- "Figures/06_Kendall_correlations.txt"
 con <- file(fn, open = "w")
+
+# From here, everything is written to file
 sink(con)
 print_correlations()
 sink()
@@ -1020,6 +1034,9 @@ close(con)
 
 # Show file
 # file.show(fn)
+
+cat("File modified at:")
+file.info(fn)$mtime
 
 # Print to result
 cat("\n")
@@ -1674,7 +1691,7 @@ ggplot() +
 #### VDSI alone, left (ordinary) axis
 ```{r}
 ggplot() + 
-  # TBT data
+  # VDSI data
   geom_ribbon(data = df_pred_vdsi, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
               fill = "grey70", alpha = 0.5) +
   geom_path(data = df_pred_vdsi, aes(x, y = Pred), color = cols2[1],
@@ -1685,7 +1702,7 @@ ggplot() +
 
 ```
 
-#### TBT + VDSI, VDSI on right axis  
+#### TBT + VDSI, VDSI on right axis (old ) 
 ```{r}
 
 # For transformation of VDSI
@@ -1733,9 +1750,9 @@ gg <- ggplot() +
         )
 
 if (save_plots){
-  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.png", gg,
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3_OLD.png", gg,
          width = 7, height = 5, dpi = 500)
-  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.svg", gg,
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3_OLD.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
 
@@ -1743,40 +1760,68 @@ gg
 
 ```
 
+
+#### TBT + VDSI, VDSI on left (not right) axis 
+
+* FIG. 3
+
 ```{r}
-ggplot() + 
+
+# For transformation of TBT
+ylim.prim <- c(0, 6.2)    # VDSI        # switching axes: this line and the next one were switched
+ylim.sec <- c(0, 510)     # TBT
+b <- diff(ylim.prim)/diff(ylim.sec)
+a <- b*(ylim.prim[1] - ylim.sec[1])
+cols2 <- c("black", "black")
+
+gg <- ggplot() + 
+  # switching axes: df_pred_vdsi and df_pred_tbt were switched in the two next parts
+  # VDSI data
+  geom_ribbon(data = df_pred_vdsi, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_vdsi, aes(x, y = Pred), color = cols2[1],
+            linetype = 2) +
+  geom_point(data = df_points_vdsi, aes(Year, VDSI), color = cols2[1],
+             shape = 1) +
   # TBT data
   geom_ribbon(data = df_pred_tbt, aes(x, ymin = a + b*Pred_lo, ymax = a + b*Pred_hi), 
               fill = "grey70", alpha = 0.5) +
-  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols2[1],
+  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols2[2],
             linetype = 2) +
-  geom_point(data = df_points_tbt, aes(Year, a + b*TBT_mean), color = cols2[1],
+  geom_point(data = df_points_tbt, aes(Year, a + b*TBT_mean), color = cols2[2],
              shape = 17) +
-  facet_wrap(vars(Station_name)) 
-
-```
-
-```{r}
+  # switching axes: VDSI and TBT were switched in the next line
+  scale_y_continuous("VDSI (circles)", 
+                     sec.axis = sec_axis(~ (. - a)/b, name = "TBT (black triangles)")) +
+  # switching axes: vjust values were switched in the two next lines
+  # P-values
+    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
+              vjust = 3.0, hjust = 1, size = 3.4) +
+    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
+              vjust = 1.4, hjust = 1, size = 3.4) +
+  # X axis
+  geom_hline(yintercept = 0) +
+  # Vertical dashed line 
+  geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
+  # Facetting
+  facet_wrap(vars(Station_name)) +
+  # Various styling
   labs(x = "Year") + 
   theme_bw() +
     theme(
         panel.grid = element_blank(),
-        axis.line.y.left = element_line(color = cols2[1]), 
-        axis.ticks.y.left = element_line(color = cols2[1]),
-        axis.text.y.left = element_text(color = cols2[1]), 
-        axis.title.y.left = element_text(color = cols2[1], vjust = 1.5),
-        axis.line.y.right = element_line(color = cols2[2]), 
-        axis.ticks.y.right = element_line(color = cols2[2]),
-        axis.text.y.right = element_text(color = cols2[2]), 
-        axis.title.y.right = element_text(color = cols2[2], vjust = 2)
+        axis.title.y.left = element_text(vjust = 1.5),
+        axis.title.y.right = element_text(vjust = 2)
         )
 
 if (save_plots){
-  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw_FIG3.png", gg,
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.png", gg,
          width = 7, height = 5, dpi = 500)
-  ggsave("Figures/06_Timeseries_Comb_ISI_VDSI_bw_FIG3.svg", gg,
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
+
+gg
 
 ```
 
@@ -1934,13 +1979,13 @@ dat_tbt_mean_comb <- dat_tbt_mean_comb %>%
            case_when(
              Species %in% "Buccinum" ~ "B. undatum",
              Species %in% "Littorina" ~ "L. littorea",
-             Species %in% "Nassarius" ~ "N. reticulatus",
+             Species %in% "Nassarius" ~ "T. reticulata",
              Species %in% "Nucella" ~ "N. lapillus",
              Species %in% "Mytilus" ~ "M. edulis",
              Species %in% "Sediment" ~ "Sediment"
            ),
          Species2 = factor(Species2, 
-                           levels = c("L. littorea", "N. reticulatus", 
+                           levels = c("L. littorea", "T. reticulata", 
                                       "B. undatum", "N. lapillus", "M. edulis",
                                       "Sediment"))
          ) 
@@ -2066,6 +2111,7 @@ get_logistic_result <- function(st) {
 df <- dat_tbt_mean_comb %>%
   filter(Species %in% c("Littorina", "Nassarius")) %>%     # only changed this
   filter(!is.na(TBT_mean))
+
 sts <- unique(df$Station_name2) 
 # sts <- levels(sts)[as.numeric(sts)]
 # sts <- c("1", "4", "5", "6", "7")
