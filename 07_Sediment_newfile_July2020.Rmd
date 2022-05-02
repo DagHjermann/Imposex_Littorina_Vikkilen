@@ -18,8 +18,10 @@ Figures in MS:
 library(ggplot2)
 library(dplyr)
 library(readxl)
-
+library(lubridate)
 library(leaflet)
+
+library(dagR)
 
 ```
 
@@ -560,8 +562,9 @@ dat_2021_sediment <- read.csv("Data/21_data_2016-2021_sediment.csv")
 
 dat_2021_sediment %>%
   filter(NAME %in% c("Tributyltinn", "Tributyltinn (TBT)")) %>% 
-  rename(Lat = LATITUDE, Long = LONGITUDE, TBT = VALUE) %>%
-  mutate(Year = year(SAMPLE_DATE)) %>%   #  xtabs(~NAME, .)
+  rename(Lat = LATITUDE, Long = LONGITUDE, TBT = VALUE) %>% # str() View()
+  mutate(SAMPLE_DATE = ymd(SAMPLE_DATE),
+         Year = year(SAMPLE_DATE)) %>%   #  xtabs(~NAME, .)  
   # filter(Lat > 58.335 & Year %in% c(2004,2008)) %>%
   ggplot(aes(Long, Lat)) +
   geom_point(aes(color = TBT)) +
@@ -687,7 +690,7 @@ gg + scale_y_log10() +
 
 ```
 
-### Version 2    
+### Version 2 (FIG. 7A)      
 ```{r}
 
 
@@ -700,6 +703,10 @@ gg <- dat2 %>%
   labs(y = "TBT (μg/kg d.w.)", x = "") +
   theme_bw() +
   theme(panel.grid = element_blank())
+
+fn <- "Figures/07_tbt_vs_year_FIG7A.png"
+
+make_safety_copy(fn)
 
 ggsave("Figures/07_tbt_vs_year_FIG7A.png", gg, 
          width = 4, height = 2.7, dpi = 500)
@@ -726,10 +733,14 @@ dat2 %>%
 m1 <- lm(log(TBT) ~ Year*factor(Area), data = dat2)
 m2 <- lm(log(TBT) ~ Year + factor(Area), data = dat2)
 m3 <- lm(log(TBT) ~ Year, data = dat2)
+
+cat("\n----------------------------\nModel year + area, log-scale \n")
 summary(m2)
+
+cat("\n----------------------------\nAnova for models year*area, year + area, and year. \n\n")
 anova(m1, m2, m3)
 
-# Change per year, log-scale
+cat("\n----------------------------\nChange per year, log-scale \n")
 slope <- summary(m2)$coef["Year", "Estimate"] 
 slope_lo <- slope - 2*summary(m2)$coef["Year", "Std. Error"] 
 slope_hi <- slope + 2*summary(m2)$coef["Year", "Std. Error"] 
@@ -737,7 +748,8 @@ slope_hi <- slope + 2*summary(m2)$coef["Year", "Std. Error"]
 perc_mid <- 100*(1 - exp(slope)) %>% round(3)
 perc_lo <- 100*(1 - exp(slope_lo)) %>% round(3)
 perc_hi <- 100*(1 - exp(slope_hi)) %>% round(3)
-cat("Change per year: ", perc_mid, " % (C.I. ", perc_hi, " - ", perc_lo, "%)", sep = "")
+
+cat("\nChange per year: ", perc_mid, " % (C.I. ", perc_hi, " - ", perc_lo, "%)", sep = "")
 
 
 
