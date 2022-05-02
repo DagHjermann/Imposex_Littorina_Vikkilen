@@ -166,6 +166,7 @@ library(forcats)
 library(cowplot)
 library(readxl)
 library(stringr)
+library(ggrepel)   # geom_text_repel (only used one place, in 8c)
 
 # install.packages("openxlsx")
 library(openxlsx)
@@ -2200,6 +2201,7 @@ xtabs(~Station_name2 + Year + Species, df)
 # Run all stations (as above)
 gg <- ggplot(df, aes(Year, TBT_mean)) +
     geom_point(aes(color = Species2)) + 
+    scale_color_brewer(palette = "Dark2") +
     geom_smooth(method = "lm") +
     facet_wrap(vars(Station_name2))
 
@@ -2251,8 +2253,10 @@ gg <- df_2_species %>%
     y = expression(Mytilus~TBT~concentration~(mu*g/kg~w.w.)))
 
 gg1 <- gg
+
 gg2 <- gg +
-  geom_text(aes(x = Littorina + 2, label = paste(Station_name2, Year)), hjust = 0, size = 3) +
+  ggrepel::geom_text_repel(aes(label = paste(Station_name2, Year)), 
+                           size = rel(3)) +
   coord_cartesian(xlim = c(0, 100))
 
 if (save_plots){
@@ -2271,7 +2275,51 @@ gg2
   
 ```
 
+#### Statistics 1 - use only years/sites with observations of both species    
 
+* Check if there is significant correlation  
+
+```{r}
+
+df <- df_2_species %>%
+  filter(!is.na(Littorina) & !is.na(Mytilus))
+cat("N =", nrow(df), "\n\n")
+
+cor.test(df$Littorina, df$Mytilus)
+# p-value = 0.2526
+
+cor.test(df$Littorina, df$Mytilus, method = "kendall")
+# p-value = 0.05556
+
+```
+
+#### Statistics 2 - Use all years + sites   
+
+* Check 
+
+```{r}
+
+df <- dat_tbt_mean_comb %>%
+  filter(Species %in% c("Littorina", "Mytilus")) %>%
+  filter(!is.na(TBT_mean))
+
+cat("N =", nrow(df), "\n\n")
+
+# Test plot
+if (F)
+  ggplot(df, aes(Year, TBT_mean)) +
+  geom_point(aes(color = Species2)) + 
+  scale_color_brewer(palette = "Dark2") +
+  geom_smooth(method = "lm") +
+  facet_wrap(vars(Station_name2))
+
+mod1 <- lm(TBT_mean ~ Station_name2*Year, data = df)
+mod2 <- lm(TBT_mean ~ Station_name2*Year + Species2, data = df)
+
+anova(mod1, mod2, test = "F")
+# P = 0.23
+
+```
 
 
 ### d. Plot sediment TBT at all stations  
