@@ -720,13 +720,13 @@ if (save_plots){
 
 * ISI + TBT
 * ISI + VDSI
-* Fig. 2 (old 2a)     
+* Fig. 2 (old 2a) VDSI + TBT for Littorina (strandsnegl)        
     - section 7, 'Plot ISI + TBT, B/W'     
-* Fig. 3 VDSI for Nassarius reticulatus (nettsnegl)
+* Fig. 3 VDSI + TBT for Nassarius reticulatus (nettsnegl)
     - time series for VDSI (N. reticulatus) overlaid with ISI (for Littorina)   
     - section 7, 'Plot ISI + VDSI, B/W'   
 
-### Data for plotting ISI     
+### Littorina data for plotting ISI     
 Just copy-paste from above  
 ```{r}
 
@@ -749,17 +749,21 @@ df_points_isi <- dat_intersex_litt_summ %>% filter(!is.na(ISI_mean))
 # Plot
 if (FALSE){
   ggplot() + 
-    geom_ribbon(data = df_pred_isi, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
-    geom_path(data = df_pred_isi, aes(x, y = Pred)) +
-    geom_point(data = df_points_isi, aes(Year, ISI_mean)) +
-    geom_text(data = df_pvalue_isi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
+    geom_ribbon(data = df_pred_isi, 
+                aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+    geom_path(data = df_pred_isi, 
+              aes(x, y = Pred)) +
+    geom_point(data = df_points_isi, 
+               aes(Year, ISI_mean)) +
+    geom_text(data = df_pvalue_isi, 
+              aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.2, hjust = 1) +
     facet_wrap(vars(Station_name))
 }
 
 ```
 
-### Data for plotting TBT     
+### Littorina data for plotting TBT     
 As above but we change the curve to 'flat' for stations where tie trend pvalue > 0.05     
 
 ```{r}
@@ -773,9 +777,15 @@ sts_tbt <- dat_intersex_litt_summ %>%
 
 ```
 
+
+* Get tbt trend lines (df_pred_list) and P-values  
 ```{r}
+
 # debugonce(pred_logistic_from_stationname)
-df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, variable = "TBT_mean", last_year=last_year)
+df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, 
+                                   variable = "TBT_mean",
+                                   data = dat_intersex_litt_summ,
+                                   last_year=last_year)
 names(df_pred_list) <- sts_tbt
 
 # Get p-values for plot
@@ -784,7 +794,8 @@ df_pvalue_tbt <- bind_rows(transpose(df_pred_list)$pvalue)
 # Check p-values
 transpose(df_pred_list)$pvalue %>% bind_rows()
 
-# For these three stations with pvalue > 0.05, so we use a flat line instead for these:
+# For these three stations with pvalue > 0.20, so we use a flat line instead for these
+# (df_pvalue_tbt is not updated, it is still used for printing p-value)
 for (st in c("71G", "5","6"))
   df_pred_list[[st]] <- pred_flat_from_stationname(st, "TBT_mean")
 
@@ -795,9 +806,11 @@ df_points_tbt <- dat_intersex_litt_summ %>% filter(!is.na(TBT_mean))
 # Test plot
 if (FALSE) {
   gg <- ggplot() + 
-    geom_ribbon(data = df_pred_tbt, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+    geom_ribbon(data = df_pred_tbt, 
+                aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
     geom_path(data = df_pred_tbt, aes(x, y = Pred)) +
-    geom_point(data = df_points_tbt, aes(Year, TBT_mean)) +
+    geom_point(data = df_points_tbt, 
+               aes(Year, TBT_mean)) +
     geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
               vjust = 3.2, hjust = 1) +
     facet_wrap(vars(Station_name)) +
@@ -808,64 +821,6 @@ if (FALSE) {
 
 ```
 
-###  Data for plotting VDSI  
-```{r}
-
-# Test for one station
-if (FALSE){
-  # From last chunk:
-  x <- pred_logistic_from_stationname("1", variable = "TBT_mean", data = dat_intersex_litt_summ, last_year=last_year)
-  str(x, 1)  
-  # We just replace variable and data:
-  x <- pred_logistic_from_stationname("1", variable = "VDSI", data = dat_imposex_reticul_summ, last_year=last_year)
-  str(x, 1)  
-}
-
-# Stations
-sts_vdsi <- unique(dat_imposex_reticul_summ$Station)
-# debugonce(pred_logistic_from_stationname)
-df_pred_list <- sts_vdsi %>% 
-  lapply(pred_logistic_from_stationname, variable = "VDSI", data = dat_imposex_reticul_summ, last_year=last_year)
-names(df_pred_list) <- sts_vdsi
-
-# Get p-values for plot
-df_pvalue_vdsi <- bind_rows(transpose(df_pred_list)$pvalue)
-
-# Check p-values
-transpose(df_pred_list)$pvalue %>% bind_rows()
-
-# For this station with pvalue > 0.05, so we use a flat line instead for these:
-for (st in c("6"))
-  df_pred_list[[st]] <- pred_flat_from_stationname(st, 
-                                                   variable = "VDSI",
-                                                   data = dat_imposex_reticul_summ)
-
-# Collect data for plotting 
-df_pred_vdsi <- bind_rows(transpose(df_pred_list)$fit)
-df_points_vdsi <- dat_imposex_reticul_summ %>% filter(!is.na(VDSI))
-
-# Delete predictions after 2015, and before 2009 for some stations  
-df_pred_vdsi <- df_pred_vdsi %>%
-  filter(x <= 2016) %>%
-  filter(!(x <= 2009 & Station %in% c("1","5")))
-
-# Test plot
-if (FALSE) {
-  gg <- ggplot() + 
-    geom_ribbon(data = df_pred_vdsi, aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
-    geom_path(data = df_pred_vdsi, aes(x, y = Pred)) +
-    geom_point(data = df_points_vdsi, aes(Year, VDSI)) +
-    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
-              vjust = 3.2, hjust = 1) +
-    facet_wrap(vars(Station_name)) +
-    labs(title = "VDSI", x = "Year", y = "VDSI concentration")
-  gg
-  
-}
-
-
-
-```
 
 ### FIG. 2 Plot ISI + TBT, B/W  
 
@@ -916,7 +871,7 @@ gg <- ggplot() +
   geom_point(data = df_points_isi, aes(Year, a + b*TBT_mean), color = cols2[2],
              shape = 2) +
   scale_y_continuous("ISI (circles)", 
-                     sec.axis = sec_axis(~ (. - a)/b, name = "TBT (triangles)")) +
+                     sec.axis = sec_axis(~ (. - a)/b, name = "TBT μg/kg w.w. (triangles)")) +
   # P-values
     geom_text(data = df_pvalue_isi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
               vjust = 1.4, hjust = 1, size = 3.4) +
@@ -954,56 +909,210 @@ gg
 
 
 
-### FIG. 3. TBT + VDSI, VDSI on left (not right) axis 
 
+### Reticulata data for plotting VDSI  
+```{r}
+
+# Test for one station
+if (FALSE){
+  # From last chunk:
+  x <- pred_logistic_from_stationname("1", variable = "TBT_mean", 
+                                      data = dat_intersex_litt_summ, 
+                                      last_year=last_year)
+  str(x, 1)  
+  # We just replace variable and data:
+  x <- pred_logistic_from_stationname("1", variable = "VDSI", 
+                                      data = dat_imposex_reticul_summ,
+                                      last_year=last_year)
+  str(x, 1)  
+  
+}
+
+# Stations
+sts_vdsi <- unique(dat_imposex_reticul_summ$Station)
+# debugonce(pred_logistic_from_stationname)
+df_pred_list <- sts_vdsi %>% 
+  lapply(pred_logistic_from_stationname, 
+         variable = "VDSI", 
+         data = dat_imposex_reticul_summ, 
+         last_year=last_year)
+names(df_pred_list) <- sts_vdsi
+
+# Get p-values for plot
+df_pvalue_vdsi <- bind_rows(transpose(df_pred_list)$pvalue)
+
+# Check p-values
+transpose(df_pred_list)$pvalue %>% bind_rows()
+
+# For this station with pvalue > 0.05, so we use a flat line instead for these:
+# for (st in c("6"))
+#   df_pred_list[[st]] <- pred_flat_from_stationname(st, 
+#                                                    variable = "VDSI",
+#                                                    data = dat_imposex_reticul_summ)
+
+# Collect data for plotting 
+df_pred_vdsi <- bind_rows(transpose(df_pred_list)$fit)
+df_points_vdsi <- dat_imposex_reticul_summ %>% filter(!is.na(VDSI))
+
+# Delete predictions after 2015, and before 2009 for some stations  
+df_pred_vdsi <- df_pred_vdsi %>%
+  filter(x <= 2016) %>%
+  filter(!(x <= 2009 & Station %in% c("1","5")))
+
+# Test plot
+if (FALSE) {
+  gg <- ggplot() + 
+    geom_ribbon(data = df_pred_vdsi, 
+                aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+    geom_path(data = df_pred_vdsi, aes(x, y = Pred)) +
+    geom_point(data = df_points_vdsi, aes(Year, VDSI)) +
+    geom_text(data = df_pvalue_vdsi, 
+              aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
+              vjust = 3.2, hjust = 1) +
+    facet_wrap(vars(Station_name)) +
+    labs(title = "VDSI", x = "Year", y = "VDSI concentration") +
+    coord_cartesian(ylim = c(0, 5.5))
+  gg
+  
+}
+
+
+```
+
+### Reticulata data for plotting TBT     
+
+* Get data  
+```{r}
+
+# Check 
+# table(dat_tbt_mean_snails$Species)
+
+dat_tbt_reticul_summ <- dat_tbt_mean_snails %>% 
+  filter(Species %in% "Nassarius") %>%
+  ungroup() %>%
+  select(Station, Year, TBT_mean, TBT_flag)%>%
+  left_join(st_names, by = "Station")
+  
+
+sts_tbt <- dat_tbt_reticul_summ %>%
+  count(Station) %>%
+  filter(n >= 3) %>%
+  pull(Station)
+
+# Check 
+xtabs(~Year + Station, dat_tbt_reticul_summ)
+
+```
+
+
+* Get tbt trend lines (df_pred_list) and P-values  
+```{r}
+
+# debugonce(pred_logistic_from_stationname)
+df_pred_list <- sts_tbt %>% lapply(pred_logistic_from_stationname, 
+                                   variable = "TBT_mean",
+                                   data = dat_tbt_reticul_summ,
+                                   last_year=last_year)
+names(df_pred_list) <- sts_tbt
+
+# Get p-values for plot
+df_pvalue_tbt <- bind_rows(transpose(df_pred_list)$pvalue)
+
+# Check p-values
+transpose(df_pred_list)$pvalue %>% bind_rows()
+
+# For these three stations with pvalue > 0.20, so we use a flat line instead for these
+# (df_pvalue_tbt is not updated, it is still used for printing p-value)
+for (st in c("7", "5","6"))
+  df_pred_list[[st]] <- pred_flat_from_stationname(st, 
+                                                   variable = "TBT_mean",
+                                                   data = dat_tbt_reticul_summ)
+
+# Collect data for plotting 
+df_pred_tbt <- bind_rows(transpose(df_pred_list)$fit)
+df_points_tbt <- dat_tbt_reticul_summ %>% filter(!is.na(TBT_mean))
+
+# Test plot
+if (FALSE) {
+  gg <- ggplot() + 
+    geom_ribbon(data = df_pred_tbt, 
+                aes(x, ymin = Pred_lo, ymax = Pred_hi), fill = "grey70") +
+    geom_path(data = df_pred_tbt, aes(x, y = Pred)) +
+    geom_point(data = df_points_tbt, 
+               aes(Year, TBT_mean)) +
+    geom_text(data = df_pvalue_tbt, 
+              aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
+              vjust = 3.2, hjust = 1) +
+    facet_wrap(vars(Station_name)) +
+    labs(title = "TBT", x = "Year", y = "TBT concentration")
+  gg
+  
+}
+
+```
+
+### FIG. 3. TBT + VDSI, VDSI on left (not right) axis 
 ```{r}
 
 # For transformation of TBT
-ylim.prim <- c(0, 6.2)    # VDSI        # switching axes: this line and the next one were switched
-ylim.sec <- c(0, 510)     # TBT
+ylim.prim <- c(0, 5.5)     # ISI
+ylim.sec <- c(0, 510)    # TBT
 b <- diff(ylim.prim)/diff(ylim.sec)
 a <- b*(ylim.prim[1] - ylim.sec[1])
-cols2 <- c("black", "black")
 
 gg <- ggplot() + 
-  # switching axes: df_pred_vdsi and df_pred_tbt were switched in the two next parts
-  # VDSI data
+  # VDSI trends
   geom_ribbon(data = df_pred_vdsi, aes(x, ymin = Pred_lo, ymax = Pred_hi), 
               fill = "grey70", alpha = 0.5) +
-  geom_path(data = df_pred_vdsi, aes(x, y = Pred), color = cols2[1],
-            linetype = 2) +
-  geom_point(data = df_points_vdsi, aes(Year, VDSI), color = cols2[1],
-             shape = 1) +
-  # TBT data
-  geom_ribbon(data = df_pred_tbt, aes(x, ymin = a + b*Pred_lo, ymax = a + b*Pred_hi), 
-              fill = "grey70", alpha = 0.5) +
-  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols2[2],
-            linetype = 2) +
-  geom_point(data = df_points_tbt, aes(Year, a + b*TBT_mean), color = cols2[2],
-             shape = 17) +
-  # switching axes: VDSI and TBT were switched in the next line
-  scale_y_continuous("VDSI (circles)", 
-                     sec.axis = sec_axis(~ (. - a)/b, name = "TBT (black triangles)")) +
-  # switching axes: vjust values were switched in the two next lines
-  # P-values
-    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
-              vjust = 3.0, hjust = 1, size = 3.4) +
-    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("VDSI:", Text)), 
-              vjust = 1.4, hjust = 1, size = 3.4) +
+  geom_path(data = df_pred_vdsi, aes(x, y = Pred), color = cols2[1]) +
   # X axis
   geom_hline(yintercept = 0) +
   # Vertical dashed line 
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
-  # Facetting
-  facet_wrap(vars(Station_name)) +
-  # Various styling
+  facet_wrap(vars(Station_name)) +      # labeller = label_wrap_gen(width = 28)
   labs(x = "Year") + 
   theme_bw() +
     theme(
         panel.grid = element_blank(),
-        axis.title.y.left = element_text(vjust = 1.5),
-        axis.title.y.right = element_text(vjust = 2)
+        axis.line.y.left = element_line(color = cols2[1]), 
+        axis.ticks.y.left = element_line(color = cols2[1]),
+        axis.text.y.left = element_text(color = cols2[1]), 
+        axis.title.y.left = element_text(color = cols2[1], vjust = 1.5),
+        axis.line.y.right = element_line(color = cols2[2]), 
+        axis.ticks.y.right = element_line(color = cols2[2]),
+        axis.text.y.right = element_text(color = cols2[2]), 
+        axis.title.y.right = element_text(color = cols2[2], vjust = 2)
         )
+
+# VDSI points
+gg <- gg +
+   geom_point(data = dat_imposex_reticul_summ, aes(Year, VDSI), color = cols2[1]) 
+  
+# TBT trends  
+gg <- gg +
+  geom_ribbon(data = df_pred_tbt, aes(x, ymin = a + b*Pred_lo, ymax = a + b*Pred_hi), 
+              fill = "grey70", alpha = 0.5) +
+  geom_path(data = df_pred_tbt, aes(x, y = a + b*Pred), color = cols2[2],
+            linetype = 2)
+
+# TBT points 
+gg <- gg +
+  geom_point(data = df_points_tbt, aes(Year, a + b*TBT_mean), color = cols2[2],
+             shape = 2) +
+  scale_y_continuous("VDSI (circles)", 
+                     sec.axis = sec_axis(~ (. - a)/b, name = "TBT μg/kg w.w. (triangles)"))
+
+# P-values
+gg <- gg +
+    geom_text(data = df_pvalue_vdsi, aes(x = last_year, y = Inf, label = paste("ISI:", Text)), 
+              vjust = 1.4, hjust = 1, size = 3.4) +
+    geom_text(data = df_pvalue_tbt, aes(x = last_year, y = Inf, label = paste("TBT:", Text)), 
+              vjust = 3.0, hjust = 1, size = 3.4)
+
+# Adjust y scale
+gg <- gg +
+    coord_cartesian(ylim = c(0, 5.5))
+  
 
 if (save_plots){
   ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.png", gg,
@@ -1012,9 +1121,12 @@ if (save_plots){
          width = 7, height = 5, dpi = 500)
 }
 
+
 gg
 
 ```
+
+
 
 ## 5. Figure 4
 
@@ -1075,7 +1187,7 @@ gg
 
 ## 6. Figure 5  
 
-### Combined plot  
+  ### Combined plot  
 
 ```{r, fig.height = 7, fig.width= 9}
 
