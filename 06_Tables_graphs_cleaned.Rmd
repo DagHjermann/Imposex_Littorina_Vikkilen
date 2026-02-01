@@ -496,8 +496,9 @@ dat_intersex_litt %>%
 ```
 
 ### c1a. Mean intersex per station/year, and add TBT  
-dat_intersex_litt_summ 
+dat_intersex_litt_summ  
 
+1) Summarise intersex data to 1 row per station/year  
 - percentage sterile females (%S) = (number of sterile females/total number of females)*100  
     - stage 2-4 females are sterile  
 - mean Female Penis Length (FPL)  
@@ -505,12 +506,24 @@ dat_intersex_litt_summ
 - For N. lapillus,  
     - Relative Penis Size Index (RPSI) = (FPL)3/(MPL)3*100   
 - imposex index (VDSI) = (sum of the values of imposex stages (ranged 0 to 5) in all females/the number of females collected)  
-  
+
+2) Add 2021 and 2024 intersex data  
+* 2021 data only given in Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
+    - Data from four stations collected, Intersex = 0 for all  
+    - st. 7 'Vikkilen innerst' and st 4 (hasseldalen) collected 5.5.2021  
+    - st 1 Håøya and st. 6 Nymo collected 16.5.2021   
+    - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
+* 2024 data - see mail from Merete 06.01.2026  
+    - from excel file:  https://niva365.sharepoint.com/:x:/r/sites/projects2/6443/Shared%20Documents/05%20Data/Bl%C3%A5skjell%20og%20strandsnegl/six_LITLI_intersex_Vikkilen_05_til2024.xlsx  
+    - Data from four stations collected, Intersex = 0 for all  
+
+3) Add TBT data by joining
+
 16 April 2020: 
 - Combine 5 and 5B
 ```{r}
 
-dat_intersex_litt_summ <- dat_intersex_litt %>%
+dat_intersex_litt_summ_1 <- dat_intersex_litt %>%
   ungroup() %>%
   filter(Sex %in% "f") %>%
   mutate(Station = case_when(
@@ -533,32 +546,41 @@ dat_intersex_litt_summ <- dat_intersex_litt %>%
             ) %>%
   ungroup()
 
-nrow(dat_intersex_litt_summ)
+nrow(dat_intersex_litt_summ_1)
 
 #
-# Add 2021 data
-# NOT NEEDED - ALREADY ADDED IN c2!
-""
-# Only zeros 
-# - taken from 2021 report 7701-2022, page 34, table 20
+# Add 2021 and 2024 data  
 #
-# check <- dat_intersex_litt_summ$Year == 2021
-# 
-# if (sum(check) == 0){
-#   dat_intersex_litt_summ <- bind_rows(
-#     dat_intersex_litt_summ,
-#     tibble(
-#       Station = c("1","4","6","7"),
-#       Year = 2021,
-#       ISI_mean = 0,
-#       N_ISI = 50,
-#       Sterile_perc = 0,
-#       I_perc = 0,
-#       PRL_mean = 0
-#     )
-#   )
-# }
 
+# 2021
+dat_extra1 <- data.frame(
+  Year = rep(2021, 4),
+  Station = c("1", "4", "6", "7"),
+  Sex = "f",
+  ISI_mean = rep(0, 4),
+  N_ISI = c(20,21,26,21),
+  Sterile_perc = rep(0, 4),
+  I_perc = rep(0, 4),
+  PRL_mean = rep(0, 4)
+)  
+# 2024
+dat_extra2 <- data.frame(
+  Year = rep(2024, 4),
+  Station = c("1", "4", "6", "7"),
+  Sex = "f",
+  ISI_mean = rep(0, 4),
+  N_ISI = c(20,27,24,22),
+  Sterile_perc = rep(0, 4),
+  I_perc = rep(0, 4),
+  PRL_mean = rep(0, 4)
+)  
+
+#
+# Add to "old" data (pre-2021)
+dat_intersex_litt_summ <- bind_rows(
+  dat_intersex_litt_summ_1,
+  dat_extra1,
+  dat_extra2)
 
 
 # Add TBT_mean, TBT_flag
@@ -576,6 +598,7 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 nrow(dat_intersex_litt_summ)
 
 ```
+
 ### c1b. Add 71G data  
 ```{r}
 
@@ -588,64 +611,7 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 
 ```
 
-### c2. Add 2021 and 2024 data   
 
-* 2021 data only given in Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
-    - Data from four stations collected, Intersex = 0 for all  
-    - st. 7 'Vikkilen innerst' and st 4 (hasseldalen) collected 5.5.2021  
-    - st 1 Håøya and st. 6 Nymo collected 16.5.2021   
-    - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
-* 2024 data - see mail from Merete 06.01.2026  
-    - from excel file:  https://niva365.sharepoint.com/:x:/r/sites/projects2/6443/Shared%20Documents/05%20Data/Bl%C3%A5skjell%20og%20strandsnegl/six_LITLI_intersex_Vikkilen_05_til2024.xlsx  
-    - Data from four stations collected, Intersex = 0 for all  
-
-```{r}
-
-if (FALSE){
-  
-  dat_intersex_litt_summ %>%
-    filter(!is.na(ISI_mean)) %>%
-    xtabs(~Year + Station, .)  
-  
-  dat_intersex_litt_summ %>%
-    filter(Year == 2018)  
-}
-
-# 2021
-dat_extra1 <- data.frame(
-  Year = rep(2021, 4),
-  Station = c("1", "4", "6", "7"),
-  Sex = "f",
-  ISI_mean = rep(0, 4),
-  Sterile_perc = rep(0, 4),
-  I_perc = rep(0, 4),
-  PRL_mean = rep(0, 4)
-)  
-# 2024
-dat_extra2 <- data.frame(
-  Year = rep(2024, 4),
-  Station = c("1", "4", "6", "7"),
-  Sex = "f",
-  ISI_mean = rep(0, 4),
-  Sterile_perc = rep(0, 4),
-  I_perc = rep(0, 4),
-  PRL_mean = rep(0, 4)
-)  
-
-# Check if there already are 2021 data  
-check <- sum(dat_intersex_litt_summ$Year == 2021)
-check
-
-if (check == 0){
-  dat_intersex_litt_summ <- bind_rows(
-    dat_intersex_litt_summ,
-    dat_extra1, 
-    dat_extra2
-  )
-}
-
-
-```
 
 
 ### c3. Add station names  
@@ -953,9 +919,9 @@ gg <- ggplot() +
         )
 
 if (save_plots){
-  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2.png", gg,
+  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2_2024.png", gg,
          width = 7, height = 5, dpi = 500)
-  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2.svg", gg,
+  ggsave("Figures/06_Timeseries_Comb_ISI_TBT_bw_FIG2_2024.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
 
