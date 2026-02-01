@@ -20,15 +20,26 @@ For N. lapillus,
 For B. undatum
 - Penis Classification Index (PCI) after Strand and Jacobsen (2002)
 
+## Species  
+- Strandsnegl = Littorina littorea  
+- Nettsnegl = Tritia reticulata og har tidligere blitt kalt Nassarius reticulatus og Hinia reticulata  
+
 ## Figures  
-- All figures have 'FIG' in the filename (and so can easily be searched)
+- All figures have 'FIG' in the filename (and so can easily be searched)  
+- Note (Jan 2026): 
 
 ## Script  
 - *This script is a cleaned version of 06_Tables_graphs.Rmd.*  The order of parts 4-6 in this file fits with the order in the MS  
 
 - Figur 7: Er P-verdiene de samme for sedimentene etter at data for 2021 ble inkludert? Hva er prosenten for hele området per år? Vi har ikke noe område 6, så den skal jeg droppe. *Script '07_Sediment_newfile_July2020.Rmd'*   
 - Vi droppet figur på TBT-konsentrasjon for blåskjell og strandsnegl, men P var ikke signifikant (P=0,48). Kan du likevel se hva den blir når 2021-dataene er inkludert? Blåskjell skal være en kontroll for strandsnegl, men det gir vel ikke mening hvis det ikke er korrelasjon. *Sections 6 + 8*   
-    
+
+## Adding data for 2024   
+
+### Fig. 2 - time series (with time trend stats) of intersex (ISI) and TBT concentrations (µg TBT/kg w.w.) in female L. littorea for the period 2005-2021 (DHJ: oppdatere til 2024)  
+* Littorina TBT added in section 1-a2   
+* Littorina intersex added in section 3-c2 (i.e., added to the summary 'dat_intersex_litt_summ', not raw data 'dat_intersex_litt')     
+
     
 ## 0. Libraries
 ```{r}
@@ -54,7 +65,7 @@ source("06_Tables_graphs_functions.R")
 save_plots <- TRUE
 save_plots <- FALSE
 
-last_year <- 2021
+last_year <- 2025
 
 # Back up table (if needed)
 if (FALSE){
@@ -157,6 +168,8 @@ st_names_mytilus <- tibble::tribble(
 
 ### a1. Intersex and TBT raw data  
 
+* Not including 2021 and 2024 data - these are added in 'dat_intersex_litt', in section 3-c2
+
 ```{r}
 
 #
@@ -178,8 +191,8 @@ dat_tbt <- readRDS(file = "Data/05_TBT.RData")
 ```
 
 
-### a2. 2021 Littorina data 
-- Fetched from Nivabasen using 5. April 2022, see script 21     
+### a2. 2021 and 2024 Littorina data 
+- 2021 data fetched from Nivabasen using 5. April 2022, see script 21     
 - Littorina TBT added to dat_tbt here
 - Mytilus TBT added to dat_tbt in part 8
 - Intersex not added here, added to 'dat_intersex_litt_summ' in part 3.c1a
@@ -205,11 +218,38 @@ dat_tbt_2021 <- dat_2021_biota %>%
 
 cat("dat_tbt_2021:", nrow(dat_tbt_2021), "rows\n")
 
+dat_tbt_2024_1 <- read_excel("Input_data/TBT/TBT i strandsnegl og blaskjell 2024 (Copy of 1477-13727).xlsx", skip = 1) %>% 
+  filter(
+    Art %in% "Storstrandsnegl" & Analysevariabel %in% "Tributyltinn (TBT)")
+
+dat_tbt_2024_2 <- dat_tbt_2024_1 %>% 
+  mutate(
+    Station = case_when(
+      Prøvemerking %in% "Lit1 Håøya - strandsnegl" ~ "1",
+      Prøvemerking %in% "Lit4 Hasseldalen strandsnegl" ~ "4",
+      Prøvemerking %in% "Lit6 AS Nymo strandsnegl" ~ "6",
+      Prøvemerking %in% "Lit7 Vikkilen innerst strandsnegl" ~ "7"),
+    Year = 2024,
+    Species = "Littorina",
+    TBT = Resultat %>% sub("<","",.)  %>% sub(",",".",.) %>% as.numeric(),
+    TBT_flag = case_when(
+      grepl("<", Resultat) ~ "<",
+      TRUE ~ as.character(NA))
+  )
+
+dat_tbt_2024 <- dat_tbt_2024_2 %>% 
+  select(
+    Station, Year, Species, TBT, TBT_flag)
+
+# uncomment to check:
+# dat_tbt_2021 
+# dat_tbt_2024  
+
 # Add new data to dat_tbt
-check <- dat_tbt$Year == 2021
+check <- dat_tbt$Year >= 2021
 if (sum(check) == 0){
   dat_tbt <- bind_rows(
-    dat_tbt, dat_tbt_2021
+    dat_tbt, dat_tbt_2021, dat_tbt_2024
   )
   
 }
@@ -433,7 +473,7 @@ if (save_plots){
     TBT = tab_tbt,
     Info = data.frame(Source = "Imposex_Littorina_Vikkilen script 06 (original filename: 06_Mean_tbt.xlsx)")
   ),
-  "Output_excel/06_Mean_tbt.xlsx")
+  "Output_excel/06_Mean_tbt_2024.xlsx")
 
   # wb <- openxlsx::createWorkbook("DHJ")
   # openxlsx::addWorksheet(wb, "Littorina TBT")
@@ -548,13 +588,17 @@ dat_intersex_litt_summ <- dat_intersex_litt_summ %>%
 
 ```
 
-### c2. Add 2021 data   
+### c2. Add 2021 and 2024 data   
 
-* Data only given in Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
+* 2021 data only given in Mail from Lise 25.5.2021 (forwarded from Merete 31.05)  
     - Data from four stations collected, Intersex = 0 for all  
     - st. 7 'Vikkilen innerst' and st 4 (hasseldalen) collected 5.5.2021  
     - st 1 Håøya and st. 6 Nymo collected 16.5.2021   
     - TBT not analysed yet (checked using '03_Check_chemistry_data_update2021.R')      
+* 2024 data - see mail from Merete 06.01.2026  
+    - from excel file:  https://niva365.sharepoint.com/:x:/r/sites/projects2/6443/Shared%20Documents/05%20Data/Bl%C3%A5skjell%20og%20strandsnegl/six_LITLI_intersex_Vikkilen_05_til2024.xlsx  
+    - Data from four stations collected, Intersex = 0 for all  
+
 ```{r}
 
 if (FALSE){
@@ -567,8 +611,19 @@ if (FALSE){
     filter(Year == 2018)  
 }
 
-dat_extra <- data.frame(
+# 2021
+dat_extra1 <- data.frame(
   Year = rep(2021, 4),
+  Station = c("1", "4", "6", "7"),
+  Sex = "f",
+  ISI_mean = rep(0, 4),
+  Sterile_perc = rep(0, 4),
+  I_perc = rep(0, 4),
+  PRL_mean = rep(0, 4)
+)  
+# 2024
+dat_extra2 <- data.frame(
+  Year = rep(2024, 4),
   Station = c("1", "4", "6", "7"),
   Sex = "f",
   ISI_mean = rep(0, 4),
@@ -584,7 +639,8 @@ check
 if (check == 0){
   dat_intersex_litt_summ <- bind_rows(
     dat_intersex_litt_summ,
-    dat_extra
+    dat_extra1, 
+    dat_extra2
   )
 }
 
@@ -658,7 +714,7 @@ if (save_plots){
     TBT = tab4,
     Info = data.frame(Source = "Imposex_Littorina_Vikkilen script 06 (original filename: 06_Means_Littorina.xlsx)")
   ),
-  "Output_excel/06_Means_Littorina.xlsx")
+  "Output_excel/06_Means_Littorina_2024.xlsx")
 
 }
 
@@ -1287,3 +1343,89 @@ cat("\n")
 print_correlations()
 
 ```
+
+
+## . 
+## APPENDIX - KI summary  
+## . 
+
+
+## History of data used for plotting Fig. 2    
+
+To add your **2024 data** to the existing data frames (`df_pred_isi`, `df_points_isi`, and `df_pred_tbt`) used in the section **### FIG. 2 Plot ISI + TBT, B/W**, you need to understand their origins and how they are constructed. Here’s a breakdown of their history and how to update them:
+
+---
+
+## 1. **`df_pred_isi`**
+### **History:**
+- **Source:** This data frame is created by applying the function `pred_logistic_from_stationname` to each station in `dat_intersex_litt_summ` for the variable `ISI_mean`.
+- **Dependencies:**
+  - `dat_intersex_litt_summ`: This is the summarized intersex data for Littorina, which includes:
+    - `dat_intersex_lidi`: Raw intersex data for Littorina (from `02_Strandsnegl_intersex_2005_2018.RData`).
+    - `dat_tbt_mean_snails`: Summarized TBT data for Littorina (from `05_TBT.RData` and `21_data_2016-2021_biota.csv`).
+    - `dat_71G`: Additional data for station 71G (from `06_Littorina_tables_MSC.xlsx`).
+    - `dat_extra`: Manually added 2021 data for intersex (from an email).
+  - The function `pred_logistic_from_stationname` is defined in `06_Tables_graphs_functions.R`.
+
+### **How to Add 2024 Data:**
+1. **Update `dat_intersex_litt_summ`:**
+   - Add your 2024 intersex data to `dat_intersex_litt` (raw data).
+   - Re-summarize the data to include 2024 in `dat_intersex_litt_summ`.
+   - Ensure the new data follows the same structure (e.g., columns: `Station`, `Year`, `ISI_mean`, `N_ISI`, `Sterile_perc`, `I_perc`, `PRL_mean`).
+
+2. **Re-run the Prediction:**
+   - Re-run the code that generates `df_pred_isi` using the updated `dat_intersex_litt_summ`.
+
+---
+
+## 2. **`df_points_isi`**
+### **History:**
+- **Source:** This is a filtered version of `dat_intersex_litt_summ`, containing only rows where `ISI_mean` is not `NA`.
+- **Dependencies:**
+  - Directly depends on `dat_intersex_litt_summ`.
+
+### **How to Add 2024 Data:**
+- After updating `dat_intersex_litt_summ` with 2024 data, re-filter it to create `df_points_isi`.
+
+---
+
+## 3. **`df_pred_tbt`**
+### **History:**
+- **Source:** This data frame is created by applying the function `pred_logistic_from_stationname` to each station in `dat_intersex_litt_summ` for the variable `TBT_mean`.
+- **Dependencies:**
+  - `dat_tbt_mean_snails`: Summarized TBT data for Littorina (from `05_TBT.RData` and `21_data_2016-2021_biota.csv`).
+  - The function `pred_logistic_from_stationname` is defined in `06_Tables_graphs_functions.R`.
+
+### **How to Add 2024 Data:**
+1. **Update `dat_tbt_mean_snails`:**
+   - Add your 2024 TBT data to `dat_tbt` (raw data).
+   - Re-summarize the data to include 2024 in `dat_tbt_mean_snails`.
+   - Ensure the new data follows the same structure (e.g., columns: `Station`, `Year`, `TBT_mean`, `TBT_flag`).
+
+2. **Re-run the Prediction:**
+   - Re-run the code that generates `df_pred_tbt` using the updated `dat_tbt_mean_snails`.
+
+---
+
+## **Summary of Steps to Add 2024 Data:**
+1. **Update Raw Data:**
+   - Add 2024 intersex data to `dat_intersex_litt`.
+   - Add 2024 TBT data to `dat_tbt`.
+
+2. **Re-summarize Data:**
+   - Re-summarize `dat_intersex_litt` to update `dat_intersex_litt_summ`.
+   - Re-summarize `dat_tbt` to update `dat_tbt_mean_snails`.
+
+3. **Re-run Predictions:**
+   - Re-run the code for `df_pred_isi` and `df_pred_tbt` using the updated summarized data.
+
+4. **Re-filter Points:**
+   - Re-filter `dat_intersex_litt_summ` to update `df_points_isi`.
+
+5. **Plot:**
+   - Re-run the plotting code to include the 2024 data.
+
+---
+
+If you provide the **2024 data files** or describe their structure, I can help you write the R code to integrate them into your existing workflow.
+
