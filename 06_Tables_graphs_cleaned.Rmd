@@ -1130,20 +1130,22 @@ gg <- ggplot() +
   geom_path(data = df_pred_vdsi, aes(x, y = Pred), color = cols2[1]) +
   # X axis
   geom_hline(yintercept = 0) +
-  # Vertical dashed line 
+  # Vertical dashed line
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
   facet_wrap(vars(Station_name)) +      # labeller = label_wrap_gen(width = 28)
-  labs(x = "Year") + 
+  scale_x_continuous(breaks = seq(2005, 2025, by = 5)) +
+  labs(x = "Year") +
   theme_bw() +
     theme(
         panel.grid = element_blank(),
-        axis.line.y.left = element_line(color = cols2[1]), 
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.line.y.left = element_line(color = cols2[1]),
         axis.ticks.y.left = element_line(color = cols2[1]),
-        axis.text.y.left = element_text(color = cols2[1]), 
+        axis.text.y.left = element_text(color = cols2[1]),
         axis.title.y.left = element_text(color = cols2[1], vjust = 1.5),
-        axis.line.y.right = element_line(color = cols2[2]), 
+        axis.line.y.right = element_line(color = cols2[2]),
         axis.ticks.y.right = element_line(color = cols2[2]),
-        axis.text.y.right = element_text(color = cols2[2]), 
+        axis.text.y.right = element_text(color = cols2[2]),
         axis.title.y.right = element_text(color = cols2[2], vjust = 2)
         )
 
@@ -1178,9 +1180,9 @@ gg <- gg +
   
 
 if (save_plots){
-  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.png", gg,
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3_2024.png", gg,
          width = 7, height = 5, dpi = 500)
-  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3.svg", gg,
+  ggsave("Figures/06_Timeseries_Comb_TBT_VDSI_bw_FIG3_2024.svg", gg,
          width = 7, height = 5, dpi = 500)
 }
 
@@ -1236,12 +1238,16 @@ gg <- ggplot() +
             vjust = 1.2, hjust = 1, size = 3.4) +
   geom_vline(xintercept = c(2008), color = "red2", linetype = 2) +
   facet_wrap(vars(Station_name)) +
+  scale_x_continuous(breaks = seq(2005, 2025, by = 5)) +
   labs(x = "Year", y = "FPrL") +
   geom_hline(yintercept = 0) +
   theme_bw() +
-  theme(panel.grid = element_blank())
+  theme(
+    panel.grid = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
 if (save_plots)
-  ggsave("Figures/06_Timeseries_Litt_PRL_FIG4.png", gg,
+  ggsave("Figures/06_Timeseries_Litt_PRL_FIG4_2024.png", gg,
          width = 6, height = 4, dpi = 500)
 gg
 
@@ -1307,7 +1313,7 @@ gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
 
 
 if (save_plots)
-  ggsave("Figures/06_Correlations_combined_color_FIG5.png", gg_comb,
+  ggsave("Figures/06_Correlations_combined_color_FIG5_2024.png", gg_comb,
          width = 7.8, height = 5.8, dpi = 500)
 
 gg_comb
