@@ -1256,7 +1256,7 @@ gg
 
 ## 6. Figure 5  
 
-  ### Combined plot  
+### Combined plot  
 
 ```{r, fig.height = 7, fig.width= 9}
 
@@ -1328,16 +1328,135 @@ print_correlations <- function(){
   
   cat("=================================\nCorrelation TBT_mean, ISI_mean \n\n")
   with(dat_intersex_litt_summ, cor.test(TBT_mean, ISI_mean, method = "kendall")) %>% print()
-  
-  cat("=================================\nCorrelation TBT_mean, PRL_mean \n\n")
-  with(dat_intersex_litt_summ, cor.test(TBT_mean, PRL_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ, plot(TBT_mean, ISI_mean, main = "Subplot a"))
+  with(dat_intersex_litt_summ, plot(rank(TBT_mean), rank(ISI_mean), main = "Subplot a"))
   
   cat("=================================\nCorrelation PRL_mean, ISI_mean \n\n")
   with(dat_intersex_litt_summ, cor.test(PRL_mean, ISI_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ, plot(PRL_mean, ISI_mean, main = "Subplot b"))
+  with(dat_intersex_litt_summ, plot(rank(PRL_mean), rank(ISI_mean), main = "Subplot b"))
+  
+  cat("=================================\nCorrelation TBT_mean, PRL_mean \n\n")
+  with(dat_intersex_litt_summ, cor.test(TBT_mean, PRL_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ, plot(TBT_mean, PRL_mean, main = "Subplot c"))
+  with(dat_intersex_litt_summ, plot(rank(TBT_mean), rank(PRL_mean), main = "Subplot c"))
   
   cat("=================================\nCorrelation Sterile_perc, ISI_mean \n\n")
   with(dat_intersex_litt_summ, cor.test(Sterile_perc, ISI_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ, plot(Sterile_perc, ISI_mean, main = "Subplot d"))
+  with(dat_intersex_litt_summ, plot(rank(Sterile_perc), rank(ISI_mean), main = "Subplot d"))
+}
+
+# Print to file
+fn <- "Figures/06_Kendall_correlations.txt"
+con <- file(fn, open = "w")
+sink(con)
+print_correlations()
+sink()
+close(con)
+
+# Show file
+# file.show(fn)
+
+# Print to result
+cat("\n")
+print_correlations()
+
+```
+
+
+### Combined plot 2 - reduced
+* all ISI_mean and PRL_mean = 0 removed
+
+```{r, fig.height = 7, fig.width= 9}
+
+dat_intersex_litt_summ_reduced <- dat_intersex_litt_summ %>% 
+  filter(ISI_mean > 0 & PRL_mean > 0)
+
+plot_margins <- c(0.2, 0.3, 0.5, 0.7)  # top, right, bottom, left
+
+gg_a_withlegend <- ggplot(dat_intersex_litt_summ_reduced, aes(TBT_mean, ISI_mean)) +
+  geom_smooth(method = "lm", formula = 'y ~ x', color = "black") +
+  labs(x = "TBT (μg/kg w.w.)", y = "ISI") +
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("", values = station_cols)
+
+gg_a <- gg_a_withlegend +
+  theme_bw() +
+  theme(legend.position="none", 
+        plot.margin = unit(plot_margins, "cm"),
+        panel.grid = element_blank())
+
+gg_b <- ggplot(dat_intersex_litt_summ_reduced, aes(PRL_mean, ISI_mean)) +
+  geom_smooth(method = "lm", formula = 'y ~ x', color = "black") +
+  labs(x = "FPrL", y = "ISI") +
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("", values = station_cols) +
+  theme_bw() +
+  theme(legend.position="none", 
+        plot.margin = unit(plot_margins, "cm"),
+        panel.grid = element_blank())
+
+gg_c <- ggplot(dat_intersex_litt_summ_reduced, aes(TBT_mean, PRL_mean)) +
+  geom_smooth(method = "lm", formula = 'y ~ x', color = "black") +
+  labs(x = "TBT (μg/kg w.w.)", y = "FPrL") +
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("", values = station_cols) +
+  theme_bw() +
+  theme(legend.position="none", 
+        plot.margin = unit(plot_margins, "cm"),
+        panel.grid = element_blank())
+
+gg_d <- ggplot(dat_intersex_litt_summ_reduced, aes(ISI_mean, Sterile_perc)) +
+  geom_smooth(method = "lm", formula = 'y ~ x', color = "black") +
+  labs(x = "ISI", y = "Percentage sterile females (%)") +
+  geom_point(aes(fill = Station_name), pch = 21, size = rel(2)) +
+  scale_fill_manual("", values = station_cols) +
+  theme_bw() +
+  theme(legend.position="none", 
+        plot.margin = unit(plot_margins, "cm"),
+        panel.grid = element_blank())
+
+legend <- cowplot::get_legend(gg_a_withlegend)
+
+gg_comb <- cowplot::plot_grid(gg_a, gg_b, NULL, gg_c, gg_d, legend,
+                   labels = c("A", "B", NA, "C", "D", NA), 
+                   nrow = 2, rel_widths = c(1, 1, .6))
+
+
+if (save_plots)
+  ggsave("Figures/06_Correlations_combined_color_FIG5_2024_v2.png", gg_comb,
+         width = 7.8, height = 5.8, dpi = 500)
+
+gg_comb
+
+```
+
+
+### Correlations
+```{r, fig.height = 5, fig.width=6}
+
+print_correlations <- function(){
   
+  cat("=================================\nCorrelation TBT_mean, ISI_mean \n\n")
+  with(dat_intersex_litt_summ_reduced, cor.test(TBT_mean, ISI_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ_reduced, plot(TBT_mean, ISI_mean, main = "Subplot a"))
+  with(dat_intersex_litt_summ_reduced, plot(rank(TBT_mean), rank(ISI_mean), main = "Subplot a"))
+  
+  cat("=================================\nCorrelation PRL_mean, ISI_mean \n\n")
+  with(dat_intersex_litt_summ_reduced, cor.test(PRL_mean, ISI_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ_reduced, plot(PRL_mean, ISI_mean, main = "Subplot b"))
+  with(dat_intersex_litt_summ_reduced, plot(rank(PRL_mean), rank(ISI_mean), main = "Subplot b"))
+  
+  cat("=================================\nCorrelation TBT_mean, PRL_mean \n\n")
+  with(dat_intersex_litt_summ_reduced, cor.test(TBT_mean, PRL_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ_reduced, plot(TBT_mean, PRL_mean, main = "Subplot c"))
+  with(dat_intersex_litt_summ_reduced, plot(rank(TBT_mean), rank(PRL_mean), main = "Subplot c"))
+  
+  cat("=================================\nCorrelation Sterile_perc, ISI_mean \n\n")
+  with(dat_intersex_litt_summ_reduced, cor.test(Sterile_perc, ISI_mean, method = "kendall")) %>% print()
+  with(dat_intersex_litt_summ_reduced, plot(Sterile_perc, ISI_mean, main = "Subplot d"))
+  with(dat_intersex_litt_summ_reduced, plot(rank(Sterile_perc), rank(ISI_mean), main = "Subplot d"))
 }
 
 # Print to file
