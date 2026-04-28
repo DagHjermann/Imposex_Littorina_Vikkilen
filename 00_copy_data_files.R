@@ -1,5 +1,5 @@
 
-devtools::install("../../R_packages/datarecover")
+pak::pak("DagHjermann/datarecover")
 library(datarecover)
 
 copy_from_backup()
